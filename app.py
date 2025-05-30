@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -7,6 +8,7 @@ import xml.etree.ElementTree as ET
 import re
 
 app = Flask(__name__)
+CORS(app)
 
 def is_valid_date(date_str):
     pattern = r'^\d{4}-\d{2}-\d{2}$'
