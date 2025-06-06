@@ -213,26 +213,49 @@ def fetch_judicial_appointments():
     except Exception as e:
         return {'error': f'Failed to fetch judicial appointments: {str(e)}'}
 
-def fetch_global_affairs():
-    """Fetch Global Affairs news - ENHANCED"""
+def fetch_global_affairs(news_type='all'):
+    """Fetch general news from the Canada.ca news API."""
     try:
-        feed = feedparser.parse('https://www.international.gc.ca/global-affairs-affaires-mondiales/news-nouvelles/rss.aspx?lang=eng')
-        news = []
-        for entry in feed.entries:
-            news.append({
-                'title': entry.title,
-                'summary': getattr(entry, 'summary', ''),
-                'link': entry.link,
-                'published': getattr(entry, 'published', ''),
-                'category': 'global_affairs'
-            })
-        
-        return {
-            'total_count': len(news),
-            'news': news
+        base_url = 'https://api.io.canada.ca/io-server/gc/news/en/v2'
+        params = {
+            'pick': 500000,
+            'format': 'json'
         }
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json'
+        }
+        response = requests.get(base_url, params=params, headers=headers, timeout=15)
+        
+        if response.status_code == 200:
+            data = response.json()
+            news = []
+            
+            for item in data.get('feed', {}).get('entry', []):
+                news.append({
+                    'title': item.get('title', ''),
+                    'teaser': item.get('teaser', ''), 
+                    'link': item.get('link', ''),    
+                    'publishedDate': item.get('publishedDate', ''),
+                    'category': 'general_canada_news',
+                    'source': 'Canada.ca News'     
+                })
+            
+            return {
+                'total_count': len(news),
+                'news': news
+            }
+        elif response.status_code == 404:
+            return {'error': 'API endpoint not found or invalid. Please check the URL.'}
+        else:
+            return {'error': f'Failed to fetch news from Canada.ca - Status: {response.status_code}'}
+    except requests.exceptions.Timeout:
+        return {'error': 'Failed to fetch news from Canada.ca: Request timed out.'}
+    except requests.exceptions.RequestException as e:
+        return {'error': f'Failed to fetch news from Canada.ca: {str(e)}'}
     except Exception as e:
-        return {'error': f'Failed to fetch global affairs: {str(e)}'}
+        return {'error': f'An unexpected error occurred: {str(e)}'}
 
 def fetch_committees():
     """Fetch House of Commons committees - ENHANCED"""
@@ -247,7 +270,6 @@ def fetch_committees():
             soup = BeautifulSoup(response.content, 'html.parser')
             committees = []
             
-            # Look for committee information
             links = soup.find_all('a', href=True)
             for link in links:
                 href = link.get('href', '')
@@ -283,7 +305,6 @@ def fetch_canada_gazette():
             soup = BeautifulSoup(response.content, 'html.parser')
             publications = []
             
-            # Look for PDF links and publication titles
             links = soup.find_all('a', href=True)
             for link in links:
                 href = link.get('href', '')
@@ -299,7 +320,7 @@ def fetch_canada_gazette():
             
             return {
                 'total_count': len(publications),
-                'publications': publications[:20]  # Limit results
+                'publications': publications[:20] 
             }
             
         return {'error': f'Failed to fetch Canada Gazette - Status: {response.status_code}'}
@@ -379,7 +400,8 @@ def judicial_appointments_route():
 
 @app.route('/global_affairs', methods=['GET'])
 def global_affairs_route():
-    return jsonify(fetch_global_affairs())
+    news_type = request.args.get('type', 'all')
+    return jsonify(fetch_global_affairs(news_type))
 
 @app.route('/committees', methods=['GET'])
 def committees_route():
