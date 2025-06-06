@@ -1,21 +1,3 @@
-
-Conversation opened. 1 unread message.
-
-Skip to content
-Using Gmail with screen readers
-
-1 of 907
-(no subject)
-Inbox
-
-Ghulam Jillani <ghulamjillani216@gmail.com>
-Attachments
-11:48 PM (2 minutes ago)
-to me
-
-
- One attachment
-  •  Scanned by Gmail
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import feedparser
@@ -500,5 +482,3 @@ application = app
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-app.py
-Displaying app.py.
