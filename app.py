@@ -6,11 +6,14 @@ from bs4 import BeautifulSoup
 import os
 import xml.etree.ElementTree as ET
 import re
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app, resources={
     r"/pm_updates": {"origins": "https://transparencyproject.ca"},
     r"/bills": {"origins": "https://transparencyproject.ca"},
+    r"/*": {"origins": "https://transparencyproject.ca"},
 })
 
 def is_valid_date(date_str):
@@ -18,6 +21,7 @@ def is_valid_date(date_str):
     return bool(re.match(pattern, date_str))
 
 def fetch_pm_updates():
+    """Fetch PM updates from RSS feed - WORKING"""
     try:
         feed = feedparser.parse('https://www.pm.gc.ca/en/news.rss')
         updates = []
@@ -32,319 +36,342 @@ def fetch_pm_updates():
     except Exception as e:
         return {'error': f'Failed to fetch PM updates: {str(e)}'}
 
-def fetch_judicial_appointments():
-    try:
-        feed = feedparser.parse('https://www.justice.gc.ca/eng/news-nouv/rss.html')
-        appointments = []
-        for entry in feed.entries:
-            appointments.append({
-                'title': entry.title,
-                'summary': entry.summary,
-                'link': entry.link
-            })
-        return appointments
-    except Exception as e:
-        return {'error': f'Failed to fetch judicial appointments: {str(e)}'}
-
-def fetch_global_affairs():
-    try:
-        feed = feedparser.parse('https://www.international.gc.ca/global-affairs-affaires-mondiales/news-nouvelles/rss.aspx?lang=eng')
-        news = []
-        for entry in feed.entries:
-            news.append({
-                'title': entry.title,
-                'summary': entry.summary,
-                'link': entry.link
-            })
-        return news
-    except Exception as e:
-        return {'error': f'Failed to fetch global affairs: {str(e)}'}
-
-def fetch_news_aggregator():
-    try:
-        url = 'https://www.villagereport.ca/'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            articles = []
-            for item in soup.find_all('div', class_='article'):
-                title = item.find('h2').text.strip() if item.find('h2') else ''
-                link = item.find('a')['href'] if item.find('a') else ''
-                articles.append({
-                    'title': title,
-                    'link': link
-                })
-            return articles
-        return {'error': 'Failed to fetch news aggregator'}
-    except Exception as e:
-        return {'error': f'Failed to fetch news aggregator: {str(e)}'}
-
-def fetch_senators():
-    try:
-        url = 'https://sencanada.ca/en/senators/'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            senators = []
-            for item in soup.find_all('div', class_='senator-item'):
-                name = item.find('h3').text.strip() if item.find('h3') else ''
-                party = item.find('span', class_='party').text.strip() if item.find('span', class_='party') else ''
-                division = item.find('span', class_='division').text.strip() if item.find('span', class_='division') else ''
-                senators.append({
-                    'name': name,
-                    'party': party,
-                    'division': division
-                })
-            return senators
-        return {'error': 'Failed to fetch senators'}
-    except Exception as e:
-        return {'error': f'Failed to fetch senators: {str(e)}'}
-
-def fetch_legal_info(query=""):
-    try:
-        api_key = os.environ.get('CANLII_API_KEY')
-        if not api_key:
-            return {'error': 'CANLII_API_KEY not set'}
-        url = f'https://api.canlii.org/v1/search/?q={query}&api_key={api_key}'
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json()
-        return {'error': 'Failed to fetch legal info'}
-    except Exception as e:
-        return {'error': f'Failed to fetch legal info: {str(e)}'}
-
 def fetch_bills():
+    """Fetch bills from Parliament API - WORKING"""
     try:
         url = 'https://www.parl.ca/legisinfo/en/bills/json'
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         if response.status_code == 200:
             return response.json()
         return {'error': 'Failed to fetch bills'}
     except Exception as e:
         return {'error': f'Failed to fetch bills: {str(e)}'}
 
-def fetch_debates(date):
-    try:
-        if not is_valid_date(date):
-            return {'error': 'Invalid date format. Use YYYY-MM-DD'}
-        url = f'https://api.openparliament.ca/debates/{date}/'
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json()
-        return {'error': f'Failed to fetch debates for {date}'}
-    except Exception as e:
-        return {'error': f'Failed to fetch debates: {str(e)}'}
-
 def fetch_mps():
+    """Fetch MPs from Represent API - CORRECTED URL"""
     try:
-        url = 'https://represent.opennorth.ca/api/representatives/?elected_office=MP'
-        response = requests.get(url)
+        # Correct URL without /api/ in path
+        url = 'https://represent.opennorth.ca/representatives/?elected_office=MP&limit=500'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=15)
+        
         if response.status_code == 200:
-            return response.json()
-        return {'error': 'Failed to fetch MPs'}
+            data = response.json()
+            mps = []
+            
+            # The API returns data in 'objects' array according to documentation
+            for mp in data.get('objects', []):
+                # Extract office information if available
+                offices = []
+                if 'offices' in mp and mp['offices']:
+                    for office in mp['offices']:
+                        offices.append({
+                            'type': office.get('type', ''),
+                            'postal': office.get('postal', ''),
+                            'tel': office.get('tel', ''),
+                            'fax': office.get('fax', '')
+                        })
+                
+                mps.append({
+                    'name': mp.get('name', ''),
+                    'first_name': mp.get('first_name', ''),
+                    'last_name': mp.get('last_name', ''),
+                    'party_name': mp.get('party_name', ''),
+                    'district_name': mp.get('district_name', ''),
+                    'elected_office': mp.get('elected_office', ''),
+                    'email': mp.get('email', ''),
+                    'url': mp.get('url', ''),
+                    'source_url': mp.get('source_url', ''),
+                    'photo_url': mp.get('photo_url', ''),
+                    'personal_url': mp.get('personal_url', ''),
+                    'gender': mp.get('gender', ''),
+                    'district_id': mp.get('district_id', ''),
+                    'offices': offices,
+                    'extra': mp.get('extra', {})
+                })
+            
+            return {
+                'total_count': data.get('meta', {}).get('total_count', len(mps)),
+                'next': data.get('meta', {}).get('next'),
+                'previous': data.get('meta', {}).get('previous'),
+                'mps': mps
+            }
+        
+        return {'error': f'Failed to fetch MPs - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch MPs: {str(e)}'}
 
-def fetch_federal_contracts():
+def fetch_senators():
+    """Fetch senators information - ENHANCED with better scraping"""
     try:
-        dataset_id = 'dbf85d91-7dec-4fd1-8055-83b77225db'
-        url = f'https://open.canada.ca/api/3/action/package_show?id={dataset_id}'
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json()
-        return {'error': 'Failed to fetch federal contracts'}
-    except Exception as e:
-        return {'error': f'Failed to fetch federal contracts: {str(e)}'}
-
-def fetch_senate_calendar():
-    try:
-        url = 'https://sencanada.ca/en/calendar/'
-        response = requests.get(url)
+        url = 'https://sencanada.ca/en/senators/'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
-            calendar_events = []
-            for event in soup.find_all('div', class_='event'):
-                calendar_events.append({
-                    'date': event.find('span', class_='date').text.strip() if event.find('span', class_='date') else '',
-                    'title': event.find('span', class_='title').text.strip() if event.find('span', class_='title') else ''
-                })
-            return calendar_events
-        return {'error': 'Failed to fetch senate calendar'}
+            senators = []
+            
+            # Look for senator information in various possible structures
+            senator_links = soup.find_all('a', href=True)
+            for link in senator_links:
+                href = link.get('href', '')
+                if '/senators/' in href and href.count('/') >= 4:
+                    name = link.get_text(strip=True)
+                    if name and len(name) > 2:  # Basic validation
+                        senators.append({
+                            'name': name,
+                            'profile_url': f"https://sencanada.ca{href}" if href.startswith('/') else href,
+                            'party': 'Unknown',  # Would need individual page scraping
+                            'division': 'Unknown'  # Would need individual page scraping
+                        })
+            
+            # Remove duplicates based on name
+            seen_names = set()
+            unique_senators = []
+            for senator in senators:
+                if senator['name'] not in seen_names:
+                    seen_names.add(senator['name'])
+                    unique_senators.append(senator)
+            
+            return {
+                'total_count': len(unique_senators),
+                'senators': unique_senators[:50]  # Limit to prevent too much data
+            }
+        
+        return {'error': f'Failed to fetch senators - Status: {response.status_code}'}
     except Exception as e:
-        return {'error': f'Failed to fetch senate calendar: {str(e)}'}
-
-def fetch_canada_gazette():
-    try:
-        url = 'https://canadagazette.gc.ca/partI/latest/latest-eng.html'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            publications = []
-            for item in soup.find_all('a', href=True):
-                if 'pdf' in item['href']:
-                    publications.append({'url': item['href'], 'title': item.text.strip()})
-            return publications
-        return {'error': 'Failed to fetch Canada Gazette'}
-    except Exception as e:
-        return {'error': f'Failed to fetch Canada Gazette: {str(e)}'}
-
-def fetch_order_papers():
-    try:
-        url = 'https://sencanada.ca/en/in-the-chamber/order-papers-notice-papers/'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            papers = []
-            for link in soup.find_all('a', href=True):
-                if 'pdf' in link['href']:
-                    papers.append({'url': link['href'], 'title': link.text.strip()})
-            return papers
-        return {'error': 'Failed to fetch order papers'}
-    except Exception as e:
-        return {'error': f'Failed to fetch order papers: {str(e)}'}
-
-def fetch_federal_procurement():
-    try:
-        url = 'https://canadabuys.canada.ca/en/tender-opportunities'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            tenders = []
-            for item in soup.find_all('div', class_='tender'):
-                tenders.append({
-                    'title': item.find('h3').text.strip() if item.find('h3') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
-                })
-            return tenders
-        return {'error': 'Failed to fetch federal procurement'}
-    except Exception as e:
-        return {'error': f'Failed to fetch federal procurement: {str(e)}'}
-
-def fetch_bc_procurement():
-    try:
-        url = 'https://bcbid.gov.bc.ca/page.aspx?fr=request_browse_public'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            tenders = []
-            for item in soup.find_all('div', class_='tender'):
-                tenders.append({
-                    'title': item.find('a').text.strip() if item.find('a') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
-                })
-            return tenders
-        return {'error': 'Failed to fetch BC procurement'}
-    except Exception as e:
-        return {'error': f'Failed to fetch BC procurement: {str(e)}'}
-
-def fetch_municipal_councillors():
-    try:
-        url = 'https://portal.fcm.ca/our-members/'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            councillors = []
-            for item in soup.find_all('div', class_='councillor'):
-                councillors.append({
-                    'name': item.find('span', class_='name').text.strip() if item.find('span', class_='name') else '',
-                    'municipality': item.find('span', class_='municipality').text.strip() if item.find('span', class_='municipality') else ''
-                })
-            return councillors
-        return {'error': 'Failed to fetch municipal councillors'}
-    except Exception as e:
-        return {'error': f'Failed to fetch municipal councillors: {str(e)}'}
+        return {'error': f'Failed to fetch senators: {str(e)}'}
 
 def fetch_senate_committees():
+    """Fetch Senate committees - ENHANCED"""
     try:
         url = 'https://sencanada.ca/en/committees/'
-        response = requests.get(url)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
             committees = []
-            for item in soup.find_all('div', class_='committee'):
-                committees.append({
-                    'name': item.find('a').text.strip() if item.find('a') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
-                })
-            return committees
-        return {'error': 'Failed to fetch senate committees'}
+            
+            # Look for committee links
+            links = soup.find_all('a', href=True)
+            for link in links:
+                href = link.get('href', '')
+                text = link.get_text(strip=True)
+                
+                if ('committee' in href.lower() or 'committees' in href.lower()) and text and len(text) > 10:
+                    committees.append({
+                        'name': text,
+                        'url': f"https://sencanada.ca{href}" if href.startswith('/') else href
+                    })
+            
+            # Remove duplicates
+            seen_names = set()
+            unique_committees = []
+            for committee in committees:
+                if committee['name'] not in seen_names:
+                    seen_names.add(committee['name'])
+                    unique_committees.append(committee)
+            
+            return {
+                'total_count': len(unique_committees),
+                'committees': unique_committees
+            }
+        
+        return {'error': f'Failed to fetch senate committees - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch senate committees: {str(e)}'}
 
-def fetch_victoria_procurement():
+def fetch_judicial_appointments():
+    """Fetch judicial appointments from Justice Canada RSS - ENHANCED"""
     try:
-        url = 'https://victoria.bonfirehub.ca/portal/?tab=openOpportunities'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            opportunities = []
-            for item in soup.find_all('div', class_='opportunity'):
-                opportunities.append({
-                    'title': item.find('a').text.strip() if item.find('a') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
+        feed = feedparser.parse('https://www.justice.gc.ca/eng/news-nouv/rss.html')
+        appointments = []
+        for entry in feed.entries:
+            # Filter for appointment-related news
+            title_lower = entry.title.lower()
+            if any(keyword in title_lower for keyword in ['appoint', 'nomination', 'judge', 'court']):
+                appointments.append({
+                    'title': entry.title,
+                    'summary': getattr(entry, 'summary', ''),
+                    'link': entry.link,
+                    'published': getattr(entry, 'published', ''),
+                    'category': 'judicial_appointment'
                 })
-            return opportunities
-        return {'error': 'Failed to fetch Victoria procurement'}
+        
+        return {
+            'total_count': len(appointments),
+            'appointments': appointments
+        }
     except Exception as e:
-        return {'error': f'Failed to fetch Victoria procurement: {str(e)}'}
+        return {'error': f'Failed to fetch judicial appointments: {str(e)}'}
 
-def fetch_access_information():
-    return {'message': 'This is a static page: https://www.canada.ca/en/treasury-board-secretariat/services/access-information-privacy.html'}
-
-def fetch_publications():
+def fetch_global_affairs():
+    """Fetch Global Affairs news - ENHANCED"""
     try:
-        url = 'https://www.ourcommons.ca/publicationsearch/en/?PubType=37'
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            publications = []
-            for item in soup.find_all('div', class_='publication'):
-                publications.append({
-                    'title': item.find('h3').text.strip() if item.find('h3') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
-                })
-            return publications
-        return {'error': 'Failed to fetch publications'}
+        feed = feedparser.parse('https://www.international.gc.ca/global-affairs-affaires-mondiales/news-nouvelles/rss.aspx?lang=eng')
+        news = []
+        for entry in feed.entries:
+            news.append({
+                'title': entry.title,
+                'summary': getattr(entry, 'summary', ''),
+                'link': entry.link,
+                'published': getattr(entry, 'published', ''),
+                'category': 'global_affairs'
+            })
+        
+        return {
+            'total_count': len(news),
+            'news': news
+        }
     except Exception as e:
-        return {'error': f'Failed to fetch publications: {str(e)}'}
+        return {'error': f'Failed to fetch global affairs: {str(e)}'}
 
 def fetch_committees():
+    """Fetch House of Commons committees - ENHANCED"""
     try:
         url = 'https://www.ourcommons.ca/Committees/en/Home'
-        response = requests.get(url)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
             committees = []
-            for item in soup.find_all('div', class_='committee'):
-                committees.append({
-                    'name': item.find('a').text.strip() if item.find('a') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
-                })
-            return committees
-        return {'error': 'Failed to fetch committees'}
+            
+            # Look for committee information
+            links = soup.find_all('a', href=True)
+            for link in links:
+                href = link.get('href', '')
+                text = link.get_text(strip=True)
+                
+                if ('committee' in href.lower() and text and 
+                    len(text) > 10 and 'Standing' in text):
+                    committees.append({
+                        'name': text,
+                        'url': f"https://www.ourcommons.ca{href}" if href.startswith('/') else href,
+                        'type': 'Standing Committee'
+                    })
+            
+            return {
+                'total_count': len(committees),
+                'committees': committees
+            }
+            
+        return {'error': f'Failed to fetch committees - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch committees: {str(e)}'}
 
-def fetch_work_reports():
+def fetch_canada_gazette():
+    """Fetch Canada Gazette publications - ENHANCED"""
     try:
-        url = 'https://www.ourcommons.ca/Committees/en/Work'
-        response = requests.get(url)
+        url = 'https://canadagazette.gc.ca/partI/latest/latest-eng.html'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'html.parser')
-            reports = []
-            for item in soup.find_all('div', class_='report'):
-                reports.append({
-                    'title': item.find('h3').text.strip() if item.find('h3') else '',
-                    'link': item.find('a')['href'] if item.find('a') else ''
-                })
-            return reports
-        return {'error': 'Failed to fetch work reports'}
+            publications = []
+            
+            # Look for PDF links and publication titles
+            links = soup.find_all('a', href=True)
+            for link in links:
+                href = link.get('href', '')
+                text = link.get_text(strip=True)
+                
+                if 'pdf' in href.lower() and text:
+                    publications.append({
+                        'title': text,
+                        'url': href if href.startswith('http') else f"https://canadagazette.gc.ca{href}",
+                        'type': 'PDF',
+                        'publication': 'Canada Gazette Part I'
+                    })
+            
+            return {
+                'total_count': len(publications),
+                'publications': publications[:20]  # Limit results
+            }
+            
+        return {'error': f'Failed to fetch Canada Gazette - Status: {response.status_code}'}
     except Exception as e:
-        return {'error': f'Failed to fetch work reports: {str(e)}'}
+        return {'error': f'Failed to fetch Canada Gazette: {str(e)}'}
 
+def fetch_debates(date):
+    """Fetch parliamentary debates for a specific date"""
+    try:
+        if not is_valid_date(date):
+            return {'error': 'Invalid date format. Use YYYY-MM-DD'}
+        
+        url = f'https://api.openparliament.ca/debates/{date}/'
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code == 200:
+            return response.json()
+        elif response.status_code == 404:
+            return {'error': f'No debates found for {date}'}
+        else:
+            return {'error': f'Failed to fetch debates for {date} - Status: {response.status_code}'}
+    except Exception as e:
+        return {'error': f'Failed to fetch debates: {str(e)}'}
+
+def fetch_legal_info(query=""):
+    """Fetch legal information from CanLII API"""
+    try:
+        api_key = os.environ.get('CANLII_API_KEY')
+        if not api_key:
+            return {'error': 'CANLII_API_KEY environment variable not set'}
+        
+        if not query:
+            query = "federal"  # Default query
+            
+        url = f'https://api.canlii.org/v1/search/?q={query}&api_key={api_key}'
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code == 200:
+            return response.json()
+        return {'error': f'Failed to fetch legal info - Status: {response.status_code}'}
+    except Exception as e:
+        return {'error': f'Failed to fetch legal info: {str(e)}'}
+
+def fetch_access_information():
+    """Static information about Access to Information"""
+    return {
+        'message': 'Access to Information and Privacy',
+        'description': 'Information about how to access government information and protect privacy',
+        'url': 'https://www.canada.ca/en/treasury-board-secretariat/services/access-information-privacy.html',
+        'contact': 'Contact the relevant department directly for specific requests'
+    }
+
+# Route definitions
 @app.route('/pm_updates', methods=['GET'])
 def pm_updates_route():
     return jsonify(fetch_pm_updates())
+
+@app.route('/bills', methods=['GET'])
+def bills_route():
+    return jsonify(fetch_bills())
+
+@app.route('/mps', methods=['GET'])
+def mps_route():
+    return jsonify(fetch_mps())
+
+@app.route('/senators', methods=['GET'])
+def senators_route():
+    return jsonify(fetch_senators())
+
+@app.route('/senate_committees', methods=['GET'])
+def senate_committees_route():
+    return jsonify(fetch_senate_committees())
 
 @app.route('/judicial_appointments', methods=['GET'])
 def judicial_appointments_route():
@@ -354,84 +381,58 @@ def judicial_appointments_route():
 def global_affairs_route():
     return jsonify(fetch_global_affairs())
 
-@app.route('/news_aggregator', methods=['GET'])
-def news_aggregator_route():
-    return jsonify(fetch_news_aggregator())
+@app.route('/committees', methods=['GET'])
+def committees_route():
+    return jsonify(fetch_committees())
 
-@app.route('/senators', methods=['GET'])
-def senators_route():
-    return jsonify(fetch_senators())
+@app.route('/canada_gazette', methods=['GET'])
+def canada_gazette_route():
+    return jsonify(fetch_canada_gazette())
+
+@app.route('/debates/<date>', methods=['GET'])
+def debates_route(date):
+    return jsonify(fetch_debates(date))
 
 @app.route('/legal_info', methods=['GET'])
 def legal_info_route():
     query = request.args.get('query', '')
     return jsonify(fetch_legal_info(query))
 
-@app.route('/bills', methods=['GET'])
-def bills_route():
-    return jsonify(fetch_bills())
-
-@app.route('/debates/<date>', methods=['GET'])
-def debates_route(date):
-    return jsonify(fetch_debates(date))
-
-@app.route('/mps', methods=['GET'])
-def mps_route():
-    return jsonify(fetch_mps())
-
-@app.route('/federal_procurement', methods=['GET'])
-def federal_procurement_route():
-    return jsonify(fetch_federal_procurement())
-
-@app.route('/federal_contracts', methods=['GET'])
-def federal_contracts_route():
-    return jsonify(fetch_federal_contracts())
-
-@app.route('/publications', methods=['GET'])
-def publications_route():
-    return jsonify(fetch_publications())
-
-@app.route('/committees', methods=['GET'])
-def committees_route():
-    return jsonify(fetch_committees())
-
-@app.route('/work_reports', methods=['GET'])
-def work_reports_route():
-    return jsonify(fetch_work_reports())
-
 @app.route('/access_information', methods=['GET'])
 def access_information_route():
     return jsonify(fetch_access_information())
 
-@app.route('/senate_calendar', methods=['GET'])
-def senate_calendar_route():
-    return jsonify(fetch_senate_calendar())
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'available_endpoints': [
+            '/pm_updates',
+            '/bills', 
+            '/mps',
+            '/senators',
+            '/senate_committees',
+            '/judicial_appointments',
+            '/global_affairs',
+            '/committees',
+            '/canada_gazette',
+            '/debates/<date>',
+            '/legal_info',
+            '/access_information'
+        ]
+    })
 
-@app.route('/canada_gazette', methods=['GET'])
-def canada_gazette_route():
-    return jsonify(fetch_canada_gazette())
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'error': 'Endpoint not found'}), 404
 
-@app.route('/order_papers', methods=['GET'])
-def order_papers_route():
-    return jsonify(fetch_order_papers())
-
-@app.route('/bc_procurement', methods=['GET'])
-def bc_procurement_route():
-    return jsonify(fetch_bc_procurement())
-
-@app.route('/municipal_councillors', methods=['GET'])
-def municipal_councillors_route():
-    return jsonify(fetch_municipal_councillors())
-
-@app.route('/senate_committees', methods=['GET'])
-def senate_committees_route():
-    return jsonify(fetch_senate_committees())
-
-@app.route('/victoria_procurement', methods=['GET'])
-def victoria_procurement_route():
-    return jsonify(fetch_victoria_procurement())
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({'error': 'Internal server error'}), 500
 
 application = app
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
