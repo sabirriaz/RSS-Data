@@ -1,3 +1,21 @@
+
+Conversation opened. 1 unread message.
+
+Skip to content
+Using Gmail with screen readers
+
+1 of 907
+(no subject)
+Inbox
+
+Ghulam Jillani <ghulamjillani216@gmail.com>
+Attachments
+11:48 PM (2 minutes ago)
+to me
+
+
+ One attachment
+  •  Scanned by Gmail
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import feedparser
@@ -50,7 +68,6 @@ def fetch_bills():
 def fetch_mps():
     """Fetch MPs from Represent API - CORRECTED URL"""
     try:
-        # Correct URL without /api/ in path
         url = 'https://represent.opennorth.ca/representatives/?elected_office=MP&limit=500'
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -61,9 +78,7 @@ def fetch_mps():
             data = response.json()
             mps = []
             
-            # The API returns data in 'objects' array according to documentation
             for mp in data.get('objects', []):
-                # Extract office information if available
                 offices = []
                 if 'offices' in mp and mp['offices']:
                     for office in mp['offices']:
@@ -116,7 +131,6 @@ def fetch_senators():
             soup = BeautifulSoup(response.content, 'html.parser')
             senators = []
             
-            # Look for senator information in various possible structures
             senator_links = soup.find_all('a', href=True)
             for link in senator_links:
                 href = link.get('href', '')
@@ -126,8 +140,8 @@ def fetch_senators():
                         senators.append({
                             'name': name,
                             'profile_url': f"https://sencanada.ca{href}" if href.startswith('/') else href,
-                            'party': 'Unknown',  # Would need individual page scraping
-                            'division': 'Unknown'  # Would need individual page scraping
+                            'party': 'Unknown', 
+                            'division': 'Unknown'
                         })
             
             # Remove duplicates based on name
@@ -140,7 +154,7 @@ def fetch_senators():
             
             return {
                 'total_count': len(unique_senators),
-                'senators': unique_senators[:50]  # Limit to prevent too much data
+                'senators': unique_senators[:50] 
             }
         
         return {'error': f'Failed to fetch senators - Status: {response.status_code}'}
@@ -172,7 +186,6 @@ def fetch_senate_committees():
                         'url': f"https://sencanada.ca{href}" if href.startswith('/') else href
                     })
             
-            # Remove duplicates
             seen_names = set()
             unique_committees = []
             for committee in committees:
@@ -195,7 +208,6 @@ def fetch_judicial_appointments():
         feed = feedparser.parse('https://www.justice.gc.ca/eng/news-nouv/rss.html')
         appointments = []
         for entry in feed.entries:
-            # Filter for appointment-related news
             title_lower = entry.title.lower()
             if any(keyword in title_lower for keyword in ['appoint', 'nomination', 'judge', 'court']):
                 appointments.append({
@@ -258,36 +270,33 @@ def fetch_global_affairs(news_type='all'):
         return {'error': f'An unexpected error occurred: {str(e)}'}
 
 def fetch_committees():
-    """Fetch House of Commons committees - ENHANCED"""
+    """Fetch House of Commons committees from OpenParliament API - CORRECTED"""
     try:
-        url = 'https://www.ourcommons.ca/Committees/en/Home'
+        url = 'https://api.openparliament.ca/committees/'
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         response = requests.get(url, headers=headers, timeout=10)
         
         if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
+            data = response.json()
             committees = []
             
-            links = soup.find_all('a', href=True)
-            for link in links:
-                href = link.get('href', '')
-                text = link.get_text(strip=True)
-                
-                if ('committee' in href.lower() and text and 
-                    len(text) > 10 and 'Standing' in text):
-                    committees.append({
-                        'name': text,
-                        'url': f"https://www.ourcommons.ca{href}" if href.startswith('/') else href,
-                        'type': 'Standing Committee'
-                    })
+            for committee in data.get('objects', []):
+                committees.append({
+                    'name': committee.get('name', {}),
+                    'short_name': committee.get('short_name', {}),
+                    'slug': committee.get('slug', ''),
+                    'url': f"https://openparliament.ca{committee.get('url', '')}" if committee.get('url') else '',
+                    'parent_url': committee.get('parent_url')
+                })
             
             return {
                 'total_count': len(committees),
-                'committees': committees
+                'committees': committees,
+                'pagination': data.get('pagination', {})
             }
-            
+        
         return {'error': f'Failed to fetch committees - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch committees: {str(e)}'}
@@ -327,23 +336,51 @@ def fetch_canada_gazette():
     except Exception as e:
         return {'error': f'Failed to fetch Canada Gazette: {str(e)}'}
 
-def fetch_debates(date):
-    """Fetch parliamentary debates for a specific date"""
+def fetch_debates(date=None):
+    """
+    Fetches parliamentary debates from the OpenParliament API.
+    This function has been corrected to use the date filter query parameter.
+    """
     try:
-        if not is_valid_date(date):
-            return {'error': 'Invalid date format. Use YYYY-MM-DD'}
-        
-        url = f'https://api.openparliament.ca/debates/{date}/'
-        response = requests.get(url, timeout=10)
-        
+        base_url = 'https://api.openparliament.ca/debates/'
+        params = {}
+        if date:
+            if not is_valid_date(date):
+                return {'error': 'Invalid date format for debates. Use YYYY-MM-DD.'}
+            params['date'] = date
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json'
+        }
+        response = requests.get(base_url, params=params, headers=headers, timeout=10)
+
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            debates = []
+            for debate_entry in data.get('objects', []):
+                debates.append({
+                    'date': debate_entry.get('date', ''),
+                    'number': debate_entry.get('number', ''),
+                    'most_frequent_word_en': debate_entry.get('most_frequent_word', {}).get('en', ''),
+                    'url': f"https://api.openparliament.ca{debate_entry.get('url', '')}" if debate_entry.get('url', '').startswith('/') else debate_entry.get('url', '')
+                })
+            return {
+                'total_count': data.get('pagination', {}).get('total_count', len(debates)),
+                'next_page_url': data.get('pagination', {}).get('next_url'),
+                'previous_page_url': data.get('pagination', {}).get('previous_url'),
+                'debates': debates
+            }
         elif response.status_code == 404:
-            return {'error': f'No debates found for {date}'}
+            return {'error': f'No debates found for the specified date or general endpoint not found.'}
         else:
-            return {'error': f'Failed to fetch debates for {date} - Status: {response.status_code}'}
-    except Exception as e:
+            return {'error': f'Failed to fetch debates - Status: {response.status_code}'}
+    except requests.exceptions.Timeout:
+        return {'error': 'Failed to fetch debates: Request timed out.'}
+    except requests.exceptions.RequestException as e:
         return {'error': f'Failed to fetch debates: {str(e)}'}
+    except Exception as e:
+        return {'error': f'An unexpected error occurred while fetching debates: {str(e)}'}
 
 def fetch_legal_info(query=""):
     """Fetch legal information from CanLII API"""
@@ -373,7 +410,6 @@ def fetch_access_information():
         'contact': 'Contact the relevant department directly for specific requests'
     }
 
-# Route definitions
 @app.route('/pm_updates', methods=['GET'])
 def pm_updates_route():
     return jsonify(fetch_pm_updates())
@@ -411,8 +447,13 @@ def committees_route():
 def canada_gazette_route():
     return jsonify(fetch_canada_gazette())
 
-@app.route('/debates/<date>', methods=['GET'])
-def debates_route(date):
+@app.route('/debates', methods=['GET'])
+def debates_route():
+    """
+    Endpoint for parliamentary debates.
+    Accepts an optional 'date' query parameter (YYYY-MM-DD).
+    """
+    date = request.args.get('date')
     return jsonify(fetch_debates(date))
 
 @app.route('/legal_info', methods=['GET'])
@@ -424,7 +465,7 @@ def legal_info_route():
 def access_information_route():
     return jsonify(fetch_access_information())
 
-# Health check endpoint
+
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({
@@ -440,6 +481,7 @@ def health_check():
             '/global_affairs',
             '/committees',
             '/canada_gazette',
+            '/debates',
             '/debates/<date>',
             '/legal_info',
             '/access_information'
@@ -458,3 +500,5 @@ application = app
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+app.py
+Displaying app.py.
