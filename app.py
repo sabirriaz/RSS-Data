@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 import re
 
 app = Flask(__name__)
-CORS(app, origins=['https://transparencyproject.ca/'])
+CORS(app, resources={r"/pm_updates": {"origins": "https://transparencyproject.ca"}})
 
 def is_valid_date(date_str):
     pattern = r'^\d{4}-\d{2}-\d{2}$'
