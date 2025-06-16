@@ -8,3 +8,5 @@ nest_asyncio
 waitress
 requests-html
 ics
+lxml[html_clean]
+lxml_html_clean
