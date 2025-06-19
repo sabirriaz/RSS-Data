@@ -1,30 +1,22 @@
-from flask import Flask, jsonify, request, current_app
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import feedparser
-import requests, concurrent.futures
+import requests
 from bs4 import BeautifulSoup
 import logging
 import os
-import feedparser
 import html
-from flask_cors import CORS
 from dateutil import parser as dateparse
 import datetime as dt
-import csv, io, time, socket
+import csv
+import io
+import time
+import socket
 import xml.etree.ElementTree as ET
 import re
 from datetime import datetime
 import json
-from xml.etree import ElementTree
-from datetime import datetime
-# from senate_calendar_scraper import fetch_senate_calendar
-import nest_asyncio
-import requests, ics
-from bs4 import BeautifulSoup
-import requests, xml.etree.ElementTree as ET
-from waitress import serve
-from requests_html import HTMLSession
-import subprocess, time, json, sys, signal
+from concurrent.futures import ThreadPoolExecutor
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -34,13 +26,25 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import urllib.parse
 from contextlib import suppress
-import nest_asyncio, asyncio
+import nest_asyncio
+import asyncio
+import ics
+from requests_html import HTMLSession
+from waitress import serve
+
 nest_asyncio.apply()
 asyncio.set_event_loop(asyncio.new_event_loop())
-import os
 
 app = Flask(__name__)
-CORS(app)  
+
+# Configure CORS to allow all origins and necessary headers
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 HEADERS = {
     "User-Agent": (
@@ -51,20 +55,13 @@ HEADERS = {
 }
 
 def safe_get_json(url: str, *, params: dict | None = None, timeout: int = 15):
-    "Generic JSON fetcher with graceful error handling."
+    """Generic JSON fetcher with graceful error handling."""
     try:
         resp = requests.get(url, params=params, headers=HEADERS, timeout=timeout)
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
         return {"error": f"Failed to fetch from {url}: {e}"}
-
-app = Flask(__name__)
-CORS(app, resources={
-    r"/pm_updates": {"origins": "https://transparencyproject.ca"},
-    r"/bills": {"origins": "https://transparencyproject.ca"},
-    r"/*": {"origins": "https://transparencyproject.ca"},
-})
 
 def is_valid_date(date_str):
     pattern = r'^\d{4}-\d{2}-\d{2}$'
@@ -150,16 +147,14 @@ def fetch_mps():
     except Exception as e:
         return {'error': f'Failed to fetch MPs: {str(e)}'}
 
-
 UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125 Safari/537.36"
 )
 HEADERS = {"User-Agent": UA}
 
-# ---------- helper: profile‑page scraper ----------
 def _enrich_senator(sen):
-    """Profile‑page se province, division, party bhar de."""
+    """Profile-page scraper for senator details."""
     try:
         r = requests.get(sen["profile_url"], headers=HEADERS, timeout=10)
         r.raise_for_status()
@@ -170,7 +165,6 @@ def _enrich_senator(sen):
         for li in psoup.select("li"):
             text = li.get_text(" ", strip=True)
             if text.startswith("Province"):
-                # “Quebec - Wellington” → province + optional division
                 val = text.split(":", 1)[1].strip()
                 if " - " in val:
                     province, division = [v.strip() for v in val.split(" - ", 1)]
@@ -181,15 +175,12 @@ def _enrich_senator(sen):
 
         sen["province"] = province
         sen["division"] = division
-        sen["party"]    = party
+        sen["party"] = party
     except Exception:
         pass
     return sen
 
-
-# ---------- main ----------
 def fetch_senators_from_sencanada():
-    # Selenium setup
     opts = Options()
     opts.headless = True
     opts.add_argument("--no-sandbox")
@@ -208,7 +199,6 @@ def fetch_senators_from_sencanada():
     finally:
         driver.quit()
 
-    # list page: names + links
     base = "https://sencanada.ca"
     senators = []
     for a in soup.select("a[href*='/en/senators/']"):
@@ -219,10 +209,9 @@ def fetch_senators_from_sencanada():
                 senators.append(
                     {"name": name, "profile_url": base + href if href.startswith("/") else href}
                 )
-    senators = list({s["name"]: s for s in senators}.values())  # dedup
+    senators = list({s["name"]: s for s in senators}.values())
 
-    # parallel‑fetch profiles (max 10 threads)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as ex:
+    with ThreadPoolExecutor(max_workers=10) as ex:
         senators = list(ex.map(_enrich_senator, senators))
 
     return {"total_count": len(senators), "senators": senators}
@@ -334,9 +323,7 @@ def fetch_global_affairs(news_type='all'):
         return {'error': f'An unexpected error occurred: {str(e)}'}
 
 def fetch_committees(parl=44, session=1):
-    """
-    Scrape Commons committees list from official fragment endpoint.
-    """
+    """Scrape Commons committees list from official fragment endpoint."""
     url = (
         "https://www.ourcommons.ca/Committees/en/List"
         f"?parl={parl}&session={session}"
@@ -366,12 +353,7 @@ def fetch_committees(parl=44, session=1):
     return {"total_count": len(committees), "committees": committees}
 
 def fetch_canada_gazette():
-    """
-    Return ALL available items from Canada Gazette RSS feeds:
-    - Part I  (Notices and Proposed Regulations)
-    - Part II (Regulations)
-    - Part III (Acts of Parliament)
-    """
+    """Return ALL available items from Canada Gazette RSS feeds."""
     parts = {
         "Part I":  "https://www.gazette.gc.ca/rss/p1-eng.xml",
         "Part II": "https://www.gazette.gc.ca/rss/p2-eng.xml",
@@ -382,18 +364,15 @@ def fetch_canada_gazette():
 
     for part_name, url in parts.items():
         feed = feedparser.parse(url)
-
-        # Loop over *all* entries (no slicing)
         for entry in feed.entries:
-            # summary کے اندر پہلا <a href="">... PDF/HTML ...</a> نکال لو
             soup = BeautifulSoup(entry.get("summary", ""), "html.parser")
             a_tag = soup.find("a")
-            link  = a_tag["href"] if a_tag and a_tag.has_attr("href") else entry.get("link", "")
+            link = a_tag["href"] if a_tag and a_tag.has_attr("href") else entry.get("link", "")
 
             publications.append({
                 "part": part_name,
                 "title": entry.get("title", ""),
-                "url":   link,
+                "url": link,
                 "published": entry.get("published", ""),
                 "type": "PDF" if link.lower().endswith(".pdf") else "HTML"
             })
@@ -403,65 +382,8 @@ def fetch_canada_gazette():
         "publications": publications
     }
 
-
-
-# app  = Flask(__name__)
-# HDRS = {"User-Agent": "Mozilla/5.0"}
-
-# # ────────────────────────────────────────────────────────────────────
-# # 1. 🔹  Ek din ki speeches (Lipad)
-# # --------------------------------------------------------------------
-# def fetch_debate_transcripts(date: str) -> dict:
-#     """Return speeches for a given date (YYYY-MM-DD)."""
-#     y, m, d = date.split("-")
-#     base = f"https://www.lipad.ca/api/hansard/{date}/"
-
-#     # ❶ JSON endpoint (fastest)
-#     r = requests.get(base, headers=HDRS, timeout=30)
-#     if r.ok and r.headers.get("Content-Type", "").startswith("application/json"):
-#         js = r.json()
-#         return {
-#             "date": js.get("date", date),
-#             "total_count": js.get("total_count", 0),
-#             "speeches": js.get("speeches", []),
-#         }
-
-#     # ❷ Fallback: HTML scrape
-#     speeches, page = [], 0
-#     while True:
-#         url = f"https://www.lipad.ca/full/{y}/{m}/{d}" + ("/fullview" if page == 0 else f"/{page+1}")
-#         r = requests.get(url, headers=HDRS, timeout=30)
-#         if r.status_code != 200:
-#             break
-#         soup  = BeautifulSoup(r.text, "lxml")
-#         main  = soup.find(id="content") or soup
-
-#         speaker, buf = None, []
-#         for el in main.find_all(["h3", "h4", "p"]):
-#             t = el.get_text(" ", strip=True)
-#             if el.name in {"h3", "h4"}:
-#                 if speaker and buf:
-#                     speeches.append({"speaker": speaker, "text": " ".join(buf)})
-#                 speaker, buf = t.lstrip("#").strip(), []
-#             elif el.name == "p":
-#                 buf.append(t)
-#         if speaker and buf:
-#             speeches.append({"speaker": speaker, "text": " ".join(buf)})
-
-#         nxt = soup.find("a", string=re.compile(r"›|Next"))
-#         if nxt and nxt.get("href"):
-#             page += 1
-#         else:
-#             break
-
-#     return {"date": date, "total_count": len(speeches), "speeches": speeches}
-
-
 def fetch_debates(date=None):
-    """
-    Fetches parliamentary debates from the OpenParliament API.
-    Accepts optional date filter YYYY-MM-DD.
-    """
+    """Fetches parliamentary debates from the OpenParliament API."""
     try:
         base_url = 'https://api.openparliament.ca/debates/'
         params = {}
@@ -503,9 +425,8 @@ def fetch_debates(date=None):
     except Exception as e:
         return {'error': f'Unexpected error while fetching debates: {str(e)}'}
 
-app = Flask(__name__)
 def fetch_legal_info(query="federal", limit=10):
-    """Scrape CanLII public legal info search page"""
+    """Scrape CanLII public legal info search page."""
     try:
         base_url = "https://www.canlii.org/en/search"
         params = {
@@ -544,7 +465,7 @@ def fetch_legal_info(query="federal", limit=10):
         return {"error": str(e)}
 
 def fetch_access_information():
-    """Static information about Access to Information"""
+    """Static information about Access to Information."""
     return {
         'message': 'Access to Information and Privacy',
         'description': 'Information about how to access government information and protect privacy',
@@ -552,12 +473,8 @@ def fetch_access_information():
         'contact': 'Contact the relevant department directly for specific requests'
     }
 
-
 def fetch_senate_calendar(limit: int = 10):
-    """
-    Scrape https://sencanada.ca/en/calendar/ and return latest 'Annual Calendar'
-    PDF links with year label. Returns at most `limit` entries.
-    """
+    """Scrape Senate calendar for Annual Calendar PDF links."""
     try:
         url = "https://sencanada.ca/en/calendar/"
         r = requests.get(url, timeout=15)
@@ -567,7 +484,6 @@ def fetch_senate_calendar(limit: int = 10):
 
         events = []
         for a in soup.find_all("a", string=re.compile(r"PDF version", re.I)):
-            # The text node just before anchor usually contains the year
             year_text = a.find_previous(string=re.compile(r"\d{4} Annual Calendar"))
             year = re.search(r"\d{4}", year_text).group(0) if year_text else ""
             pdf_link = a["href"]
@@ -587,18 +503,11 @@ def fetch_senate_calendar(limit: int = 10):
         return {"error": f"Failed to fetch Senate calendar PDFs: {e}"}
 
 def fetch_bills_legislation():
-    """
-    Alias of the /bills feed but exposed under /bills_legislation
-    to satisfy your endpoint list.
-    """
-    return fetch_bills()  # you already wrote this
-
+    """Alias of the /bills feed."""
+    return fetch_bills()
 
 def fetch_parliamentary_docs():
-    """
-    Pulls the top 20 'parliamentary documents' datasets
-    from the federal CKAN API on open.canada.ca.
-    """
+    """Pulls top 20 parliamentary documents from CKAN API."""
     url = "https://open.canada.ca/data/api/3/action/package_search"
     params = {"q": "parliamentary documents", "rows": 20}
     data = safe_get_json(url, params=params)
@@ -618,13 +527,8 @@ def fetch_parliamentary_docs():
         return {"count": len(docs), "docs": docs}
     return data
 
-
 def fetch_senate_orders(limit: int = 30):
-    """
-    1️⃣  Calendar page se saare date‑links nikaalta hai  
-    2️⃣  Har date page open karke .pdf ka direct link pull karta hai  
-    3️⃣  Pehle 30 results return karta hai
-    """
+    """Scrape Senate order papers and notice papers."""
     base = "https://sencanada.ca"
     cal_url = f"{base}/en/in-the-chamber/order-papers-notice-papers/"
     try:
@@ -633,17 +537,14 @@ def fetch_senate_orders(limit: int = 30):
         return {"error": f"Calendar page load failed: {e}"}
 
     soup = BeautifulSoup(cal_html, "html.parser")
-
-    # --- Step 1: all calendar <a> links (relative paths) -----------
     date_links = [
-        a["href"].replace("\\", "/")               # back‑slash ko slash
+        a["href"].replace("\\", "/")
         for a in soup.select("table.sc-in-the-chamber-calendar-table a[href]")
-    ][:limit]                                      # zyada links ki zaroorat nahin
+    ][:limit]
 
     pdfs = []
     seen = set()
 
-    # --- Step 2: visit each date page and pull .pdf ---------------
     for rel in date_links:
         page_url = rel if rel.startswith("http") else base + rel
         try:
@@ -651,48 +552,22 @@ def fetch_senate_orders(limit: int = 30):
         except Exception:
             continue
 
-        # find first .pdf in this page
         for href in re.findall(r'"([^"]+\.pdf[^"]*)"', page_html, re.I):
             full = href if href.startswith("http") else base + href
             if full in seen:
                 continue
             seen.add(full)
 
-            title = full.split("/")[-1]  # file name as title
+            title = full.split("/")[-1]
             pdfs.append({"title": title, "link": full})
-            break                        # ek hi pdf ek date page se
+            break
 
         if len(pdfs) >= limit:
             break
 
     return {"count": len(pdfs), "pdfs": pdfs}
 
-
-# def fetch_federal_procurement():
-#     """
-#     Grabs the most recent tender notices from the CanadaBuys
-#     open‑data endpoint (JSON).
-#     """
-#     url = (
-#         "https://open.canada.ca/data/api/3/action/package_show"
-#         "?id=6abd20d4-7a1c-4b38-baa2-9525d0bb2fd2"  # CanadaBuys tender notices
-#     )
-#     data = safe_get_json(url)
-#     if "result" in data:
-#         rec = data["result"]
-#         return {
-#             "title": rec.get("title"),
-#             "modified": rec.get("metadata_modified"),
-#             "resources": [
-#                 r.get("url") for r in rec.get("resources", []) if r.get("url")
-#             ],
-#         }
-#     return data
-
-
-
 BROWSER_HDRS = {
-    # Cloudflare usually needs a UA + Accept + Accept-Language
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -703,7 +578,7 @@ BROWSER_HDRS = {
 }
 
 def _clean_row(row: dict) -> dict:
-    """Remove blank/None keys so Flask jsonify() won't choke."""
+    """Remove blank/None keys for Flask jsonify()."""
     return {k.strip(): v for k, v in row.items() if k and k.strip()}
 
 def _get_json(url: str, **params):
@@ -714,25 +589,16 @@ def _get_json(url: str, **params):
 def _get_text(url: str) -> str:
     r = requests.get(url, timeout=60, headers=BROWSER_HDRS)
     r.raise_for_status()
-    return r.content.decode("utf-8-sig", errors="replace")   # handles BOM
+    return r.content.decode("utf-8-sig", errors="replace")
 
-# ---------------------------------------------------------------------------
-# Main fetcher
-# ---------------------------------------------------------------------------
 def fetch_federal_procurement(limit: int = 100) -> dict:
-    """
-    CanadaBuys ≥ 2025 tender notices ko JSON me return karta hai.
-    ❶ DataStore JSON agar available
-    ❷ Warna CSV download with Cloudflare‑friendly headers
-    """
+    """Fetch CanadaBuys tender notices."""
     PACKAGE_ID = "6abd20d4-7a1c-4b38-baa2-9525d0bb2fd2"
-    BASE  = "https://open.canada.ca/data/api/3/action"
+    BASE = "https://open.canada.ca/data/api/3/action"
 
-    # 1️⃣ Dataset meta
     meta = _get_json(f"{BASE}/package_show", id=PACKAGE_ID).get("result", {})
     resources = meta.get("resources", [])
 
-    # 2️⃣ Try a DataStore‑enabled resource first
     ds_res = next((r for r in resources if r.get("datastore_active")), None)
     if ds_res:
         ds_url = (
@@ -747,7 +613,6 @@ def fetch_federal_procurement(limit: int = 100) -> dict:
             "notices": ds_data["records"],
         }
 
-    # 3️⃣ Pick best CSV (open tenders preferred)
     csv_res = next(
         (
             r for r in resources
@@ -755,7 +620,7 @@ def fetch_federal_procurement(limit: int = 100) -> dict:
             and "opentendernotice" in (r.get("name") or "").lower()
         ),
         None,
-    ) or next(                 # fallback: first CSV in list
+    ) or next(
         (r for r in resources if r.get("format", "").upper() == "CSV"),
         None,
     )
@@ -774,12 +639,8 @@ def fetch_federal_procurement(limit: int = 100) -> dict:
         "notices": notices,
     }
 
-
 def fetch_federal_contracts():
-    """
-    Uses the Proactive Contracts dataset (consolidated contract
-    publication reports) and returns basic metadata.
-    """
+    """Fetch Proactive Contracts dataset."""
     dataset_id = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
     url = f"https://open.canada.ca/data/api/3/action/package_show?id={dataset_id}"
     data = safe_get_json(url)
@@ -794,13 +655,10 @@ def fetch_federal_contracts():
         }
     return data
 
-
-
 def fetch_canadian_news(limit=10):
     headers = {"User-Agent": "Mozilla/5.0"}
     feed_url = "https://www.villagereport.ca/feed"
     try:
-        import feedparser
         feed = feedparser.parse(feed_url)
         if feed.bozo == 0 and feed.entries:
             articles = []
@@ -811,7 +669,6 @@ def fetch_canadian_news(limit=10):
     except Exception:
         pass
 
-    # Fallback: scrape homepage
     url = "https://www.villagereport.ca"
     r = requests.get(url, headers=headers, timeout=15)
     r.raise_for_status()
@@ -819,7 +676,8 @@ def fetch_canadian_news(limit=10):
     articles = []
     for card in soup.select("div.widget-area div.card")[:limit]:
         a = card.find("a", href=True)
-        if not a: continue
+        if not a:
+            continue
         title = a.get_text(" ", strip=True)
         link = a["href"]
         if not link.startswith("http"):
@@ -828,12 +686,7 @@ def fetch_canadian_news(limit=10):
     return {"source": url, "count": len(articles), "articles": articles}
 
 def fetch_bc_procurement():
-    """
-    Returns open opportunities scraped from the BC Bid public
-    search page (HTML).
-    NOTE: BC Bid has no unauthenticated JSON endpoint, so we
-    just grab the first table rows the public site exposes.
-    """
+    """Scrape BC Bid open opportunities."""
     try:
         url = "https://www.bcbid.gov.bc.ca/page.aspx/en/oa/allOpportunitiesList"
         r = requests.get(url, headers=HEADERS, timeout=15)
@@ -858,18 +711,14 @@ def fetch_bc_procurement():
     except Exception as e:
         return {"error": f"Failed to scrape BC Bid: {e}"}
 
-
 def fetch_municipal_councillors(limit=500):
-    """
-    Calls the Represent API and returns all elected municipal
-    councillors (up to `limit`).
-    """
+    """Fetch municipal councillors from Represent API."""
     url = "https://represent.opennorth.ca/representatives/"
     params = {"elected_office": "Councillor", "limit": limit}
     return safe_get_json(url, params=params)
 
-
 def fetch_committee_reports(limit: int = 40):
+    """Fetch committee reports from RSS feed."""
     FEED = "https://www.ourcommons.ca/Committees/en/AllReports/RSS?format=RSS"
     try:
         parsed = feedparser.parse(FEED)
@@ -887,6 +736,7 @@ def fetch_committee_reports(limit: int = 40):
         return {"error": f"Committee reports RSS error: {e}"}
 
 def fetch_victoria_procurement():
+    """Fetch Victoria procurement opportunities from RSS."""
     feed = "https://victoria.bonfirehub.ca/opportunities/rss"
     try:
         parsed = feedparser.parse(feed)
@@ -894,21 +744,14 @@ def fetch_victoria_procurement():
 
         for e in parsed.entries:
             raw_title = html.unescape(getattr(e, "title", ""))
-
-            # 1️⃣  Bonfire feeds jahan ". Name:" ho
             if ". Name:" in raw_title:
                 ref_no, title = [part.strip() for part in raw_title.split(". Name:", 1)]
-
-            # 2️⃣  Agar kabhī " | " separator mil jāy
             elif " | " in raw_title:
                 parts = [p.strip() for p in raw_title.split(" | ")]
                 ref_no, title = parts[0], " | ".join(parts[1:])
-
-            # 3️⃣  Fallback: pūrā string ref_no, title empty
             else:
                 ref_no, title = raw_title, ""
 
-            # 4️⃣  Agar phir bhī title khālī ho to summary le lo
             if not title:
                 title = html.unescape(getattr(e, "summary", "")).strip()
 
@@ -925,7 +768,7 @@ def fetch_victoria_procurement():
 
     except Exception as ex:
         return {"error": f"Victoria procurement fetch failed: {ex}"}
-    
+
 @app.route('/pm_updates', methods=['GET'])
 def pm_updates_route():
     return jsonify(fetch_pm_updates())
@@ -963,13 +806,6 @@ def committees_route():
 def canada_gazette_route():
     return jsonify(fetch_canada_gazette()), 200
 
-# @app.route("/debate_transcripts")
-# def route_transcripts():
-#     date = request.args.get("date")
-#     if not date or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
-#         return jsonify({"error": "?date=YYYY-MM-DD missing/invalid"}), 400
-#     return jsonify(fetch_debate_transcripts(date))
-
 @app.route('/debates', methods=['GET'])
 def debates_route():
     date = request.args.get('date')
@@ -991,7 +827,7 @@ def health_check():
         'timestamp': datetime.now().isoformat(),
         'available_endpoints': [
             '/pm_updates',
-            '/bills', 
+            '/bills',
             '/mps',
             '/senators',
             '/senate_committees',
@@ -1000,11 +836,19 @@ def health_check():
             '/committees',
             '/canada_gazette',
             '/debates',
-            '/debates/<date>',
             '/legal_info',
             '/access_information',
             '/federal_procurement',
             '/federal_contracts',
+            '/canadian_news',
+            '/bc_procurement',
+            '/municipal_councillors',
+            '/committee_reports',
+            '/victoria_procurement',
+            '/senate_calendar',
+            '/bills_legislation',
+            '/parliamentary_docs',
+            '/senate_orders'
         ]
     })
 
@@ -1065,17 +909,4 @@ def internal_error(error):
 application = app
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000, threaded=False)
-
-
-if __name__ == '__main__':
     serve(app, host='0.0.0.0', port=5000)
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True, use_reloader=False)    
