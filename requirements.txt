@@ -11,3 +11,4 @@ ics
 lxml[html_clean]
 lxml_html_clean
 selenium
+webdriver-manager
