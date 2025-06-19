@@ -1,25 +1,37 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, current_app
 from flask_cors import CORS
 import feedparser
-import requests
+import requests, concurrent.futures
 from bs4 import BeautifulSoup
 import logging
 import os
 import feedparser
 import html
-import csv, io, time
+from flask_cors import CORS
+from dateutil import parser as dateparse
+import datetime as dt
+import csv, io, time, socket
 import xml.etree.ElementTree as ET
 import re
 from datetime import datetime
 import json
 from xml.etree import ElementTree
 from datetime import datetime
+# from senate_calendar_scraper import fetch_senate_calendar
 import nest_asyncio
 import requests, ics
 from bs4 import BeautifulSoup
 import requests, xml.etree.ElementTree as ET
 from waitress import serve
 from requests_html import HTMLSession
+import subprocess, time, json, sys, signal
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import urllib.parse
 from contextlib import suppress
 import nest_asyncio, asyncio
@@ -138,48 +150,82 @@ def fetch_mps():
     except Exception as e:
         return {'error': f'Failed to fetch MPs: {str(e)}'}
 
-def fetch_senators():
-    """Fetch senators information - ENHANCED with better scraping"""
-    try:
-        url = 'https://sencanada.ca/en/senators/'
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        }
-        response = requests.get(url, headers=headers, timeout=10)
-        
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'html.parser')
-            senators = []
-            
-            senator_links = soup.find_all('a', href=True)
-            for link in senator_links:
-                href = link.get('href', '')
-                if '/senators/' in href and href.count('/') >= 4:
-                    name = link.get_text(strip=True)
-                    if name and len(name) > 2:
-                        senators.append({
-                            'name': name,
-                            'profile_url': f"https://sencanada.ca{href}" if href.startswith('/') else href,
-                            'party': 'Unknown',      # optionally you can update party if scraping that too
-                            'division': 'Unknown'    # same here
-                        })
-            
-            seen_names = set()
-            unique_senators = []
-            for senator in senators:
-                if senator['name'] not in seen_names:
-                    seen_names.add(senator['name'])
-                    unique_senators.append(senator)
-            
-            return {
-                'total_count': len(unique_senators),
-                'senators': unique_senators[:50]
-            }
-        
-        return {'error': f'Failed to fetch senators - Status: {response.status_code}'}
-    except Exception as e:
-        return {'error': f'Failed to fetch senators: {str(e)}'}
 
+UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125 Safari/537.36"
+)
+HEADERS = {"User-Agent": UA}
+
+# ---------- helper: profile‑page scraper ----------
+def _enrich_senator(sen):
+    """Profile‑page se province, division, party bhar de."""
+    try:
+        r = requests.get(sen["profile_url"], headers=HEADERS, timeout=10)
+        r.raise_for_status()
+        psoup = BeautifulSoup(r.text, "html.parser")
+
+        province = division = party = ""
+
+        for li in psoup.select("li"):
+            text = li.get_text(" ", strip=True)
+            if text.startswith("Province"):
+                # “Quebec - Wellington” → province + optional division
+                val = text.split(":", 1)[1].strip()
+                if " - " in val:
+                    province, division = [v.strip() for v in val.split(" - ", 1)]
+                else:
+                    province = val
+            elif text.lower().startswith(("affiliation", "political affiliation", "caucus")):
+                party = text.split(":", 1)[1].strip()
+
+        sen["province"] = province
+        sen["division"] = division
+        sen["party"]    = party
+    except Exception:
+        pass
+    return sen
+
+
+# ---------- main ----------
+def fetch_senators_from_sencanada():
+    # Selenium setup
+    opts = Options()
+    opts.headless = True
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument(f"user-agent={UA}")
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()), options=opts
+    )
+    try:
+        driver.get("https://sencanada.ca/en/senators/")
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='/en/senators/']"))
+        )
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+    finally:
+        driver.quit()
+
+    # list page: names + links
+    base = "https://sencanada.ca"
+    senators = []
+    for a in soup.select("a[href*='/en/senators/']"):
+        href = a.get("href", "")
+        if "/en/senators/" in href and href.count("/") >= 4:
+            name = a.get_text(strip=True)
+            if " " in name and len(name) > 4:
+                senators.append(
+                    {"name": name, "profile_url": base + href if href.startswith("/") else href}
+                )
+    senators = list({s["name"]: s for s in senators}.values())  # dedup
+
+    # parallel‑fetch profiles (max 10 threads)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as ex:
+        senators = list(ex.map(_enrich_senator, senators))
+
+    return {"total_count": len(senators), "senators": senators}
 
 def fetch_senate_committees():
     """Fetch Senate committees - ENHANCED"""
@@ -506,28 +552,39 @@ def fetch_access_information():
         'contact': 'Contact the relevant department directly for specific requests'
     }
 
-def fetch_senate_calendar(limit: int = 50):
+
+def fetch_senate_calendar(limit: int = 10):
     """
-    Simple HTML parse of https://sencanada.ca/en/calendar/
-    (No JS rendering, thread-safe)
+    Scrape https://sencanada.ca/en/calendar/ and return latest 'Annual Calendar'
+    PDF links with year label. Returns at most `limit` entries.
     """
     try:
         url = "https://sencanada.ca/en/calendar/"
         r = requests.get(url, timeout=15)
-        soup = BeautifulSoup(r.content, "html.parser")
-        events = []
-        for tag in soup.select("[data-calendar-event]")[:limit]:
-            events.append({
-                "title": tag.get("data-title", "").strip(),
-                "start": tag.get("data-start"),
-                "end": tag.get("data-end"),
-                "link": tag.get("href", ""),
-            })
-        return {"total": len(events), "events": events}
-    except Exception as e:
-        return {"error": f"Failed to fetch Senate calendar: {e}"}
+        r.raise_for_status()
 
-    
+        soup = BeautifulSoup(r.content, "html.parser")
+
+        events = []
+        for a in soup.find_all("a", string=re.compile(r"PDF version", re.I)):
+            # The text node just before anchor usually contains the year
+            year_text = a.find_previous(string=re.compile(r"\d{4} Annual Calendar"))
+            year = re.search(r"\d{4}", year_text).group(0) if year_text else ""
+            pdf_link = a["href"]
+            if not pdf_link.startswith("http"):
+                pdf_link = "https://sencanada.ca" + pdf_link
+            events.append({
+                "year": year,
+                "type": "Annual Calendar PDF",
+                "link": pdf_link
+            })
+            if len(events) >= limit:
+                break
+
+        return {"total": len(events), "events": events}
+
+    except Exception as e:
+        return {"error": f"Failed to fetch Senate calendar PDFs: {e}"}
 
 def fetch_bills_legislation():
     """
@@ -829,8 +886,6 @@ def fetch_committee_reports(limit: int = 40):
     except Exception as e:
         return {"error": f"Committee reports RSS error: {e}"}
 
-
-
 def fetch_victoria_procurement():
     feed = "https://victoria.bonfirehub.ca/opportunities/rss"
     try:
@@ -883,9 +938,9 @@ def bills_route():
 def mps_route():
     return jsonify(fetch_mps())
 
-@app.route('/senators', methods=['GET'])
+@app.route("/senators", methods=["GET"])
 def senators_route():
-    return jsonify(fetch_senators())
+    return jsonify(fetch_senators_from_sencanada())
 
 @app.route('/senate_committees', methods=['GET'])
 def senate_committees_route():
@@ -955,7 +1010,9 @@ def health_check():
 
 @app.route("/senate_calendar", methods=["GET"])
 def senate_calendar_route():
-    return jsonify(fetch_senate_calendar())
+    data = fetch_senate_calendar()
+    return jsonify(data), 200 if "error" not in data else 500
+
 @app.route("/bills_legislation", methods=["GET"])
 def bills_legislation_route():
     return jsonify(fetch_bills_legislation())
