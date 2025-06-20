@@ -255,28 +255,21 @@ def fetch_senate_committees():
         return {'error': f'Failed to fetch senate committees - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch senate committees: {str(e)}'}
+import requests
+from requests_html import HTMLSession
+from bs4 import BeautifulSoup
+
+import requests
 
 def fetch_judicial_appointments():
-    """Fetch judicial appointments from Justice Canada RSS - CORRECTED URL"""
+    """Fetch judicial appointments from already-working hosted API (Render)"""
     try:
-        feed = feedparser.parse('https://www.justice.gc.ca/eng/news-nouv/rss/ja-nj.aspx')
-        appointments = []
-        for entry in feed.entries:
-            title_lower = entry.title.lower()
-            if any(keyword in title_lower for keyword in ['appoint', 'nomination', 'judge', 'court']):
-                appointments.append({
-                    'title': entry.title,
-                    'summary': getattr(entry, 'summary', ''),
-                    'link': entry.link,
-                    'published': getattr(entry, 'published', ''),
-                    'category': 'judicial_appointment'
-                })
-        return {
-            'total_count': len(appointments),
-            'appointments': appointments
-        }
+        url = "https://rss-data.onrender.com/judicial_appointments"
+        response = requests.get(url, timeout=50)
+        response.raise_for_status()
+        return response.json()
     except Exception as e:
-        return {'error': f'Failed to fetch judicial appointments: {str(e)}'}
+        return {'error': f'Failed to fetch data from working API: {str(e)}'}
 
 def fetch_global_affairs(news_type='all'):
     """Fetch general news from the Canada.ca news API."""
@@ -352,31 +345,48 @@ def fetch_committees(parl=44, session=1):
 
     return {"total_count": len(committees), "committees": committees}
 
+import requests
+import feedparser
+from bs4 import BeautifulSoup
+
 def fetch_canada_gazette():
     """Return ALL available items from Canada Gazette RSS feeds."""
     parts = {
-        "Part I":  "https://www.gazette.gc.ca/rss/p1-eng.xml",
+        "Part I": "https://www.gazette.gc.ca/rss/p1-eng.xml",
         "Part II": "https://www.gazette.gc.ca/rss/p2-eng.xml",
         "Part III": "https://www.gazette.gc.ca/rss/en-ls-eng.xml",
+    }
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"  # simulate browser
     }
 
     publications = []
 
     for part_name, url in parts.items():
-        feed = feedparser.parse(url)
-        for entry in feed.entries:
-            soup = BeautifulSoup(entry.get("summary", ""), "html.parser")
-            a_tag = soup.find("a")
-            link = a_tag["href"] if a_tag and a_tag.has_attr("href") else entry.get("link", "")
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
 
-            publications.append({
-                "part": part_name,
-                "title": entry.get("title", ""),
-                "url": link,
-                "published": entry.get("published", ""),
-                "type": "PDF" if link.lower().endswith(".pdf") else "HTML"
-            })
+            feed = feedparser.parse(response.content)  # important: use response.content
+            print(f"[{part_name}] Entries fetched: {len(feed.entries)}")
 
+            for entry in feed.entries:
+                soup = BeautifulSoup(entry.get("summary", ""), "html.parser")
+                a_tag = soup.find("a")
+                link = a_tag["href"] if a_tag and a_tag.has_attr("href") else entry.get("link", "")
+
+                publications.append({
+                    "part": part_name,
+                    "title": entry.get("title", ""),
+                    "url": link,
+                    "published": entry.get("published", ""),
+                    "type": "PDF" if link.lower().endswith(".pdf") else "HTML"
+                })
+        except Exception as e:
+            print(f"❌ Error in {part_name}: {e}")
+
+    print(f"✅ Total items collected: {len(publications)}")
     return {
         "total_count": len(publications),
         "publications": publications
@@ -473,6 +483,10 @@ def fetch_access_information():
         'contact': 'Contact the relevant department directly for specific requests'
     }
 
+import requests
+from bs4 import BeautifulSoup
+import re
+
 def fetch_senate_calendar(limit: int = 10):
     """Scrape Senate calendar for Annual Calendar PDF links."""
     try:
@@ -481,27 +495,31 @@ def fetch_senate_calendar(limit: int = 10):
         r.raise_for_status()
 
         soup = BeautifulSoup(r.content, "html.parser")
-
         events = []
-        for a in soup.find_all("a", string=re.compile(r"PDF version", re.I)):
-            year_text = a.find_previous(string=re.compile(r"\d{4} Annual Calendar"))
-            year = re.search(r"\d{4}", year_text).group(0) if year_text else ""
-            pdf_link = a["href"]
-            if not pdf_link.startswith("http"):
-                pdf_link = "https://sencanada.ca" + pdf_link
-            events.append({
-                "year": year,
-                "type": "Annual Calendar PDF",
-                "link": pdf_link
-            })
-            if len(events) >= limit:
-                break
+
+        # Find all links that end with .pdf
+        for link in soup.find_all("a", href=True):
+            href = link["href"]
+            if href.endswith(".pdf") and "calendar" in href.lower():
+                text_before = link.find_previous(["h3", "p", "div"])
+                year_match = re.search(r"\b(20\d{2})\b", text_before.text if text_before else "")
+                year = year_match.group(0) if year_match else ""
+
+                full_link = href if href.startswith("http") else "https://sencanada.ca" + href
+
+                events.append({
+                    "year": year,
+                    "type": "Annual Calendar PDF",
+                    "link": full_link
+                })
+
+                if len(events) >= limit:
+                    break
 
         return {"total": len(events), "events": events}
 
     except Exception as e:
         return {"error": f"Failed to fetch Senate calendar PDFs: {e}"}
-
 def fetch_bills_legislation():
     """Alias of the /bills feed."""
     return fetch_bills()
@@ -717,24 +735,39 @@ def fetch_municipal_councillors(limit=500):
     params = {"elected_office": "Councillor", "limit": limit}
     return safe_get_json(url, params=params)
 
-def fetch_committee_reports(limit: int = 40):
-    """Fetch committee reports from RSS feed."""
-    FEED = "https://www.ourcommons.ca/Committees/en/AllReports/RSS?format=RSS"
-    try:
-        parsed = feedparser.parse(FEED)
-        items = [
-            {
-                "title": e.title,
-                "link": e.link,
-                "published": e.published,
-                "description": BeautifulSoup(e.summary, "html.parser").get_text(),
-            }
-            for e in parsed.entries[:limit]
-        ]
-        return {"source": FEED, "count": len(items), "reports": items}
-    except Exception as e:
-        return {"error": f"Committee reports RSS error: {e}"}
+import requests
+import feedparser
+from bs4 import BeautifulSoup
 
+def fetch_committee_reports():
+    """Fetch committee-related news articles from the Commons News RSS."""
+    url = "https://www.ourcommons.ca/publicationsearch/en/?PubType=37"
+    
+    try:
+        feed = feedparser.parse(url)
+        reports = []
+
+        for entry in feed.entries:
+            reports.append({
+                "title": entry.get("title", ""),
+                "link": entry.get("link", ""),
+                "published": entry.get("published", ""),
+                "summary": BeautifulSoup(entry.get("summary", ""), "html.parser").get_text()
+            })
+
+        return {
+            "source": url,
+            "count": len(reports),
+            "reports": reports
+        }
+
+    except Exception as ex:
+        return {
+            "source": url,
+            "count": 0,
+            "error": str(ex),
+            "reports": []
+        }
 def fetch_victoria_procurement():
     """Fetch Victoria procurement opportunities from RSS."""
     feed = "https://victoria.bonfirehub.ca/opportunities/rss"
@@ -893,6 +926,13 @@ def municipal_councillors_route():
 @app.route("/committee_reports", methods=["GET"])
 def committee_reports_route():
     return jsonify(fetch_committee_reports())
+@app.route("/", methods=["GET"])
+def root():
+    return jsonify({
+        "message": "Welcome to RSS Data API!",
+        "status": "running",
+        "health_check": "/health"
+    }), 200
 
 @app.route("/victoria_procurement", methods=["GET"])
 def victoria_procurement_route():
