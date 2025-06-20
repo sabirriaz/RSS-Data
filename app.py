@@ -255,65 +255,54 @@ def fetch_senate_committees():
         return {'error': f'Failed to fetch senate committees - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch senate committees: {str(e)}'}
+
 import requests
-from requests_html import HTMLSession
 from bs4 import BeautifulSoup
 
-import requests
-
 def fetch_judicial_appointments():
-    """Fetch judicial appointments from already-working hosted API (Render)"""
     try:
-        url = "https://rss-data.onrender.com/judicial_appointments"
-        response = requests.get(url, timeout=50)
-        response.raise_for_status()
-        return response.json()
-    except Exception as e:
-        return {'error': f'Failed to fetch data from working API: {str(e)}'}
-
-def fetch_global_affairs(news_type='all'):
-    """Fetch general news from the Canada.ca news API."""
-    try:
-        base_url = 'https://api.io.canada.ca/io-server/gc/news/en/v2'
-        params = {
-            'pick': 500000,
-            'format': 'json'
-        }
-        
+        # Step 1: Scrape RSS link from HTML
+        index_url = "https://www.justice.gc.ca/eng/news-nouv/rss.html"
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/json'
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         }
-        response = requests.get(base_url, params=params, headers=headers, timeout=15)
-        
-        if response.status_code == 200:
-            data = response.json()
-            news = []
-            
-            for item in data.get('feed', {}).get('entry', []):
-                news.append({
-                    'title': item.get('title', ''),
-                    'teaser': item.get('teaser', ''),
-                    'link': item.get('link', ''),
-                    'publishedDate': item.get('publishedDate', ''),
-                    'category': 'general_canada_news',
-                    'source': 'Canada.ca News'
-                })
-            
-            return {
-                'total_count': len(news),
-                'news': news
-            }
-        elif response.status_code == 404:
-            return {'error': 'API endpoint not found or invalid. Please check the URL.'}
-        else:
-            return {'error': f'Failed to fetch news from Canada.ca - Status: {response.status_code}'}
-    except requests.exceptions.Timeout:
-        return {'error': 'Failed to fetch news from Canada.ca: Request timed out.'}
-    except requests.exceptions.RequestException as e:
-        return {'error': f'Failed to fetch news from Canada.ca: {str(e)}'}
+        r = requests.get(index_url, headers=headers, timeout=15)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        # Step 2: Get the Judicial Appointments RSS URL
+        link_tag = soup.find("a", string=lambda s: s and "Judicial Appointments" in s)
+        if not link_tag:
+            return {"error": "Judicial Appointments RSS link not found."}
+
+        rss_url = link_tag.get("href")
+        if not rss_url.startswith("http"):
+            rss_url = "https://www.justice.gc.ca" + rss_url
+
+        # Step 3: Fetch and parse the RSS feed manually
+        rss_response = requests.get(rss_url, headers=headers, timeout=15)
+        rss_response.raise_for_status()
+        rss_soup = BeautifulSoup(rss_response.content, "xml")
+        items = rss_soup.find_all("item")
+
+        appointments = []
+        for item in items:
+            appointments.append({
+                "title": item.title.text if item.title else "",
+                "summary": item.description.text if item.description else "",
+                "link": item.link.text if item.link else "",
+                "published": item.pubDate.text if item.pubDate else "",
+                "category": "judicial_appointment"
+            })
+
+        return {
+            "rss_source": rss_url,
+            "total_count": len(appointments),
+            "appointments": appointments
+        }
+
     except Exception as e:
-        return {'error': f'An unexpected error occurred: {str(e)}'}
+        return {"error": f"Failed to fetch judicial appointments: {str(e)}"}
 
 def fetch_committees(parl=44, session=1):
     """Scrape Commons committees list from official fragment endpoint."""
@@ -488,7 +477,7 @@ from bs4 import BeautifulSoup
 import re
 
 def fetch_senate_calendar(limit: int = 10):
-    """Scrape Senate calendar for Annual Calendar PDF links."""
+    """Scrape Senate calendar for Annual Calendar PDF links with proper text and year."""
     try:
         url = "https://sencanada.ca/en/calendar/"
         r = requests.get(url, timeout=15)
@@ -497,18 +486,30 @@ def fetch_senate_calendar(limit: int = 10):
         soup = BeautifulSoup(r.content, "html.parser")
         events = []
 
-        # Find all links that end with .pdf
         for link in soup.find_all("a", href=True):
             href = link["href"]
             if href.endswith(".pdf") and "calendar" in href.lower():
-                text_before = link.find_previous(["h3", "p", "div"])
-                year_match = re.search(r"\b(20\d{2})\b", text_before.text if text_before else "")
+                # Get parent element text (like h3 or p) which may include the year
+                parent_block = link.find_parent()
+                context_text = parent_block.get_text(separator=" ", strip=True) if parent_block else ""
+                
+                # Extract the year from context
+                year_match = re.search(r"\b(20\d{2})\b", context_text)
                 year = year_match.group(0) if year_match else ""
+
+                # Clean link text
+                link_text = link.get_text(strip=True)
+                if len(link_text) < 5 or link_text.lower() == "pdf version":
+                    # Replace with context if link text is too short or generic
+                    text = context_text
+                else:
+                    text = link_text
 
                 full_link = href if href.startswith("http") else "https://sencanada.ca" + href
 
                 events.append({
                     "year": year,
+                    "text": text,
                     "type": "Annual Calendar PDF",
                     "link": full_link
                 })
@@ -520,6 +521,7 @@ def fetch_senate_calendar(limit: int = 10):
 
     except Exception as e:
         return {"error": f"Failed to fetch Senate calendar PDFs: {e}"}
+
 def fetch_bills_legislation():
     """Alias of the /bills feed."""
     return fetch_bills()
@@ -656,7 +658,6 @@ def fetch_federal_procurement(limit: int = 100) -> dict:
         "total": len(notices),
         "notices": notices,
     }
-
 def fetch_federal_contracts():
     """Fetch Proactive Contracts dataset."""
     dataset_id = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
@@ -672,7 +673,6 @@ def fetch_federal_contracts():
             ],
         }
     return data
-
 def fetch_canadian_news(limit=10):
     headers = {"User-Agent": "Mozilla/5.0"}
     feed_url = "https://www.villagereport.ca/feed"
