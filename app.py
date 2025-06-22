@@ -1772,7 +1772,10 @@ def mps_route():
 # ... (rest of the app)
 @app.route("/senators", methods=["GET"])
 def senators_route():
-    return jsonify(fetch_senators_from_sencanada())
+    try:
+        return jsonify(fetch_senators_from_sencanada())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/senate_committees', methods=['GET'])
 def senate_committees_route():
@@ -1792,11 +1795,9 @@ def committees_route():
     return jsonify(fetch_committees())
 
 
-
 @app.route("/legal_info", methods=["GET"])
 def legal_info_route():
-    query = request.args.get("query", "federal")
-    return jsonify(fetch_legal_info(query=query))
+    return jsonify({"error": "fetch_legal_info function not implemented"}), 501
 
 @app.route('/access_information', methods=['GET'])
 def access_information_route():
