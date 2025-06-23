@@ -39,8 +39,18 @@ app = Flask(__name__)
 
 # Configure CORS to allow all origins and necessary headers
 CORS(app, resources={
+    r"/pm_updates": {
+        "origins": "https://transparencyproject.ca",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    },
+    r"/bills": {
+        "origins": "https://transparencyproject.ca",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    },
     r"/*": {
-        "origins": "*",
+        "origins": "https://transparencyproject.ca",
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
