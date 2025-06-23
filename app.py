@@ -94,13 +94,10 @@ def fetch_bills():
     except Exception as e:
         return {'error': f'Failed to fetch bills: {str(e)}'}
 
-import requests
-from datetime import datetime
-
 def fetch_mps():
-    """Fetch current MPs' profiles from Represent API."""
+    """Fetch MPs from Represent API - CORRECTED URL"""
     try:
-        url = 'https://represent.opennorth.ca/representatives/?elected_office=MP&current=true&limit=1000'
+        url = 'https://represent.opennorth.ca/representatives/?elected_office=MP&limit=500'
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
@@ -136,21 +133,20 @@ def fetch_mps():
                     'gender': mp.get('gender', ''),
                     'district_id': mp.get('district_id', ''),
                     'offices': offices,
-                    'extra': mp.get('extra', {}),
-                    'last_updated': datetime.utcnow().isoformat()  # Add timestamp for freshness
+                    'extra': mp.get('extra', {})
                 })
             
             return {
                 'total_count': data.get('meta', {}).get('total_count', len(mps)),
                 'next': data.get('meta', {}).get('next'),
                 'previous': data.get('meta', {}).get('previous'),
-                'mps': mps,
-                'fetched_at': datetime.utcnow().isoformat()  # Timestamp of fetch
+                'mps': mps
             }
         
         return {'error': f'Failed to fetch MPs - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch MPs: {str(e)}'}
+
 UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125 Safari/537.36"
@@ -220,136 +216,46 @@ def fetch_senators_from_sencanada():
 
     return {"total_count": len(senators), "senators": senators}
 
-def fetch_global_affairs(news_type='all'):
-    """Fetch general news from the Canada.ca news API."""
-    try:
-        base_url = 'https://api.io.canada.ca/io-server/gc/news/en/v2'
-        params = {
-            'pick': 500000,
-            'format': 'json'
-        }
-        
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/json'
-        }
-        response = requests.get(base_url, params=params, headers=headers, timeout=15)
-        
-        if response.status_code == 200:
-            data = response.json()
-            news = []
-            
-            for item in data.get('feed', {}).get('entry', []):
-                news.append({
-                    'title': item.get('title', ''),
-                    'teaser': item.get('teaser', ''),
-                    'link': item.get('link', ''),
-                    'publishedDate': item.get('publishedDate', ''),
-                    'category': 'general_canada_news',
-                    'source': 'Canada.ca News'
-                })
-            
-            return {
-                'total_count': len(news),
-                'news': news
-            }
-        elif response.status_code == 404:
-            return {'error': 'API endpoint not found or invalid. Please check the URL.'}
-        else:
-            return {'error': f'Failed to fetch news from Canada.ca - Status: {response.status_code}'}
-    except requests.exceptions.Timeout:
-        return {'error': 'Failed to fetch news from Canada.ca: Request timed out.'}
-    except requests.exceptions.RequestException as e:
-        return {'error': f'Failed to fetch news from Canada.ca: {str(e)}'}
-    except Exception as e:
-        return {'error': f'An unexpected error occurred: {str(e)}'}
-
-
-import requests
-
 def fetch_senate_committees():
-    """Fetch House of Commons committee list from Open Parliament API with short names, fallback to static list."""
+    """Fetch Senate committees - ENHANCED"""
     try:
-        # First attempt: Fetch from Open Parliament API
-        url = 'https://api.openparliament.ca/committees/'
+        url = 'https://sencanada.ca/en/committees/'
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
-        params = {
-            'limit': 100,
-            'format': 'json',
-            'house': 'commons'  # Filter for House of Commons
-        }
-        response = requests.get(url, headers=headers, params=params, timeout=10)
+        response = requests.get(url, headers=headers, timeout=10)
         
         if response.status_code == 200:
-            data = response.json()
+            soup = BeautifulSoup(response.content, 'html.parser')
             committees = []
             
-            for committee in data.get('objects', []):
-                code = committee.get('code', '')
-                name = committee.get('name', '')
-                if code and name:
+            links = soup.find_all('a', href=True)
+            for link in links:
+                href = link.get('href', '')
+                text = link.get_text(strip=True)
+                
+                if ('committee' in href.lower() or 'committees' in href.lower()) and text and len(text) > 10:
                     committees.append({
-                        'short_name': code,
-                        'name': name,
-                        'url': f"https://www.ourcommons.ca/Committees/en/{code}"
+                        'name': text,
+                        'url': f"https://sencanada.ca{href}" if href.startswith('/') else href
                     })
             
-            if committees:  # Return if API data is found
-                return {
-                    'total_count': len(committees),
-                    'committees': committees
-                }
-
-        # Fallback: Use static list if API fails or returns no data
-        committee_data = [
-            {"code": "ACVA", "name": "Veterans Affairs"},
-            {"code": "AGRI", "name": "Agriculture and Agri-Food"},
-            {"code": "CHPC", "name": "Canadian Heritage"},
-            {"code": "CIIT", "name": "International Trade"},
-            {"code": "CIMM", "name": "Citizenship and Immigration"},
-            {"code": "ENVI", "name": "Environment and Sustainable Development"},
-            {"code": "ETHI", "name": "Access to Information, Privacy and Ethics"},
-            {"code": "FAAE", "name": "Foreign Affairs and International Development"},
-            {"code": "FEWO", "name": "Status of Women"},
-            {"code": "FINA", "name": "Finance"},
-            {"code": "FOPO", "name": "Fisheries and Oceans"},
-            {"code": "HESA", "name": "Health"},
-            {"code": "HUMA", "name": "Human Resources, Skills and Social Development and the Status of Persons with Disabilities"},
-            {"code": "INAN", "name": "Indigenous and Northern Affairs"},
-            {"code": "INDU", "name": "Industry and Technology"},
-            {"code": "JUST", "name": "Justice and Human Rights"},
-            {"code": "LANG", "name": "Official Languages"},
-            {"code": "LIAI", "name": "Liaison"},
-            {"code": "NDDN", "name": "National Defence"},
-            {"code": "OGGO", "name": "Government Operations and Estimates"},
-            {"code": "PACP", "name": "Public Accounts"},
-            {"code": "PROC", "name": "Procedure and House Affairs"},
-            {"code": "RNNR", "name": "Natural Resources"},
-            {"code": "SECU", "name": "Public Safety and National Security"},
-            {"code": "SRSR", "name": "Science and Research"},
-            {"code": "TRAN", "name": "Transport, Infrastructure and Communities"},
-            {"code": "BILI", "name": "Library of Parliament"},
-            {"code": "REGS", "name": "Scrutiny of Regulations"}
-        ]
-
-        # Construct committee objects from static list
-        committees = []
-        for committee in committee_data:
-            committees.append({
-                'short_name': committee['code'],
-                'name': committee['name'],
-                'url': f"https://www.ourcommons.ca/Committees/en/{committee['code']}"
-            })
-
-        return {
-            'total_count': len(committees),
-            'committees': committees
-        }
-
+            seen_names = set()
+            unique_committees = []
+            for committee in committees:
+                if committee['name'] not in seen_names:
+                    seen_names.add(committee['name'])
+                    unique_committees.append(committee)
+            
+            return {
+                'total_count': len(unique_committees),
+                'committees': unique_committees
+            }
+        
+        return {'error': f'Failed to fetch senate committees - Status: {response.status_code}'}
     except Exception as e:
         return {'error': f'Failed to fetch senate committees: {str(e)}'}
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -398,72 +304,42 @@ def fetch_judicial_appointments():
     except Exception as e:
         return {"error": f"Failed to fetch judicial appointments: {str(e)}"}
 
-
-from bs4 import BeautifulSoup
-
 def fetch_committees(parl=44, session=1):
-    """Fetch Senate committee list with categories: Committees, Subcommittees, Joint Committees."""
-    # Static data based on provided Senate committee list
-    committee_data = {
-        "Committees": [
-            {"short_name": "AEFA", "name": "Foreign Affairs and International Trade"},
-            {"short_name": "AGFO", "name": "Agriculture and Forestry"},
-            {"short_name": "AOVS", "name": "Audit and Oversight"},
-            {"short_name": "APPA", "name": "Indigenous Peoples"},
-            {"short_name": "BANC", "name": "Banking, Commerce and the Economy"},
-            {"short_name": "CIBA", "name": "Internal Economy, Budgets and Administration"},
-            {"short_name": "CONF", "name": "Ethics and Conflict of Interest for Senators"},
-            {"short_name": "ENEV", "name": "Energy, the Environment and Natural Resources"},
-            {"short_name": "LCJC", "name": "Legal and Constitutional Affairs"},
-            {"short_name": "NFFN", "name": "National Finance"},
-            {"short_name": "OLLO", "name": "Official Languages"},
-            {"short_name": "POFO", "name": "Fisheries and Oceans"},
-            {"short_name": "RIDR", "name": "Human Rights"},
-            {"short_name": "RPRD", "name": "Rules, Procedures and the Rights of Parliament"},
-            {"short_name": "SECD", "name": "National Security, Defence and Veterans Affairs"},
-            {"short_name": "SELE", "name": "Selection Committee"},
-            {"short_name": "SOCI", "name": "Social Affairs, Science and Technology"},
-            {"short_name": "TRCM", "name": "Transport and Communications"}
-        ],
-        "Subcommittees": [
-            {"short_name": "COMS", "name": "Subcommittee on Communications (CIBA)"},
-            {"short_name": "DVSC", "name": "Subcommittee on Diversity (CIBA)"},
-            {"short_name": "HRRH", "name": "Subcommittee on Human Resources (CIBA)"},
-            {"short_name": "LTVP", "name": "Subcommittee on Long Term Vision and Plan (CIBA)"},
-            {"short_name": "SEBS", "name": "Subcommittee on Senate Estimates and Committee Budgets (CIBA)"},
-            {"short_name": "VEAC", "name": "Subcommittee on Veterans Affairs (SECD)"}
-        ],
-        "Joint Committees": [
-            {"short_name": "BILI", "name": "Library of Parliament (Joint)"},
-            {"short_name": "REGS", "name": "Scrutiny of Regulations (Joint)"}
-        ]
-    }
+    """Scrape Commons committees list from official fragment endpoint."""
+    url = (
+        "https://www.ourcommons.ca/Committees/en/List"
+        f"?parl={parl}&session={session}"
+    )
+    headers = {"User-Agent": "Mozilla/5.0"}
+    r = requests.get(url, headers=headers, timeout=15)
+    if r.status_code != 200:
+        return {"error": f"Failed – Status {r.status_code}"}
 
-    # Construct committee objects with URLs
-    committees = {
-        "Committees": [],
-        "Subcommittees": [],
-        "Joint Committees": []
-    }
-    for category, data in committee_data.items():
-        for committee in data:
-            committees[category].append({
-                "short_name": committee["short_name"],
-                "name": committee["name"],
-                "url": f"https://sencanada.ca/en/committees/{committee['short_name'].lower()}/"
-            })
+    soup = BeautifulSoup(r.text, "html.parser")
+    committees = []
+    for li in soup.select("li.committee-list__item"):
+        link_tag = li.select_one("a")
+        if not link_tag:
+            continue
+        name = link_tag.get_text(" ", strip=True)
+        href = link_tag["href"]
+        if not href.startswith("http"):
+            href = "https://www.ourcommons.ca" + href
+        acronym = li.select_one(".committee-list__acronym")
+        committees.append({
+            "name": name,
+            "short_name": acronym.get_text(strip=True) if acronym else "",
+            "url": href
+        })
 
-    return {
-        "total_count": sum(len(v) for v in committees.values()),
-        "committees": committees
-    }
+    return {"total_count": len(committees), "committees": committees}
+
 import requests
 import feedparser
 from bs4 import BeautifulSoup
-from datetime import datetime
 
 def fetch_canada_gazette():
-    """Fetch only the latest edition for Part I, II, III from Canada Gazette RSS feeds."""
+    """Return ALL available items from Canada Gazette RSS feeds."""
     parts = {
         "Part I": "https://www.gazette.gc.ca/rss/p1-eng.xml",
         "Part II": "https://www.gazette.gc.ca/rss/p2-eng.xml",
@@ -471,54 +347,39 @@ def fetch_canada_gazette():
     }
 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"  # simulate browser
     }
 
-    latest_publications = []
+    publications = []
 
     for part_name, url in parts.items():
         try:
             response = requests.get(url, headers=headers, timeout=10)
             response.raise_for_status()
-            feed = feedparser.parse(response.content)
 
-            if feed.entries:
-                entry = feed.entries[0]  # only the latest entry
+            feed = feedparser.parse(response.content)  # important: use response.content
+            print(f"[{part_name}] Entries fetched: {len(feed.entries)}")
 
+            for entry in feed.entries:
                 soup = BeautifulSoup(entry.get("summary", ""), "html.parser")
                 a_tag = soup.find("a")
                 link = a_tag["href"] if a_tag and a_tag.has_attr("href") else entry.get("link", "")
-                pub_date = entry.get("published", "")
 
-                latest_publications.append({
-                    "date": pub_date,
+                publications.append({
                     "part": part_name,
                     "title": entry.get("title", ""),
                     "url": link,
+                    "published": entry.get("published", ""),
                     "type": "PDF" if link.lower().endswith(".pdf") else "HTML"
                 })
-
         except Exception as e:
-            print(f"❌ Error fetching {part_name}: {e}")
+            print(f"❌ Error in {part_name}: {e}")
 
+    print(f"✅ Total items collected: {len(publications)}")
     return {
-        "total": len(latest_publications),
-        "latest_editions": latest_publications
+        "total_count": len(publications),
+        "publications": publications
     }
-
-import requests
-from datetime import datetime
-
-import requests
-from datetime import datetime
-from flask import Flask, jsonify, request
-
-app = Flask(__name__)  # Initialize Flask app
-
-# Custom 404 error handler to return JSON instead of HTML
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({'error': 'Route not found. Please check the URL.'}), 404
 
 def fetch_debates(date=None):
     """Fetches parliamentary debates from the OpenParliament API."""
@@ -537,25 +398,21 @@ def fetch_debates(date=None):
         response = requests.get(base_url, params=params, headers=headers, timeout=10)
 
         if response.status_code == 200:
-            try:
-                data = response.json()
-                recent_debates = []
-                for debate_entry in data.get('objects', []):
-                    debate_date = debate_entry.get('date', '')
-                    topic = debate_entry.get('most_frequent_word', {}).get('en', '')
-                    if debate_date and topic:
-                        date_obj = datetime.strptime(debate_date, '%Y-%m-%d')
-                        debate_url = f"https://openparliament.ca/debates/{date_obj.year}/{date_obj.month}/{date_obj.day}/"
-                        recent_debates.append({
-                            'date': debate_date,
-                            'topic': topic,
-                            'url': debate_url
-                        })
-                return {
-                    'recent_debates': recent_debates
-                }
-            except ValueError as e:
-                return {'error': f'Invalid JSON response: {str(e)}'}
+            data = response.json()
+            debates = []
+            for debate_entry in data.get('objects', []):
+                debates.append({
+                    'date': debate_entry.get('date', ''),
+                    'number': debate_entry.get('number', ''),
+                    'most_frequent_word_en': debate_entry.get('most_frequent_word', {}).get('en', ''),
+                    'url': f"https://api.openparliament.ca{debate_entry.get('url', '')}" if debate_entry.get('url', '').startswith('/') else debate_entry.get('url', '')
+                })
+            return {
+                'total_count': data.get('pagination', {}).get('total_count', len(debates)),
+                'next_page_url': data.get('pagination', {}).get('next_url'),
+                'previous_page_url': data.get('pagination', {}).get('previous_url'),
+                'debates': debates
+            }
         elif response.status_code == 404:
             return {'error': 'No debates found for the specified date or endpoint.'}
         else:
@@ -567,57 +424,52 @@ def fetch_debates(date=None):
     except Exception as e:
         return {'error': f'Unexpected error while fetching debates: {str(e)}'}
 
-def is_valid_date(date_str):
-    """Validates date string in YYYY-MM-DD format."""
+def fetch_legal_info(query="federal", limit=10):
+    """Scrape CanLII public legal info search page."""
     try:
-        datetime.strptime(date_str, '%Y-%m-%d')
-        return True
-    except ValueError:
-        return False
-def fetch_access_information():
-    import requests
-    from bs4 import BeautifulSoup
+        base_url = "https://www.canlii.org/en/search"
+        params = {
+            "searchType": "text",
+            "searchTitle": "",
+            "searchText": query
+        }
+        search_url = f"{base_url}?{urllib.parse.urlencode(params)}"
 
-    base_url = "https://www.canada.ca"
-    page_url = base_url + "/en/treasury-board-secretariat/services/access-information-privacy.html"
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+        response = requests.get(search_url, headers=headers, timeout=15)
+        response.raise_for_status()
 
-    response = requests.get(page_url, timeout=15)
-    response.raise_for_status()
-    soup = BeautifulSoup(response.text, "html.parser")
+        soup = BeautifulSoup(response.text, "html.parser")
+        results = []
 
-    # Title & Intro
-    title = soup.find("h1").get_text(strip=True) if soup.find("h1") else "Access to Information and Privacy"
-    intro = soup.select_one("div.wb-intro")
-    description = intro.get_text(" ", strip=True) if intro else "Intro not available"
-
-    sections = []
-
-    # ✅ Get all list items with links
-    for li in soup.select("ul.list-unstyled li"):
-        a = li.find("a")
-        if a:
-            heading = a.get_text(strip=True)
-            href = a["href"]
-            full_url = href if href.startswith("http") else base_url + href
-            sections.append({
-                "heading": heading,
-                "description": "Not available",
-                "link": full_url
+        for li in soup.select("ol.search-results > li.result")[:limit]:
+            title = li.select_one(".result_title").get_text(strip=True) if li.select_one(".result_title") else ""
+            link = li.select_one("a")["href"] if li.select_one("a") else ""
+            snippet = li.select_one(".snippet").get_text(" ", strip=True) if li.select_one(".snippet") else ""
+            results.append({
+                "title": title,
+                "link": "https://www.canlii.org" + link,
+                "snippet": snippet
             })
 
-    # ✅ Append last modified
-    time_tag = soup.find("time")
-    if time_tag:
-        sections.append({
-            "heading": "Last Modified",
-            "description": time_tag.get_text(strip=True)
-        })
+        return {
+            "query": query,
+            "total": len(results),
+            "results": results
+        }
 
+    except Exception as e:
+        return {"error": str(e)}
+
+def fetch_access_information():
+    """Static information about Access to Information."""
     return {
-        "title": title,
-        "description": description,
-        "url": page_url,
-        "sections": sections
+        'message': 'Access to Information and Privacy',
+        'description': 'Information about how to access government information and protect privacy',
+        'url': 'https://www.canada.ca/en/treasury-board-secretariat/services/access-information-privacy.html',
+        'contact': 'Contact the relevant department directly for specific requests'
     }
 
 import requests
@@ -695,63 +547,8 @@ def fetch_parliamentary_docs():
         return {"count": len(docs), "docs": docs}
     return data
 
-import requests
-import re
-from bs4 import BeautifulSoup
-from datetime import datetime
-
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/csv,application/json;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-CA,en;q=0.9",
-}
-
-import requests
-import re
-from bs4 import BeautifulSoup
-from datetime import datetime
-from flask import Flask, jsonify
-
-# Flask application instance
-app = Flask(__name__)
-
-# Headers for requests
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/csv,application/json;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-CA,en;q=0.9",
-}
-
-import requests
-import re
-from bs4 import BeautifulSoup
-from datetime import datetime
-from flask import Flask, jsonify
-
-# Flask application instance
-app = Flask(__name__)
-
-# Headers for requests
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/csv,application/json;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-CA,en;q=0.9",
-}
-
 def fetch_senate_orders(limit: int = 30):
-    """Scrape Senate order papers and notice papers with calendar dates and links."""
+    """Scrape Senate order papers and notice papers."""
     base = "https://sencanada.ca"
     cal_url = f"{base}/en/in-the-chamber/order-papers-notice-papers/"
     try:
@@ -760,186 +557,122 @@ def fetch_senate_orders(limit: int = 30):
         return {"error": f"Calendar page load failed: {e}"}
 
     soup = BeautifulSoup(cal_html, "html.parser")
-    
-    # Extract session information (refined to get only the current session)
-    session_elem = soup.select_one("div.sc-in-the-chamber-session-select") or \
-                   soup.find("div", class_=lambda x: x and "session" in x.lower())
-    if session_elem:
-        session_text = session_elem.text.strip()
-        # More specific regex to match the current session line
-        match = re.search(r"(\d+th Parliament,\s*\d+st Session\s*\(May 26, 2025 - Present\))", session_text, re.DOTALL)
-        session = match.group(1) if match else "45th Parliament, 1st Session (May 26, 2025 - Present)"
-    else:
-        session = "45th Parliament, 1st Session (May 26, 2025 - Present)"
+    date_links = [
+        a["href"].replace("\\", "/")
+        for a in soup.select("table.sc-in-the-chamber-calendar-table a[href]")
+    ][:limit]
 
-    # Extract calendar dates and links
-    calendar_data = []
-    calendar_table = soup.select_one("table.sc-in-the-chamber-calendar-table")
-    if calendar_table:
-        for row in calendar_table.select("tr"):
-            cells = row.select("td")
-            if len(cells) > 1:  # Assuming first cell is month, second is dates
-                month = cells[0].text.strip()
-                dates = cells[1].find_all("a")
-                for date_link in dates:
-                    date_str = date_link.text.strip()
-                    full_date = f"{month} {date_str}, 2025"  # Assuming 2025 from the image
-                    try:
-                        date_obj = datetime.strptime(full_date, "%B %d, %Y")
-                        formatted_date = date_obj.strftime("%Y-%m-%d")
-                        rel_url = date_link["href"].replace("\\", "/")
-                        link = rel_url if rel_url.startswith("http") else base + rel_url
-                        calendar_data.append({
-                            "date": formatted_date,
-                            "link": link,
-                            "session": session
-                        })
-                    except ValueError:
-                        continue
+    pdfs = []
+    seen = set()
 
-    # Limit the result set
-    calendar_data = calendar_data[:limit]
+    for rel in date_links:
+        page_url = rel if rel.startswith("http") else base + rel
+        try:
+            page_html = requests.get(page_url, headers=HEADERS, timeout=15).text
+        except Exception:
+            continue
 
-    return {
-        "session": session,
-        "count": len(calendar_data),
-        "calendar_data": calendar_data
-    }
+        for href in re.findall(r'"([^"]+\.pdf[^"]*)"', page_html, re.I):
+            full = href if href.startswith("http") else base + href
+            if full in seen:
+                continue
+            seen.add(full)
+
+            title = full.split("/")[-1]
+            pdfs.append({"title": title, "link": full})
+            break
+
+        if len(pdfs) >= limit:
+            break
+
+    return {"count": len(pdfs), "pdfs": pdfs}
+
+BROWSER_HDRS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/csv,application/json;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-CA,en;q=0.9",
+}
 
 def _clean_row(row: dict) -> dict:
     """Remove blank/None keys for Flask jsonify()."""
     return {k.strip(): v for k, v in row.items() if k and k.strip()}
 
 def _get_json(url: str, **params):
-    r = requests.get(url, params=params, timeout=30, headers=HEADERS)
+    r = requests.get(url, params=params, timeout=30, headers=BROWSER_HDRS)
     r.raise_for_status()
     return r.json()
 
 def _get_text(url: str) -> str:
-    r = requests.get(url, timeout=60, headers=HEADERS)
+    r = requests.get(url, timeout=60, headers=BROWSER_HDRS)
     r.raise_for_status()
     return r.content.decode("utf-8-sig", errors="replace")
 
-import requests
-from datetime import datetime
-import xml.etree.ElementTree as ET
+def fetch_federal_procurement(limit: int = 100) -> dict:
+    """Fetch CanadaBuys tender notices."""
+    PACKAGE_ID = "6abd20d4-7a1c-4b38-baa2-9525d0bb2fd2"
+    BASE = "https://open.canada.ca/data/api/3/action"
 
-def _get_xml(url, **params):
-    """Helper function to fetch and parse XML data with error handling."""
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Python/3.13"  # Mimic a browser
-    }
-    try:
-        response = requests.get(url, params=params, headers=headers, timeout=10)
-        response.raise_for_status()
-        return ET.fromstring(response.content)
-    except requests.exceptions.ConnectionError as e:
-        print(f"Connection error for {url}: {e}. Using minimal fallback data.")
-        return None
-    except requests.exceptions.HTTPError as e:
-        print(f"HTTP error for {url}: {e}. Using minimal fallback data.")
-        return None
+    meta = _get_json(f"{BASE}/package_show", id=PACKAGE_ID).get("result", {})
+    resources = meta.get("resources", [])
 
-def fetch_federal_procurement(limit: int = 10, offset: int = 0, filter_by: str = None) -> dict:
-    """Fetch committee study and activity data from ourcommons.ca Open Data XML feed."""
-    BASE = "https://www.ourcommons.ca/data"
-    TOTAL_RESULTS = 172  # Based on screenshot
-
-    # Initialize list to store notices
-    notices = []
-
-    # API parameters for XML feed
-    params = {
-        "date": "2025-06-20",  # Match the screenshot date
-        "limit": limit,        # Number of results per page
-        "start": offset,       # Starting point for pagination
-        "format": "xml"
-    }
-
-    # Apply filter based on tab selection
-    if filter_by:
-        if filter_by == "Committee":
-            params["committee"] = ",".join(["FINA", "ACVA", "ETHI", "OGGO", "TRAN"])
-        elif filter_by == "Study and Activity":
-            params["study"] = "1"  # Placeholder; adjust based on XML field
-        elif filter_by == "Event":
-            params["event"] = "1"  # Placeholder; adjust based on XML field
-
-    # Fetch XML data from Open Data feed (example endpoint; adjust as needed)
-    data = _get_xml(f"{BASE}/CommitteeMeetingDataXML.ashx", **params)
-
-    if data is not None:
-        # Assume XML structure with root 'Committees' and child 'Committee' elements
-        for committee in data.findall(".//Committee"):
-            code = committee.get("code", "Unknown")
-            relevant_committees = {"FINA", "ACVA", "ETHI", "OGGO", "TRAN"}
-            if code in relevant_committees:
-                study_activity = committee.findtext(".//StudyActivity", "Unknown Study")
-                event = committee.findtext(".//Event", "Unknown Event") or "Data Available"
-                date = committee.findtext(".//Date", "2025-06-20")
-                study_id = committee.get("id", "1")  # Adjust field name based on XML
-                url = f"https://www.ourcommons.ca/Committees/en/{code}/StudyActivity?studyActivityId={study_id}"
-                notices.append({
-                    "Committee": code,
-                    "Study and Activity": study_activity,
-                    "Event": event,
-                    "Date": date,
-                    "url": url
-                })
-
-    # Calculate pagination details
-    total_pages = (TOTAL_RESULTS + limit - 1) // limit
-    current_page = (offset // limit) + 1
-    next_offset = offset + limit if offset + limit < TOTAL_RESULTS else None
-
-    # Fallback if no data
-    if not notices:
-        print("No data fetched from XML feed. Using minimal fallback data.")
-        notices = []
-
-    return {
-        "source": f"{BASE}/CommitteeMeetingDataXML.ashx",
-        "modified": datetime.utcnow().isoformat(),
-        "total": TOTAL_RESULTS,
-        "limit": limit,
-        "offset": offset,
-        "current_page": current_page,
-        "total_pages": total_pages,
-        "next_offset": next_offset,
-        "notices": notices,
-        "filter_by": filter_by if filter_by else "None"
-    }
-def fetch_federal_contracts():
-    dataset_id = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
-    base_api = "https://open.canada.ca/data/api/3/action"
-    pkg = safe_get_json(f"{base_api}/package_show?id={dataset_id}")
-    resources = []
-
-    if "result" in pkg:
-        for r in pkg["result"].get("resources", []):
-            url = r.get("url")
-            if not url:
-                # fallback: fetch resource via resource_show
-                rid = r.get("id")
-                if rid:
-                    resp = safe_get_json(f"{base_api}/resource_show?id={rid}")
-                    if "result" in resp:
-                        url = resp["result"].get("url") or "Not available"
-
-            resources.append({
-                "title": r.get("name") or "Untitled",
-                "format": (r.get("format") or "").upper() or "N/A",
-                "description": r.get("description") or "Not available",
-                "url": url or "Not available"
-            })
-
+    ds_res = next((r for r in resources if r.get("datastore_active")), None)
+    if ds_res:
+        ds_url = (
+            f"{BASE}/datastore_search"
+            f"?resource_id={ds_res['id']}&limit={limit}"
+        )
+        ds_data = _get_json(ds_url)["result"]
         return {
-            "title": pkg["result"].get("title", ""),
-            "modified": pkg["result"].get("metadata_modified", ""),
-            "resources": resources
+            "source": ds_url,
+            "modified": meta.get("metadata_modified"),
+            "total": ds_data["total"],
+            "notices": ds_data["records"],
         }
 
-    return {"error": "Failed to fetch dataset"}
+    csv_res = next(
+        (
+            r for r in resources
+            if r.get("format", "").upper() == "CSV"
+            and "opentendernotice" in (r.get("name") or "").lower()
+        ),
+        None,
+    ) or next(
+        (r for r in resources if r.get("format", "").upper() == "CSV"),
+        None,
+    )
+    if not csv_res:
+        return {"error": "No suitable CSV or DataStore resource found."}
+
+    csv_text = _get_text(csv_res["url"])
+    reader = csv.DictReader(io.StringIO(csv_text))
+
+    notices = [_clean_row(row) for _, row in zip(range(limit), reader)]
+
+    return {
+        "source": csv_res["url"],
+        "modified": meta.get("metadata_modified"),
+        "total": len(notices),
+        "notices": notices,
+    }
+def fetch_federal_contracts():
+    """Fetch Proactive Contracts dataset."""
+    dataset_id = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
+    url = f"https://open.canada.ca/data/api/3/action/package_show?id={dataset_id}"
+    data = safe_get_json(url)
+    if "result" in data:
+        rec = data["result"]
+        return {
+            "title": rec.get("title"),
+            "modified": rec.get("metadata_modified"),
+            "resources": [
+                r.get("url") for r in rec.get("resources", []) if r.get("url")
+            ],
+        }
+    return data
 def fetch_canadian_news(limit=10):
     headers = {"User-Agent": "Mozilla/5.0"}
     feed_url = "https://www.villagereport.ca/feed"
@@ -1002,39 +735,45 @@ def fetch_municipal_councillors(limit=500):
     params = {"elected_office": "Councillor", "limit": limit}
     return safe_get_json(url, params=params)
 
-def fetch_committee_reports(limit: int = 40):
-    """Fetch committee reports from RSS feed."""
-    FEED = "https://www.ourcommons.ca/Committees/en/AllReports/RSS?format=RSS"
-    try:
-        parsed = feedparser.parse(FEED)
-        items = [
-            {
-                "title": e.title,
-                "link": e.link,
-                "published": e.published,
-                "description": BeautifulSoup(e.summary, "html.parser").get_text(),
-            }
-            for e in parsed.entries[:limit]
-        ]
-        return {"source": FEED, "count": len(items), "reports": items}
-    except Exception as e:
-        return {"error": f"Committee reports RSS error: {e}"}
-
+import requests
 import feedparser
-import html
-from datetime import datetime
-import pytz  # This line will work once pytz is installed
+from bs4 import BeautifulSoup
 
+def fetch_committee_reports():
+    """Fetch committee-related news articles from the Commons News RSS."""
+    url = "https://www.ourcommons.ca/publicationsearch/en/?PubType=37"
+    
+    try:
+        feed = feedparser.parse(url)
+        reports = []
+
+        for entry in feed.entries:
+            reports.append({
+                "title": entry.get("title", ""),
+                "link": entry.get("link", ""),
+                "published": entry.get("published", ""),
+                "summary": BeautifulSoup(entry.get("summary", ""), "html.parser").get_text()
+            })
+
+        return {
+            "source": url,
+            "count": len(reports),
+            "reports": reports
+        }
+
+    except Exception as ex:
+        return {
+            "source": url,
+            "count": 0,
+            "error": str(ex),
+            "reports": []
+        }
 def fetch_victoria_procurement():
-    """Fetch Victoria procurement opportunities from RSS with status based on date."""
+    """Fetch Victoria procurement opportunities from RSS."""
     feed = "https://victoria.bonfirehub.ca/opportunities/rss"
     try:
         parsed = feedparser.parse(feed)
         items = []
-
-        # Current date and time in PKT (Asia/Karachi, UTC+5)
-        pkt_tz = pytz.timezone('Asia/Karachi')
-        current_date = pkt_tz.localize(datetime(2025, 6, 21, 21, 44, 0))  # 09:44 PM PKT
 
         for e in parsed.entries:
             raw_title = html.unescape(getattr(e, "title", ""))
@@ -1049,38 +788,12 @@ def fetch_victoria_procurement():
             if not title:
                 title = html.unescape(getattr(e, "summary", "")).strip()
 
-            # Determine status based on published date and keywords
-            published_str = getattr(e, "published", "")
-            status = "Unknown"
-            if published_str:
-                # Parse the published date (RSS format: e.g., "Tue, 27 May 2025 11:00:00 -0700")
-                published_date = datetime.strptime(published_str, "%a, %d %b %Y %H:%M:%S %z")
-                # Convert published_date to PKT for comparison
-                published_date = published_date.astimezone(pkt_tz)
-                # Calculate time difference in days
-                time_diff = current_date - published_date
-                days_diff = time_diff.total_seconds() / (60 * 60 * 24)
-
-                if days_diff <= 30:  # Within 30 days, assume Open
-                    status = "Open"
-                else:  # Older than 30 days, assume Closed
-                    status = "Closed"
-
-            # Override with keyword check if applicable
-            if "Open" in raw_title or "Open" in getattr(e, "summary", ""):
-                status = "Open"
-            elif "Closed" in raw_title or "Closed" in getattr(e, "summary", ""):
-                status = "Closed"
-            elif "Awarded" in raw_title or "Awarded" in getattr(e, "summary", ""):
-                status = "Awarded"
-
             items.append(
                 {
                     "ref_no": ref_no,
                     "title": title,
                     "link": e.link,
-                    "published": published_str,
-                    "status": status
+                    "published": getattr(e, "published", ""),
                 }
             )
 
@@ -1088,6 +801,7 @@ def fetch_victoria_procurement():
 
     except Exception as ex:
         return {"error": f"Victoria procurement fetch failed: {ex}"}
+
 @app.route('/pm_updates', methods=['GET'])
 def pm_updates_route():
     return jsonify(fetch_pm_updates())
@@ -1095,20 +809,11 @@ def pm_updates_route():
 @app.route('/bills', methods=['GET'])
 def bills_route():
     return jsonify(fetch_bills())
-@app.route("/committee_reports", methods=["GET"])
-def committee_reports_route():
-    return jsonify(fetch_committee_reports())
 
-
-# ... (previous imports and code)
-
-# Route for fetching MP profiles
 @app.route('/mps', methods=['GET'])
 def mps_route():
-    result = fetch_mps()
-    return jsonify(result)
+    return jsonify(fetch_mps())
 
-# ... (rest of the app)
 @app.route("/senators", methods=["GET"])
 def senators_route():
     return jsonify(fetch_senators_from_sencanada())
@@ -1130,7 +835,14 @@ def global_affairs_route():
 def committees_route():
     return jsonify(fetch_committees())
 
+@app.route("/canada_gazette", methods=["GET"])
+def canada_gazette_route():
+    return jsonify(fetch_canada_gazette()), 200
 
+@app.route('/debates', methods=['GET'])
+def debates_route():
+    date = request.args.get('date')
+    return jsonify(fetch_debates(date))
 
 @app.route("/legal_info", methods=["GET"])
 def legal_info_route():
@@ -1186,54 +898,17 @@ def bills_legislation_route():
 def parliamentary_docs_route():
     return jsonify(fetch_parliamentary_docs())
 
-# ... (previous imports and code)
+@app.route("/senate_orders", methods=["GET"])
+def senate_orders_route():
+    return jsonify(fetch_senate_orders())
 
-# Route for federal procurement
-# ... (previous imports and code)
-
-# Route for federal procurement (committee data)
-@app.route('/federal_procurement', methods=['GET'])
+@app.route("/federal_procurement", methods=["GET"])
 def federal_procurement_route():
-    limit = int(request.args.get('limit', 10))    # Default 10 results per page
-    offset = int(request.args.get('offset', 0))   # Default start at 0
-    filter_by = request.args.get('filter_by')     # Optional filter (Committee, Study and Activity, Event)
-    result = fetch_federal_procurement(limit, offset, filter_by)
-    return jsonify(result)
-
-# ... (rest of the app)
-# ... (rest of the app)
-from flask import Response
+    return jsonify(fetch_federal_procurement())
 
 @app.route("/federal_contracts", methods=["GET"])
 def federal_contracts_route():
     return jsonify(fetch_federal_contracts())
-# Define the route
-# Route definition (top level)
-@app.route('/senate_orders', methods=['GET'])
-def get_senate_orders():
-    # Function logic
-    result = fetch_senate_orders()
-    return jsonify(result)
-
-@app.route('/debates', methods=['GET'])
-def get_debates():
-    date_param = request.args.get('date')  # Get date from query params
-    result = fetch_debates(date_param)
-    return jsonify(result)
-
-@app.route("/canada_gazette", methods=["GET"])
-def canada_gazette_route():
-    return jsonify(fetch_canada_gazette()), 200
-# Main block (top level)
-# ... (previous imports and code)
-
-# Route for fetching Victoria procurement opportunities
-@app.route('/victoria_procurement', methods=['GET'])
-def victoria_procurement_route():
-    result = fetch_victoria_procurement()
-    return jsonify(result)
-
-# ... (rest of the app)
 
 @app.route("/canadian_news", methods=["GET"])
 def canadian_news_route():
@@ -1248,6 +923,20 @@ def municipal_councillors_route():
     limit = int(request.args.get("limit", 500))
     return jsonify(fetch_municipal_councillors(limit=limit))
 
+@app.route("/committee_reports", methods=["GET"])
+def committee_reports_route():
+    return jsonify(fetch_committee_reports())
+@app.route("/", methods=["GET"])
+def root():
+    return jsonify({
+        "message": "Welcome to RSS Data API!",
+        "status": "running",
+        "health_check": "/health"
+    }), 200
+
+@app.route("/victoria_procurement", methods=["GET"])
+def victoria_procurement_route():
+    return jsonify(fetch_victoria_procurement())
 
 @app.errorhandler(404)
 def not_found(error):
