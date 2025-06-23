@@ -1,3 +1,4 @@
+from flask_cors import CORS, cross_origin
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import feedparser
@@ -37,8 +38,7 @@ asyncio.set_event_loop(asyncio.new_event_loop())
 
 app = Flask(__name__)
 
-# Configure CORS to allow all origins and necessary headers
-
+# ✅ CORS setup for your frontend domain
 CORS(app, resources={
     r"/*": {
         "origins": ["https://transparencyproject.ca"],
@@ -46,6 +46,8 @@ CORS(app, resources={
         "allow_headers": ["Content-Type", "Authorization"]
     }
 })
+
+
 
 HEADERS = {
     "User-Agent": (
@@ -1922,3 +1924,12 @@ application = app
 
 if __name__ == "__main__":
     serve(app, host='0.0.0.0', port=5000)
+
+
+# Step 3: Global fallback for safety
+@app.after_request
+def apply_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "https://transparencyproject.ca"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
