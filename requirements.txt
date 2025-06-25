@@ -13,3 +13,7 @@ lxml_html_clean
 selenium
 webdriver-manager
 pytz
+cloudscraper 
+urllib3
+playwright
+chromium
