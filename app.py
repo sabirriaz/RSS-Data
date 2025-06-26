@@ -46,7 +46,7 @@ app = Flask(__name__)
 # ✅ CORS setup for your frontend domain
 CORS(app, resources={
     r"/*": {
-        "origins": ["https://transparencyproject.ca"],
+        "origins": ["https://transparencyproject.ca", "http://localhost:5173/"],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
