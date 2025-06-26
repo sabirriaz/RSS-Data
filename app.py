@@ -188,52 +188,35 @@ def _enrich_senator(sen):
     return sen
 
 def fetch_senators_from_sencanada():
-    from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-    from bs4 import BeautifulSoup
-    from concurrent.futures import ThreadPoolExecutor
-
-    chromedriver_autoinstaller.install()  # Auto installs ChromeDriver
-
-    options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument(f"user-agent={UA}")
-
-    driver = webdriver.Chrome(options=options)
+    url = "https://sencanada.ca/en/senators/"
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
     try:
-        driver.get("https://sencanada.ca/en/senators/")
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='/en/senators/']"))
-        )
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-    finally:
-        driver.quit()
+        response = requests.get(url, headers=headers, timeout=15)
+        response.raise_for_status()
 
-    base = "https://sencanada.ca"
-    senators = []
-    for a in soup.select("a[href*='/en/senators/']"):
-        href = a.get("href", "")
-        if "/en/senators/" in href and href.count("/") >= 4:
+        soup = BeautifulSoup(response.text, "html.parser")
+        base = "https://sencanada.ca"
+        senators = []
+
+        for a in soup.select("a[href*='/en/senators/']"):
+            href = a.get("href", "")
             name = a.get_text(strip=True)
-            if " " in name and len(name) > 4:
+            if "/en/senators/" in href and name and len(name) > 4:
                 senators.append({
                     "name": name,
                     "profile_url": base + href if href.startswith("/") else href
                 })
 
-    senators = list({s["name"]: s for s in senators}.values())  # Remove duplicates by name
+        # Remove duplicates
+        senators = list({s["name"]: s for s in senators}.values())
 
-    # Optional: enrich data with additional details from individual profile pages
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        senators = list(executor.map(_enrich_senator, senators))
+        return {"total_count": len(senators), "senators": senators}
 
-    return {"total_count": len(senators), "senators": senators}
+    except Exception as e:
+        return {"error": f"Failed to fetch senators: {e}"}
 
 def fetch_senate_committees():
     """
@@ -1067,9 +1050,6 @@ def _get_text(url: str) -> str:
     r = requests.get(url, timeout=60, headers=BROWSER_HDRS)
     r.raise_for_status()
     return r.content.decode("utf-8-sig", errors="replace")
-
-import requests
-from bs4 import BeautifulSoup
 
 def fetch_federal_procurement(limit: int = 50):
     """Scrape federal procurement tender notices from CanadaBuys website."""
