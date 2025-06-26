@@ -33,6 +33,7 @@ from requests_html import HTMLSession
 from waitress import serve
 from datetime import datetime, timedelta
 import logging
+import chromedriver_autoinstaller
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -187,15 +188,24 @@ def _enrich_senator(sen):
     return sen
 
 def fetch_senators_from_sencanada():
-    opts = Options()
-    opts.headless = True
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
-    opts.add_argument(f"user-agent={UA}")
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from bs4 import BeautifulSoup
+    from concurrent.futures import ThreadPoolExecutor
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()), options=opts
-    )
+    chromedriver_autoinstaller.install()  # Auto installs ChromeDriver
+
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument(f"user-agent={UA}")
+
+    driver = webdriver.Chrome(options=options)
+
     try:
         driver.get("https://sencanada.ca/en/senators/")
         WebDriverWait(driver, 15).until(
@@ -212,13 +222,16 @@ def fetch_senators_from_sencanada():
         if "/en/senators/" in href and href.count("/") >= 4:
             name = a.get_text(strip=True)
             if " " in name and len(name) > 4:
-                senators.append(
-                    {"name": name, "profile_url": base + href if href.startswith("/") else href}
-                )
-    senators = list({s["name"]: s for s in senators}.values())
+                senators.append({
+                    "name": name,
+                    "profile_url": base + href if href.startswith("/") else href
+                })
 
-    with ThreadPoolExecutor(max_workers=10) as ex:
-        senators = list(ex.map(_enrich_senator, senators))
+    senators = list({s["name"]: s for s in senators}.values())  # Remove duplicates by name
+
+    # Optional: enrich data with additional details from individual profile pages
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        senators = list(executor.map(_enrich_senator, senators))
 
     return {"total_count": len(senators), "senators": senators}
 
