@@ -52,7 +52,6 @@ CORS(app, resources={
     }
 })
 
-
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -923,6 +922,17 @@ def fetch_bills_legislation():
 def fetch_parliamentary_docs():
     """Scrape all committee records from the Committees Work page, de-duplicated."""
     base_url = "https://www.ourcommons.ca/Committees/en/Work"
+    params = {
+        "parl": 45,
+        "ses": 1,
+        "refineByCommittees": "",
+        "refineByCategories": "",
+        "refineByEvents": "",
+        "sortBySelected": "",
+        "show": "allwork",
+        "pageNumber": 1,
+        "pageSize": 0
+    }
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                       "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -931,53 +941,52 @@ def fetch_parliamentary_docs():
 
     committees = []
     seen = set()
-    MAX_PAGES = 18
 
-    for page in range(1, MAX_PAGES + 1):
+    try:
+        response = requests.get(base_url, headers=headers, params=params, timeout=15)
+        response.raise_for_status()
+    except Exception as e:
+        return {"error": f"Failed to load committee records: {e}"}
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    rows = soup.select("table.committeestable tbody tr")
+
+    for row in rows:
+        cols = row.find_all("td")
+        if len(cols) < 4:
+            continue
+
         try:
-            response = requests.get(base_url, headers=headers, params={"page": page}, timeout=15)
-            response.raise_for_status()
-        except Exception as e:
-            return {"error": f"Failed on page {page}: {e}"}
+            short_name = cols[0].find("strong").text.strip()
+            full_name = cols[0].find("i")["title"].strip()
+            study_cell = cols[1]
+            study = study_cell.get_text(strip=True)
+            link = study_cell.find("a")
+            detail_url = f"https://www.ourcommons.ca{link['href']}" if link and link.get('href') else ""
+            event = cols[2].get_text(strip=True)
+            date = cols[3].get_text(strip=True)
 
-        soup = BeautifulSoup(response.text, "html.parser")
-        rows = soup.select("table.committeestable tbody tr")
-        if not rows:
-            break
-
-        for row in rows:
-            cols = row.find_all("td")
-            if len(cols) < 4:
+            key = (short_name, study, event, date)
+            if key in seen:
                 continue
+            seen.add(key)
 
-            try:
-                short_name = cols[0].find("strong").text.strip()
-                full_name = cols[0].find("i")["title"].strip()
-                study = cols[1].get_text(strip=True)
-                event = cols[2].get_text(strip=True)
-                date = cols[3].get_text(strip=True)
-
-                key = (short_name, study, event, date)
-                if key in seen:
-                    continue  
-                seen.add(key)
-
-                committees.append({
-                    "short_name": short_name,
-                    "full_name": full_name,
-                    "study": study,
-                    "event": event,
-                    "date": date
-                })
-            except Exception:
-                continue
+            committees.append({
+                "short_name": short_name,
+                "full_name": full_name,
+                "study": study,
+                "url": detail_url,
+                "event": event,
+                "date": date
+            })
+        except Exception:
+            continue
 
     return {
         "source": base_url,
         "count": len(committees),
         "committees": committees
     }
-
 def fetch_senate_orders(limit: int = 30):
     """Scrape Senate order papers and extract detail content."""
     base = "https://sencanada.ca"
@@ -1078,8 +1087,13 @@ def fetch_federal_procurement(limit: int = 50):
     for row in rows:
         cols = row.find_all("td")
         if len(cols) >= 4:
+            title_cell = cols[0]
+            title = title_cell.get_text(strip=True)
+            link = title_cell.find("a")
+            detail_url = f"https://canadabuys.canada.ca{link['href']}" if link and link.get('href') else ""
             notices.append({
-                "title": cols[0].get_text(strip=True),
+                "title": title,
+                "url": detail_url,
                 "category": cols[1].get_text(strip=True),
                 "open_or_amendment_date": cols[2].get_text(strip=True),
                 "closing_date": cols[3].get_text(strip=True),
@@ -1091,7 +1105,6 @@ def fetch_federal_procurement(limit: int = 50):
         "count": len(notices),
         "notices": notices
     }
-
 def fetch_federal_contracts():
     dataset_id = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
     base_api = "https://open.canada.ca/data/api/3/action"
