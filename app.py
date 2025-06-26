@@ -53,12 +53,7 @@ CORS(app, resources={
     }
 })
 
-opts = Options()
-opts.binary_location = "/usr/bin/google-chrome"
-opts.add_argument("--headless")
-opts.add_argument("--no-sandbox")
-opts.add_argument("--disable-dev-shm-usage")
-opts.add_argument(f"user-agent={UA}")
+
 
 driver = webdriver.Chrome(options=opts)
 
@@ -199,7 +194,7 @@ def _enrich_senator(sen):
 def fetch_senators_from_sencanada():
     url = "https://sencanada.ca/en/senators/"
     headers = {
-        "User-Agent": "Mozilla/5.0"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"
     }
 
     try:
@@ -213,14 +208,17 @@ def fetch_senators_from_sencanada():
         for a in soup.select("a[href*='/en/senators/']"):
             href = a.get("href", "")
             name = a.get_text(strip=True)
-            if "/en/senators/" in href and name and len(name) > 4:
+            if "/en/senators/" in href and href.count("/") >= 4 and name and len(name) > 4:
                 senators.append({
                     "name": name,
                     "profile_url": base + href if href.startswith("/") else href
                 })
 
-        # Remove duplicates
-        senators = list({s["name"]: s for s in senators}.values())
+        senators = list({s["name"]: s for s in senators}.values())  # Remove duplicates
+
+        # Enrich with details (optional but included as in your original code)
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            senators = list(executor.map(_enrich_senator, senators))
 
         return {"total_count": len(senators), "senators": senators}
 
