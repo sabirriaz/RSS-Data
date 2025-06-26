@@ -53,6 +53,15 @@ CORS(app, resources={
     }
 })
 
+opts = Options()
+opts.binary_location = "/usr/bin/google-chrome"
+opts.add_argument("--headless")
+opts.add_argument("--no-sandbox")
+opts.add_argument("--disable-dev-shm-usage")
+opts.add_argument(f"user-agent={UA}")
+
+driver = webdriver.Chrome(options=opts)
+
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
