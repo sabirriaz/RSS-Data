@@ -53,7 +53,6 @@ CORS(app, resources={
 })
 
 
-
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -236,7 +235,7 @@ def fetch_senate_committees():
     }
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
 
         soup = BeautifulSoup(response.text, "html.parser")
@@ -250,13 +249,15 @@ def fetch_senate_committees():
         if committee_section:
             committee_links = committee_section.find_all("a", class_="list-group-linked-item")
             for link in committee_links:
-                acronym = link.find("span", class_="committee-acronym-cell").get_text(strip=True)
-                name = link.find("span", class_="committee-name").get_text(strip=True)
+                acronym = link.find("span", class_="committee-acronym-cell")
+                acronym = acronym.get_text(strip=True) if acronym else "Unknown"
+                name = link.find("span", class_="committee-name")
+                name = name.get_text(strip=True) if name else "Unknown"
                 href = link.get("href")
-                if not href.startswith("http"):
-                    href = f"https://www.ourcommons.ca{href}" if href.startswith("/") else f"https://{href}"
+                if href and not href.startswith("http"):
+                    href = f"https://www.ourcommons.ca{href}" if href.startswith("/") else f"https://www.ourcommons.ca/{href}"
 
-                detailed_content = fetch_detail_page_content(href, headers)
+                detailed_content = fetch_detail_page_contents(href, headers)
 
                 result["committees"].append({
                     "acronym": acronym,
@@ -266,13 +267,119 @@ def fetch_senate_committees():
                 })
 
         result["total_count"] = len(result["committees"])
+        return result
+
+    except requests.RequestException as e:
+        return {"error": f"Failed to fetch committee list: {str(e)}"}
+    except Exception as e:
+        return {"error": f"An unexpected error occurred: {str(e)}"}
+
+def fetch_detail_page_contents(url, headers):
+    """
+    Fetches detailed content from a committee's detail page, including recent business and members.
+    """
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        result = {
+            "recent_business": [],
+            "members": [],
+            "profile_images": {
+                "desktop": "Not available",
+                "mobile": "Not available"
+            }
+        }
+
+        recent_work_section = soup.find("div", id="recent-work-section")
+        if recent_work_section:
+            items = recent_work_section.find_all("a", class_="list-group-linked-item")
+            for item in items:
+                title_div = item.find("div", class_="work-title")
+                title = title_div.get_text(strip=True) if title_div else "Untitled"
+
+                info_div = item.find("div", class_="additional-info")
+                additional_info = info_div.get_text(strip=True) if info_div else "Not available"
+
+                href = item.get("href", "")
+                if href.startswith("//"):
+                    href = f"https:{href}"
+                elif href.startswith("/"):
+                    href = f"https://www.ourcommons.ca{href}"
+                elif not href.startswith("http"):
+                    href = f"https://www.ourcommons.ca/{href}"
+
+                result["recent_business"].append({
+                    "title": title,
+                    "url": href,
+                    "additional_info": additional_info
+                })
+
+        members_panel = soup.find("div", id="committeeMembersPanel")
+        if members_panel:
+            member_sections = members_panel.find_all("div", class_="member-section")
+            for section in member_sections:
+                role = section.find("h2", class_="title")
+                role = role.get_text(strip=True) if role else "Unknown"
+
+                cards = section.find_all("span", class_="committee-member-card")
+                for card in cards:
+                    info = card.find("span", class_="member-info")
+                    if not info:
+                        continue
+
+                    full_name_span = info.find("span", class_="full-name")
+                    full_name = " ".join(
+                        span.get_text(strip=True) for span in full_name_span.find_all(["span"])
+                    ) if full_name_span else "Unknown"
+
+                    caucus = info.find("span", class_="caucus")
+                    caucus = caucus.get_text(strip=True) if caucus else "Not available"
+
+                    constituency = info.find("span", class_="constituency")
+                    constituency = constituency.get_text(strip=True) if constituency else "Not available"
+
+                    province = info.find("span", class_="province")
+                    province = province.get_text(strip=True) if province else "Not available"
+
+                    img = card.find("img", class_="picture")
+                    photo_url = img.get("src") if img else "Not available"
+                    if photo_url:
+                        if photo_url.startswith("//"):
+                            photo_url = f"https:{photo_url}"
+                        elif photo_url.startswith("/"):
+                            photo_url = f"https://www.ourcommons.ca{photo_url}"
+
+                    a_tag = card.find("a")
+                    member_url = a_tag.get("href") if a_tag else "Not available"
+                    if member_url:
+                        if member_url.startswith("//"):
+                            member_url = f"https:{member_url}"
+                        elif member_url.startswith("/"):
+                            member_url = f"https://www.ourcommons.ca{member_url}"
+
+                    result["members"].append({
+                        "role": role,
+                        "name": full_name,
+                        "caucus": caucus,
+                        "constituency": constituency,
+                        "province": province,
+                        "photo_url": photo_url,
+                        "member_url": member_url
+                    })
+
+        # --- Final fallback if empty ---
+        if not result["recent_business"] and not result["members"]:
+            return {"content": "No main content section found on the page"}
 
         return result
 
     except requests.RequestException as e:
-        return {"error": f"Failed to fetch main page data: {str(e)}"}
+        return {"error": f"Failed to fetch detail page {url}: {str(e)}"}
     except Exception as e:
-        return {"error": f"An error occurred: {str(e)}"}
+        return {"error": f"An error occurred while processing {url}: {str(e)}"}
+
 
 def fetch_detail_page_content(detail_url, headers):
     """
@@ -624,66 +731,74 @@ def fetch_legal_info(query="federal", limit=10):
 
     except Exception as e:
         return {"error": str(e)}
-
+from fake_useragent import UserAgent
+import random
 def fetch_access_information():
     """Scrapes the latest Access to Information & Privacy page on Canada.ca."""
     url = (
         "https://www.canada.ca/en/treasury-board-secretariat/"
         "services/access-information-privacy.html"
     )
-    resp = requests.get(url, headers={"User-Agent": "YourApp/1.0"}, timeout=15)
-    resp.raise_for_status()
-    soup = BeautifulSoup(resp.text, "html.parser")
+    
+    try:
+        ua = UserAgent()
+        headers = {"User-Agent": ua.random}
+        time.sleep(random.uniform(0.5, 2.0))  
+        logger.debug(f"Fetching {url} with User-Agent: {headers['User-Agent']}")
+        
+        resp = requests.get(url, headers=headers, timeout=15)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "html.parser")
 
-    title = soup.title.get_text(strip=True) or ""
-
-    main = soup.find("main") or soup
-    intro = main.find("p")
-    description = intro.get_text(strip=True) if intro else ""
-
-    contact = ""
-    contact_heading = soup.find(
-        lambda t: t.name in ["h2", "h3"] and "contact" in t.get_text(strip=True).lower()
-    )
-    if contact_heading:
-        para = contact_heading.find_next_sibling("p")
-        contact = para.get_text(strip=True) if para else ""
-
-    actions = []
-    for a in soup.select("div.well a"):
-        label = a.get_text(strip=True)
-        href = a.get("href", "")
-        if href and not href.startswith("http"):
-            href = "https://www.canada.ca" + href
-        actions.append({"label": label, "url": href})
-
-    def parse_section_by_h2(text):
-        section = soup.find("h2", string=lambda s: s and text.lower() in s.lower())
-        cards = []
-        if section:
-            for card in section.find_next_sibling("div", class_="row").select("div.col-md-4"):
-                a = card.find("a")
-                p = card.find("p")
-                if a and p:
-                    href = a.get("href", "")
-                    if href and not href.startswith("http"):
-                        href = "https://www.canada.ca" + href
-                    cards.append({
-                        "title": a.get_text(strip=True),
-                        "url": href,
-                        "description": p.get_text(strip=True)
-                    })
-        return cards
-
-    services_and_info = parse_section_by_h2("Services and information")
-    depts_and_agencies = parse_section_by_h2("For departments and agencies")
-
-    features = []
-    feat_sec = soup.find("section", class_="gc-features")
-    if feat_sec:
-        for col in feat_sec.select("div.col-md-6"):
-            a = col.find("a")
-            p = col.find("p")
+        title = soup.title.get_text(strip=True) if soup.title else "Unknown"
+        
+        main = soup.find("main") or soup
+        
+        intro = main.select_one("div.well p")
+        description = intro.get_text(strip=True) if intro else "Description not found"
+        
+        contact = "Contact information for coordinators by institution"  
+        
+        actions = []
+        for a in soup.select("div.well a.btn-primary"):
+            label = a.get_text(strip=True)
+            href = a.get("href", "")
+            if href:
+                if not href.startswith("http"):
+                    href = "https://www.canada.ca" + href
+                actions.append({"label": label, "url": href})
+        
+        def parse_section_by_h2(text):
+            section = soup.find("h2", string=lambda s: s and text.lower() in s.lower())
+            cards = []
+            if section:
+                row = section.find_next_sibling("div", class_="row")
+                if row:
+                    for card in row.select("div.col-md-4"):
+                        a = card.find("a")
+                        p = card.find("p")
+                        if a and p:
+                            href = a.get("href", "")
+                            if href and not href.startswith("http"):
+                                href = "https://www.canada.ca" + href
+                            cards.append({
+                                "title": a.get_text(strip=True),
+                                "url": href,
+                                "description": p.get_text(strip=True)
+                            })
+            return cards
+        
+        services_and_info = parse_section_by_h2("Services and information")
+        
+        depts_and_agencies = parse_section_by_h2("For departments and agencies")
+        
+        features = []
+        feat_sec = soup.find("section", class_="gc-features")
+        if feat_sec:
+            title_tag = feat_sec.find("h3")
+            a = title_tag.find("a") if title_tag else None
+            p = feat_sec.find("p")
+            img = feat_sec.find("img")
             if a and p:
                 href = a.get("href", "")
                 if href and not href.startswith("http"):
@@ -691,26 +806,36 @@ def fetch_access_information():
                 features.append({
                     "title": a.get_text(strip=True),
                     "url": href,
-                    "description": p.get_text(strip=True)
+                    "description": p.get_text(strip=True),
+                    "image": img.get("src") if img else None
                 })
-
-    modified = ""
-    tm = soup.find("time", property="dateModified")
-    if tm:
-        modified = tm.get_text(strip=True)
-
-    return {
-        "message": title,
-        "description": description,
-        "url": url,
-        "contact": contact,
-        "actions": actions,
-        "services_and_info": services_and_info,
-        "departments_and_agencies": depts_and_agencies,
-        "features": features,
-        "modified": modified
-    }
-
+        
+        modified = ""
+        meta_modified = soup.find("meta", {"name": "dcterms.modified"})
+        if meta_modified:
+            modified = meta_modified.get("content")
+        elif tm := soup.find("time", property="dateModified"):
+            modified = tm.get_text(strip=True)
+        
+        return {
+            "message": title,
+            "description": description,
+            "url": url,
+            "contact": contact,
+            "actions": actions,
+            "services_and_info": services_and_info,
+            "departments_and_agencies": depts_and_agencies,
+            "features": features,
+            "modified": modified
+        }
+    
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch {url}: {str(e)}")
+        return {"error": f"Failed to fetch data: {str(e)}"}
+    except Exception as e:
+        logger.error(f"Unexpected error while scraping {url}: {str(e)}")
+        return {"error": f"Unexpected error: {str(e)}"}
+    
 from datetime import datetime
 import json
 
@@ -968,109 +1093,62 @@ def fetch_federal_procurement(limit: int = 50):
     }
 
 def fetch_federal_contracts():
-    """Fetch Proactive Contracts dataset."""
     dataset_id = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
-    url = f"https://open.canada.ca/data/api/3/action/package_show?id={dataset_id}"
-    data = safe_get_json(url)
-    if "result" in data:
-        rec = data["result"]
-        return {
-            "title": rec.get("title"),
-            "modified": rec.get("metadata_modified"),
-            "resources": [
-                r.get("url") for r in rec.get("resources", []) if r.get("url")
-            ],
-        }
-    return data
+    base_api = "https://open.canada.ca/data/api/3/action"
+    pkg = safe_get_json(f"{base_api}/package_show?id={dataset_id}")
+    resources = []
 
-def fetch_canadian_news(limit=10):
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
-    feed_url = "https://www.villagereport.ca/feed"
-    articles = []
+    if "result" in pkg:
+        for r in pkg["result"].get("resources", []):
+            url = r.get("url")
+            if not url:
+                rid = r.get("id")
+                if rid:
+                    resp = safe_get_json(f"{base_api}/resource_show?id={rid}")
+                    if "result" in resp:
+                        url = resp["result"].get("url")
+                        if not url and r.get("format", "").upper() == "PBIX":
+                            url = f"https://app.powerbi.com/view?r={rid}"
+                        else:
+                            url = url or "Not available"
 
-    try:
-        logger.debug(f"Fetching RSS feed from {feed_url}")
-        feed = feedparser.parse(feed_url)
-        if feed.bozo == 0 and feed.entries:
-            logger.debug(f"Found {len(feed.entries)} entries in RSS feed")
-            for entry in feed.entries[:limit]:
-                summary = BeautifulSoup(getattr(entry, "summary", ""), "html.parser").get_text(" ", strip=True)
-                articles.append({
-                    "title": entry.title,
-                    "summary": summary,
-                    "link": entry.link
-                })
-            logger.info(f"Extracted {len(articles)} articles from RSS feed")
-            return {"source": feed_url, "count": len(articles), "articles": articles}
-        else:
-            logger.warning("RSS feed is empty or invalid, falling back to HTML scraping")
-    except Exception as e:
-        logger.error(f"Failed to parse RSS feed: {str(e)}")
-
-    url = "https://www.villagereport.ca"
-    try:
-        logger.debug(f"Fetching HTML from {url}")
-        r = requests.get(url, headers=headers, timeout=15)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        articles = []
-
-        village_picks = soup.select("div.widget-cards a.card")
-        for card in village_picks:
-            title_tag = card.find("div", class_="card-title")
-            title = title_tag.get_text(" ", strip=True) if title_tag else ""
-            link = card.get("href", "")
-            if not link.startswith("http"):
-                link = url.rstrip("/") + link
-            articles.append({
-                "title": title,
-                "summary": "",
-                "link": link
+            resources.append({
+                "title": r.get("name") or "Untitled",
+                "format": (r.get("format") or "").upper() or "N/A",
+                "description": r.get("description") or "Not available",
+                "url": url or "Not available"
             })
-            logger.debug(f"Extracted Village Picks article: {title}")
-
-        for section in soup.select("div.widget-canfeature"):
-            main_card = section.find("div", class_="card")
-            if main_card:
-                title_tag = main_card.find("a", class_="card-title")
-                title = title_tag.get_text(" ", strip=True) if title_tag else ""
-                link = title_tag.get("href", "") if title_tag else ""
-                if not link.startswith("http"):
-                    link = url.rstrip("/") + link
-                articles.append({
-                    "title": title,
-                    "summary": "",  
-                    "link": link
-                })
-                logger.debug(f"Extracted main article: {title}")
-
-            for item in section.select("ul.card-list a.card-title"):
-                title = item.get_text(" ", strip=True)
-                link = item.get("href", "")
-                if not link.startswith("http"):
-                    link = url.rstrip("/") + link
-                articles.append({
-                    "title": title,
-                    "summary": "",
-                    "link": link
-                })
-                logger.debug(f"Extracted additional article: {title}")
-
-        articles = articles[:limit]
-        logger.info(f"Extracted {len(articles)} articles from HTML")
 
         return {
-            "source": url,
-            "count": len(articles),
-            "articles": articles
+            "title": pkg["result"].get("title", ""),
+            "modified": pkg["result"].get("metadata_modified", ""),
+            "publisher": pkg["result"].get("organization", {}).get("title", "Not available"),
+            "keywords": pkg["result"].get("keywords", {}).get("en", []) or ["Not available"],
+            "license": pkg["result"].get("license_title", "Not available"),
+            "resources": resources
         }
 
+    return {"error": "Failed to fetch dataset"}
+
+def get_article_content(link):
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+    try:
+        r = requests.get(link, headers=headers, timeout=10)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, 'html.parser')
+
+        for selector in ['div.article-body', 'div#details-body', 'article']:
+            container = soup.select_one(selector)
+            if container:
+                text = "\n".join(p.get_text(" ", strip=True) for p in container.find_all("p"))
+                if text.strip():
+                    return text.strip()
+        return "[No content found]"
     except Exception as e:
-        logger.error(f"Failed to scrape HTML: {str(e)}")
-        return {"source": url, "count": 0, "articles": []}
-    
-    
+        return f"[Error fetching content: {e}]"
+
 def fetch_bc_procurement():
     """Scrape BC Bid open opportunities."""
     try:
@@ -1114,7 +1192,8 @@ def fetch_canadian_news():
                 articles.append({
                     "title": entry.title,
                     "summary": summary,
-                    "link": entry.link
+                    "link": entry.link,
+                    "content": ""
                 })
             logger.info(f"Extracted {len(articles)} articles from RSS feed")
             return {"source": feed_url, "count": len(articles), "articles": articles}
@@ -1142,10 +1221,10 @@ def fetch_canadian_news():
             if title and link:
                 articles.append({
                     "title": title,
-                    "summary": "",  
-                    "link": link
+                    "summary": "",
+                    "link": link,
+                    "content": ""
                 })
-                logger.debug(f"Extracted Village Picks article: {title}")
 
         for section in soup.select("div.widget-canfeature"):
             main_card = section.find("div", class_="card")
@@ -1159,9 +1238,9 @@ def fetch_canadian_news():
                     articles.append({
                         "title": title,
                         "summary": "",
-                        "link": link
+                        "link": link,
+                        "content": ""
                     })
-                    logger.debug(f"Extracted main article: {title}")
 
             for item in section.select("ul.card-list a.card-title"):
                 title = item.get_text(" ", strip=True)
@@ -1172,9 +1251,9 @@ def fetch_canadian_news():
                     articles.append({
                         "title": title,
                         "summary": "",
-                        "link": link
+                        "link": link,
+                        "content": ""
                     })
-                    logger.debug(f"Extracted additional article: {title}")
 
         seen_links = set()
         unique_articles = []
@@ -1195,17 +1274,21 @@ def fetch_canadian_news():
                 if summary_tag and summary_tag.get("content"):
                     article["summary"] = summary_tag["content"]
                 else:
-                    paragraphs = detail_soup.select("div.article-body p")[:3]  
-                    summary = " ".join(p.get_text(" ", strip=True) for p in paragraphs)
+                    summary_paragraphs = detail_soup.select("#details-body p")[:3]
+                    summary = " ".join(p.get_text(" ", strip=True) for p in summary_paragraphs)
                     article["summary"] = summary if summary else "No summary available"
 
-                logger.debug(f"Extracted summary for {article['title']}: {article['summary'][:100]}...")
-                time.sleep(0.5) 
-            except Exception as e:
-                logger.error(f"Failed to fetch summary for {article['link']}: {str(e)}")
-                article["summary"] = "Failed to fetch summary"
+                content_paragraphs = detail_soup.select("#details-body p")
+                content = "\n\n".join(p.get_text(" ", strip=True) for p in content_paragraphs)
+                article["content"] = content if content else "No content available"
 
-        logger.info(f"Extracted {len(articles)} unique articles with summaries from HTML")
+                time.sleep(0.5)
+            except Exception as e:
+                logger.error(f"Failed to fetch summary/content for {article['link']}: {str(e)}")
+                article["summary"] = article.get("summary", "Failed to fetch summary")
+                article["content"] = "Failed to fetch content"
+
+        logger.info(f"Extracted {len(articles)} unique articles with summaries and content")
 
         return {
             "source": url,
@@ -1217,8 +1300,76 @@ def fetch_canadian_news():
         logger.error(f"Failed to scrape HTML: {str(e)}")
         return {"source": url, "count": 0, "articles": []}
 
+def fetch_member_urls(province_url, province_id, base_url="https://portal.fcm.ca"):
+    """Fetch member URLs for a given province URL and ID."""
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+    member_urls = []
+    page = 1
+    max_pages = 50  
+
+    try:
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument(f"user-agent={headers['User-Agent']}")
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+        while page <= max_pages:
+            member_list_url = f"{base_url}/member-listing/?name_en=0&name_fr=0&filtertype=0&page={page}&province={province_id}&alphabet_en=0&alphabet_fr=0"
+            logger.debug(f"Fetching member data for page {page} from {member_list_url}")
+
+            driver.get(member_list_url)
+            
+            try:
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.ID, "MemberListing"))
+                )
+            except Exception as e:
+                if "SignIn" in driver.current_url:
+                    logger.warning(f"Authentication required for province ID {province_id}. Please provide login credentials.")
+                    break
+                logger.debug(f"Member listing not found on page {page}: {str(e)}")
+                break  
+
+            soup = BeautifulSoup(driver.page_source, "html.parser")
+            member_listing = soup.find("div", {"id": "MemberListing"}) or soup.find("table", {"class": "table-striped"})
+
+            if not member_listing:
+                logger.debug(f"No member listing found for province ID {province_id} on page {page}")
+                break
+
+            page_urls = []
+            for link in member_listing.find_all("a", href=True):
+                href = link["href"]
+                if href.startswith("/"):  
+                    full_url = f"{base_url}{href}"
+                    page_urls.append(full_url)
+                    logger.debug(f"Found member URL: {full_url}")
+                elif href.startswith("http"): 
+                    page_urls.append(href)
+                    logger.debug(f"Found member URL: {href}")
+
+            if not page_urls:
+                logger.debug(f"No member URLs found on page {page} for province ID {province_id}")
+                break  
+
+            member_urls.extend(page_urls)
+            page += 1
+            time.sleep(1) 
+
+        driver.quit()
+        logger.info(f"Extracted {len(member_urls)} member URLs for province ID {province_id}")
+        return list(set(member_urls))  
+
+    except Exception as e:
+        logger.error(f"Error fetching member URLs for province ID {province_id}: {str(e)}")
+        if "driver" in locals():
+            driver.quit()
+        return []
+
 def fetch_municipal_councillors():
-    """Fetch full table of provinces from FCM’s site using Selenium."""
+    """Fetch full table of provinces from FCM’s site using Selenium, including member URLs."""
     url = "https://portal.fcm.ca/our-members/"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -1232,7 +1383,9 @@ def fetch_municipal_councillors():
 
         logger.debug(f"Fetching data from {url} with Selenium")
         driver.get(url)
-        time.sleep(3)  
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "table-striped"))
+        )
 
         soup = BeautifulSoup(driver.page_source, "html.parser")
         driver.quit()
@@ -1249,16 +1402,19 @@ def fetch_municipal_councillors():
                 logger.debug(f"Skipping row with {len(cols)} columns: {cols}")
                 continue
 
-            province = cols[0].get_text(strip=True)
+            province_cell = cols[0]
+            province = province_cell.get_text(strip=True)
+            link = province_cell.find("a")
+            province_url = link["href"] if link and link.has_attr("href") else None
+
             members = cols[1].get_text(strip=True)
             percent = cols[2].get_text(strip=True)
 
             if "do not use" in province.lower():
-                logger.debug(f"Skipping placeholder row: {province}")
                 continue
 
-            if not province or not members or not percent:
-                logger.debug(f"Skipping row with empty values: province={province}, members={members}, percent={percent}")
+            if not province or not members or not percent or not province_url:
+                logger.warning(f"Skipping row with empty values: province={province}, members={members}, percent={percent}, url={province_url}")
                 continue
 
             percent_cleaned = percent.replace("%", "").strip()
@@ -1266,15 +1422,24 @@ def fetch_municipal_councillors():
                 members_int = int(members)
                 percent_float = float(percent_cleaned)
             except (ValueError, TypeError) as e:
-                logger.debug(f"Skipping row due to invalid numeric values: province={province}, members={members}, percent={percent_cleaned}, error={str(e)}")
+                logger.warning(f"Skipping row due to invalid numeric values: province={province}, members={members}, percent={percent_cleaned}, error={str(e)}")
                 continue
+
+            parsed_url = urllib.parse.urlparse(province_url)
+            query_params = urllib.parse.parse_qs(parsed_url.query)
+            province_id = query_params.get("id", [None])[0]
+
+            full_province_url = f"https://portal.fcm.ca{province_url}" if province_url else None
+            member_urls = fetch_member_urls(full_province_url, province_id) if province_id else []
 
             data.append({
                 "province": province,
                 "members": members_int,
-                "population_percentage": f"{percent_float}%"
+                "population_percentage": f"{percent_float}%",
+                "url": full_province_url,
+                "member_urls": member_urls
             })
-            logger.debug(f"Added row: {province}, {members_int}, {percent_float}%")
+            logger.debug(f"Added row: {province}, {members_int}, {percent_float}%, {full_province_url}, {len(member_urls)} member URLs")
 
         if not data:
             logger.error("No valid data found in table after processing all rows")
@@ -1285,8 +1450,10 @@ def fetch_municipal_councillors():
 
     except Exception as e:
         logger.error(f"Unexpected error: {str(e)}")
+        if "driver" in locals():
+            driver.quit()
         return {"error": f"Unexpected error: {str(e)}"}
-    
+       
 class DynamicCommonsScraper:
     def __init__(self):
         self.base_url = "https://www.ourcommons.ca"
