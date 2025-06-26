@@ -17,3 +17,4 @@ cloudscraper
 urllib3
 playwright
 chromium
+chromedriver-autoinstaller
