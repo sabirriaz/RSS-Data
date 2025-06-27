@@ -987,52 +987,50 @@ def fetch_parliamentary_docs():
         "count": len(committees),
         "committees": committees
     }
-from concurrent.futures import ThreadPoolExecutor, as_completed
 def fetch_senate_orders(limit: int = 30):
-    """Fast scrape of Senate order papers with structured content extraction."""
+    """Scrape Senate order papers and extract detail content."""
     base = "https://sencanada.ca"
     cal_url = f"{base}/en/in-the-chamber/order-papers-notice-papers/"
-
     try:
-        cal_html = requests.get(cal_url, headers=HEADERS, timeout=10).text
+        cal_html = requests.get(cal_url, headers=HEADERS, timeout=15).text
     except Exception as e:
-        return {"error": f"Failed to load calendar page: {e}"}
+        return {"error": f"Calendar page load failed: {e}"}
 
     soup = BeautifulSoup(cal_html, "html.parser")
-    links = [
+    date_links = [
         a["href"].replace("\\", "/")
         for a in soup.select("table.sc-in-the-chamber-calendar-table a[href]")
     ][:limit]
 
-    urls = [link if link.startswith("http") else base + link for link in links]
-    seen = set()
-    unique_urls = [url for url in urls if url not in seen and not seen.add(url)]
-
-    def fetch_page(url):
-        try:
-            html = requests.get(url, headers=HEADERS, timeout=10).text
-            page_soup = BeautifulSoup(html, "html.parser")
-            main = page_soup.select_one("main")
-            detail = main.get_text(strip=True, separator="\n") if main else "No content available."
-            return {
-                "title": url.split("/")[-1],
-                "link": url,
-                "detail": detail[:10000] 
-            }
-        except Exception:
-            return None
-
     records = []
-    with ThreadPoolExecutor(max_workers=8) as executor:
-        futures = {executor.submit(fetch_page, url): url for url in unique_urls}
-        for future in as_completed(futures):
-            result = future.result()
-            if result:
-                records.append(result)
-            if len(records) >= limit:
-                break
+    seen = set()
+
+    for rel in date_links:
+        page_url = rel if rel.startswith("http") else base + rel
+        if page_url in seen:
+            continue
+        seen.add(page_url)
+
+        try:
+            page_html = requests.get(page_url, headers=HEADERS, timeout=15).text
+            page_soup = BeautifulSoup(page_html, "html.parser")
+        except Exception:
+            continue
+
+        content = page_soup.select_one("main")
+        detail = content.get_text(strip=True, separator="\n") if content else "No content available."
+
+        records.append({
+            "title": rel.split("/")[-1],
+            "link": page_url,
+            "detail": detail
+        })
+
+        if len(records) >= limit:
+            break
 
     return {"count": len(records), "orders": records}
+
 BROWSER_HDRS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
