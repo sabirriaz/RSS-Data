@@ -429,8 +429,6 @@ def fetch_judicial_appointments():
     except Exception as e:
         return {'error': f'Failed to fetch judicial appointments: {str(e)}'}
 
-import requests
-
 def fetch_global_affairs(news_type='all'):
     """Fetch general news from the Canada.ca news API."""
     try:
@@ -460,26 +458,20 @@ def fetch_global_affairs(news_type='all'):
                     'source': 'Canada.ca News'
                 })
             
-            # Sort news by publishedDate (latest first)
-            news.sort(key=lambda x: x['publishedDate'], reverse=True)
-
             return {
                 'total_count': len(news),
                 'news': news
             }
-
         elif response.status_code == 404:
             return {'error': 'API endpoint not found or invalid. Please check the URL.'}
         else:
             return {'error': f'Failed to fetch news from Canada.ca - Status: {response.status_code}'}
-
     except requests.exceptions.Timeout:
         return {'error': 'Failed to fetch news from Canada.ca: Request timed out.'}
     except requests.exceptions.RequestException as e:
         return {'error': f'Failed to fetch news from Canada.ca: {str(e)}'}
     except Exception as e:
         return {'error': f'An unexpected error occurred: {str(e)}'}
-
 
 
 def fetch_committees():
@@ -995,50 +987,52 @@ def fetch_parliamentary_docs():
         "count": len(committees),
         "committees": committees
     }
+from concurrent.futures import ThreadPoolExecutor, as_completed
 def fetch_senate_orders(limit: int = 30):
-    """Scrape Senate order papers and extract detail content."""
+    """Fast scrape of Senate order papers with structured content extraction."""
     base = "https://sencanada.ca"
     cal_url = f"{base}/en/in-the-chamber/order-papers-notice-papers/"
+
     try:
-        cal_html = requests.get(cal_url, headers=HEADERS, timeout=15).text
+        cal_html = requests.get(cal_url, headers=HEADERS, timeout=10).text
     except Exception as e:
-        return {"error": f"Calendar page load failed: {e}"}
+        return {"error": f"Failed to load calendar page: {e}"}
 
     soup = BeautifulSoup(cal_html, "html.parser")
-    date_links = [
+    links = [
         a["href"].replace("\\", "/")
         for a in soup.select("table.sc-in-the-chamber-calendar-table a[href]")
     ][:limit]
 
-    records = []
+    urls = [link if link.startswith("http") else base + link for link in links]
     seen = set()
+    unique_urls = [url for url in urls if url not in seen and not seen.add(url)]
 
-    for rel in date_links:
-        page_url = rel if rel.startswith("http") else base + rel
-        if page_url in seen:
-            continue
-        seen.add(page_url)
-
+    def fetch_page(url):
         try:
-            page_html = requests.get(page_url, headers=HEADERS, timeout=15).text
-            page_soup = BeautifulSoup(page_html, "html.parser")
+            html = requests.get(url, headers=HEADERS, timeout=10).text
+            page_soup = BeautifulSoup(html, "html.parser")
+            main = page_soup.select_one("main")
+            detail = main.get_text(strip=True, separator="\n") if main else "No content available."
+            return {
+                "title": url.split("/")[-1],
+                "link": url,
+                "detail": detail[:10000] 
+            }
         except Exception:
-            continue
+            return None
 
-        content = page_soup.select_one("main")
-        detail = content.get_text(strip=True, separator="\n") if content else "No content available."
-
-        records.append({
-            "title": rel.split("/")[-1],
-            "link": page_url,
-            "detail": detail
-        })
-
-        if len(records) >= limit:
-            break
+    records = []
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        futures = {executor.submit(fetch_page, url): url for url in unique_urls}
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                records.append(result)
+            if len(records) >= limit:
+                break
 
     return {"count": len(records), "orders": records}
-
 BROWSER_HDRS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
