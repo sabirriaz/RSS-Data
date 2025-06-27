@@ -429,6 +429,8 @@ def fetch_judicial_appointments():
     except Exception as e:
         return {'error': f'Failed to fetch judicial appointments: {str(e)}'}
 
+import requests
+
 def fetch_global_affairs(news_type='all'):
     """Fetch general news from the Canada.ca news API."""
     try:
@@ -458,20 +460,26 @@ def fetch_global_affairs(news_type='all'):
                     'source': 'Canada.ca News'
                 })
             
+            # Sort news by publishedDate (latest first)
+            news.sort(key=lambda x: x['publishedDate'], reverse=True)
+
             return {
                 'total_count': len(news),
                 'news': news
             }
+
         elif response.status_code == 404:
             return {'error': 'API endpoint not found or invalid. Please check the URL.'}
         else:
             return {'error': f'Failed to fetch news from Canada.ca - Status: {response.status_code}'}
+
     except requests.exceptions.Timeout:
         return {'error': 'Failed to fetch news from Canada.ca: Request timed out.'}
     except requests.exceptions.RequestException as e:
         return {'error': f'Failed to fetch news from Canada.ca: {str(e)}'}
     except Exception as e:
         return {'error': f'An unexpected error occurred: {str(e)}'}
+
 
 
 def fetch_committees():
