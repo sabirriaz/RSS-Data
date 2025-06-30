@@ -186,68 +186,27 @@ def _enrich_senator(sen):
         pass
     return sen
 
-def _enrich_senator(senator):
-    # You can add additional scraping or API call logic here to fetch more senator details.
-    senator.update({
-        "ce-mip-mp-tile href": senator["profile_url"],
-        "ce-mip-mp-picture src": "",  # You can scrape or hardcode image URLs if available
-        "ce-mip-mp-name": senator["name"],
-        "ce-mip-mp-party": "",  # Can be filled with extra scraping logic
-        "ce-mip-mp-constituency": "",
-        "ce-mip-mp-province": "",
-        "ce-mip-mp-honourable": ""
-    })
-    return senator
 
-def fetch_senators_from_sencanada():
-    opts = Options()
-    opts.headless = True
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
-    opts.add_argument(f"user-agent={UA}")
+@app.route('/senators', methods=['GET'])
+def get_senators():
+    senators = [
+        {
+            "ce-mip-mp-tile href": "https://www.ourcommons.ca/members/en/sameer-zuberi(54157)",
+            "ce-mip-mp-picture src": "https://www.ourcommons.ca/Content/Parliamentarians/Images/OfficialMPPhotos/44/ZuberiSameer_Lib.jpg",
+            "ce-mip-mp-name": "Sameer Zuberi",
+            "ce-mip-mp-party": "Liberal",
+            "ce-mip-mp-constituency": "Pierrefonds—Dollard",
+            "ce-mip-mp-province": "Quebec",
+            "ce-mip-mp-honourable": ""
+        },
+        # You can add more senators here if you like
+    ]
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()), options=opts
-    )
-    try:
-        driver.get("https://sencanada.ca/en/senators/")
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='/en/senators/']"))
-        )
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-    finally:
-        driver.quit()
-
-    base = "https://sencanada.ca"
-    senators = []
-    for a in soup.select("a[href*='/en/senators/']"):
-        href = a.get("href", "")
-        if "/en/senators/" in href and href.count("/") >= 4:
-            name = a.get_text(strip=True)
-            if " " in name and len(name) > 4:
-                senators.append(
-                    {"name": name, "profile_url": base + href if href.startswith("/") else href}
-                )
-    senators = list({s["name"]: s for s in senators}.values())
-
-    with ThreadPoolExecutor(max_workers=10) as ex:
-        senators = list(ex.map(_enrich_senator, senators))
-
-    # Clean JSON to match required structure
-    formatted_senators = []
-    for senator in senators:
-        formatted_senators.append({
-            "ce-mip-mp-tile href": senator["profile_url"],
-            "ce-mip-mp-picture src": senator.get("ce-mip-mp-picture src", ""),
-            "ce-mip-mp-name": senator["name"],
-            "ce-mip-mp-party": senator.get("ce-mip-mp-party", ""),
-            "ce-mip-mp-constituency": senator.get("ce-mip-mp-constituency", ""),
-            "ce-mip-mp-province": senator.get("ce-mip-mp-province", ""),
-            "ce-mip-mp-honourable": senator.get("ce-mip-mp-honourable", "")
-        })
-
-    return {"total_count": len(formatted_senators), "senators": formatted_senators}
-
+    return jsonify({
+        "total_count": len(senators),
+        "senators": senators
+    }) 
+    
 def fetch_senate_committees():
     """
     Fetches committee data from https://www.ourcommons.ca/Committees/en/Home,
