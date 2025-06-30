@@ -196,254 +196,28 @@ def get_senators():
         "senators": senators
     }) 
     
-# Hardcoded committee data
-committees_data = {
-  "main_committees": [
-    {
-      "href": "/en/committees/aefa/45-1",
-      "acronym": "AEFA",
-      "name_full": "Foreign Affairs and International Trade",
-      "name_short": "Foreign Affairs",
-      "members": [
-        {
-          "name": "Charles S. Adler",
-          "href": "/en/senators/adler-charles/",
-          "image": "/media/cp1bqfwe/sen_pho_adler_official_2024.jpg",
-          "alt": "Adler, Charles S.",
-          "affiliation": "CSG - (Manitoba)"
-        },
-        {
-          "name": "Mohammad Al Zaibak",
-          "href": "/en/senators/al-zaibak-mohammad-khair/",
-          "image": "/media/nalbnwmb/sen_pho_al-zaibak_official_2024.jpg",
-          "alt": "Al Zaibak, Mohammad",
-          "affiliation": "CSG - (Ontario)"
-        },
-        {
-          "name": "Salma Ataullahjan",
-          "href": "/en/senators/ataullahjan-salma/",
-          "image": "/media/1rwbdsyz/sen_pho_ataullahjan_official_2024.jpg",
-          "alt": "Ataullahjan, Salma",
-          "affiliation": "C - (Ontario - Toronto)"
-        },
-        {
-          "name": "Peter M. Boehm",
-          "href": "/en/senators/boehm-peter/",
-          "image": "/media/ztdetwhw/sen_pho_boehm_official.jpg",
-          "alt": "Boehm, Peter M.",
-          "affiliation": "ISG - (Ontario)"
-        },
-        {
-          "name": "Mary Coyle",
-          "href": "/en/senators/coyle-mary/",
-          "image": "/media/0wqdqvir/sen_pho_coyle_official_2024.jpg",
-          "alt": "Coyle, Mary",
-          "affiliation": "ISG - (Nova Scotia - Antigonish)"
-        },
-        {
-          "name": "Marty Deacon",
-          "href": "/en/senators/deacon-marty/",
-          "image": "/media/03tehv0q/sen_pho_deaconm_official_2024.jpg",
-          "alt": "Deacon, Marty",
-          "affiliation": "ISG - (Ontario - Waterloo Region)"
-        },
-        {
-          "name": "Amina Gerba",
-          "href": "/en/senators/gerba-amina/",
-          "image": "/media/utonnu0t/sen_pho_gerba_official_2024.jpg",
-          "alt": "Gerba, Amina",
-          "affiliation": "PSG - (Quebec - Rigaud)"
-        },
-        {
-          "name": "Peter Harder",
-          "href": "/en/senators/harder-peter-pc/",
-          "image": "/media/pm0pxoe5/sen_pho_harder_official_2024.jpg",
-          "alt": "Harder, Peter, P.C.",
-          "affiliation": "PSG - (Ontario)"
-        },
-        {
-          "name": "Martine Hébert",
-          "href": "/en/senators/hebert-martine/",
-          "image": "/media/l2jdnh33/sen_pho_hebert_official.png",
-          "alt": "Hébert, Martine",
-          "affiliation": "ISG - (Quebec - Victoria)"
-        },
-        {
-          "name": "Michael L. MacDonald",
-          "href": "/en/senators/macdonald-michael-l/",
-          "image": "/media/gocpeh02/sen_pho_macdonald_official_2024.jpg",
-          "alt": "MacDonald, Michael L.",
-          "affiliation": "C - (Nova Scotia - Cape Breton)"
-        },
-        {
-          "name": "Mohamed-Iqbal Ravalia",
-          "href": "/en/senators/ravalia-mohamed-iqbal/",
-          "image": "/media/cwen5ay0/sen_pho_ravalia_official_2024.jpg",
-          "alt": "Ravalia, Mohamed-Iqbal",
-          "affiliation": "ISG - (Newfoundland and Labrador)"
-        },
-        {
-          "name": "Duncan Wilson",
-          "href": "/en/senators/wilson-duncan/",
-          "image": "/media/4eminkuz/sen_pho_wilson_official.jpg",
-          "alt": "Wilson, Duncan",
-          "affiliation": "PSG - (British Columbia)"
-        },
-        {
-          "name": "Yuen Pau Woo",
-          "href": "/en/senators/woo-yuen-pau/",
-          "image": "/media/3b1gnvrh/sen_pho_woo_official_2024.jpg",
-          "alt": "Woo, Yuen Pau",
-          "affiliation": "ISG - (British Columbia)"
-        }
-      ]
-    },
-    {
-      "href": "/en/committees/agfo/45-1",
-      "acronym": "AGFO",
-      "name_full": "Agriculture and Forestry",
-      "name_short": "Agriculture"
-    },
-    {
-      "href": "/en/committees/aovs/45-1",
-      "acronym": "AOVS",
-      "name_full": "Audit and Oversight",
-      "name_short": "Audit and Oversight"
-    },
-    {
-      "href": "/en/committees/appa/45-1",
-      "acronym": "APPA",
-      "name_full": "Indigenous Peoples",
-      "name_short": "Indigenous Peoples"
-    },
-    {
-      "href": "/en/committees/banc/45-1",
-      "acronym": "BANC",
-      "name_full": "Banking, Commerce and the Economy",
-      "name_short": "Banking"
-    },
-    {
-      "href": "/en/committees/ciba/45-1",
-      "acronym": "CIBA",
-      "name_full": "Internal Economy, Budgets and Administration",
-      "name_short": "Internal Economy"
-    },
-    {
-      "href": "/en/committees/conf/45-1",
-      "acronym": "CONF",
-      "name_full": "Ethics and Conflict of Interest for Senators",
-      "name_short": "Conflict of Interest"
-    },
-    {
-      "href": "/en/committees/enev/45-1",
-      "acronym": "ENEV",
-      "name_full": "Energy, the Environment and Natural Resources",
-      "name_short": "Energy"
-    },
-    {
-      "href": "/en/committees/lcjc/45-1",
-      "acronym": "LCJC",
-      "name_full": "Legal and Constitutional Affairs",
-      "name_short": "Legal"
-    },
-    {
-      "href": "/en/committees/nffn/45-1",
-      "acronym": "NFFN",
-      "name_full": "National Finance",
-      "name_short": "National Finance"
-    },
-    {
-      "href": "/en/committees/ollo/45-1",
-      "acronym": "OLLO",
-      "name_full": "Official Languages",
-      "name_short": "Official Languages"
-    },
-    {
-      "href": "/en/committees/pofo/45-1",
-      "acronym": "POFO",
-      "name_full": "Fisheries and Oceans",
-      "name_short": "Fisheries"
-    },
-    {
-      "href": "/en/committees/ridr/45-1",
-      "acronym": "RIDR",
-      "name_full": "Human Rights",
-      "name_short": "Human Rights"
-    },
-    {
-      "href": "/en/committees/rprd/45-1",
-      "acronym": "RPRD",
-      "name_full": "Rules, Procedures and the Rights of Parliament",
-      "name_short": "Rules, Procedures"
-    },
-    {
-      "href": "/en/committees/secd/45-1",
-      "acronym": "SECD",
-      "name_full": "National Security, Defence and Veterans Affairs",
-      "name_short": "Defence"
-    },
-    {
-      "href": "/en/committees/sele/45-1",
-      "acronym": "SELE",
-      "name_full": "Selection Committee",
-      "name_short": "Selection"
-    },
-    {
-      "href": "/en/committees/soci/45-1",
-      "acronym": "SOCI",
-      "name_full": "Social Affairs, Science and Technology",
-      "name_short": "Social Affairs"
-    },
-    {
-      "href": "/en/committees/trcm/45-1",
-      "acronym": "TRCM",
-      "name_full": "Transport and Communications",
-      "name_short": "Transport"
-    }
-  ],
-  "sub_committees": [
-    {
-      "href": "/en/committees/hrrh/45-1",
-      "acronym": "HRRH",
-      "name_full": "Subcommittee on Human Resources (CIBA)",
-      "name_short": "Human Resources"
-    },
-    {
-      "href": "/en/committees/ltvp/45-1",
-      "acronym": "LTVP",
-      "name_full": "Subcommittee on Long Term Vision and Plan (CIBA)",
-      "name_short": "Long Term Vision and Plan"
-    },
-    {
-      "href": "/en/committees/sebs/45-1",
-      "acronym": "SEBS",
-      "name_full": "Subcommittee on Senate Estimates and Committee Budgets (CIBA)",
-      "name_short": "Estimates and Budgets"
-    },
-    {
-      "href": "/en/committees/veac/45-1",
-      "acronym": "VEAC",
-      "name_full": "Subcommittee on Veterans Affairs (SECD)",
-      "name_short": "Veterans Affairs"
-    }
-  ],
-  "joint_committees": [
-    {
-      "href": "/en/committees/bili/45-1",
-      "acronym": "BILI",
-      "name_full": "Library of Parliament (Joint)",
-      "name_short": "Library"
-    },
-    {
-      "href": "/en/committees/regs/45-1",
-      "acronym": "REGS",
-      "name_full": "Scrutiny of Regulations (Joint)",
-      "name_short": "Regulations"
-    }
-  ]
-}
 
 
+def fetch_senate_committees():Add commentMore actions
+    """
+    Fetches committee data from https://www.ourcommons.ca/Committees/en/Home,
+    including detailed content from each committee's detail page.
+    Returns a dictionary containing a list of committees and total count.
+    """
+    url = "https://www.ourcommons.ca/Committees/en/Home"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        result = {
+            "committees": [],
+            "total_count": 0
 
 def fetch_detail_page_contents(url, headers):
     """
