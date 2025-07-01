@@ -45,7 +45,6 @@ app = Flask(__name__)
 
 # ✅ CORS setup for your frontend domain
 CORS(app, resources={
-CORS(app, resources={
     r"/*": {
         "origins": [
             "http://localhost:5173",          # for local React/Vite dev
