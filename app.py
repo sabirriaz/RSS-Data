@@ -45,8 +45,12 @@ app = Flask(__name__)
 
 # ✅ CORS setup for your frontend domain
 CORS(app, resources={
+CORS(app, resources={
     r"/*": {
-        "origins": ["https://transparencyproject.ca"],
+        "origins": [
+            "http://localhost:5173",          # for local React/Vite dev
+            "https://transparencyproject.ca"  # your production frontend
+        ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
