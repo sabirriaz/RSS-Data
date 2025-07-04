@@ -4567,6 +4567,56 @@ def fetch_victoria_procurement():
     except Exception as ex:
         return {"error": f"Victoria procurement fetch failed: {ex}"}
     
+def fetch_senate_committees():
+    """
+    Fetches committee data from https://www.ourcommons.ca/Committees/en/Home,
+    including detailed content from each committee's detail page.
+    Returns a dictionary containing a list of committees and total count.
+    """
+    url = "https://www.ourcommons.ca/Committees/en/Home"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        result = {
+            "committees": [],
+            "total_count": 0
+        }
+
+        committee_section = soup.find("div", class_="committees-home-list")
+        if committee_section:
+            committee_links = committee_section.find_all("a", class_="list-group-linked-item")
+            for link in committee_links:
+                acronym = link.find("span", class_="committee-acronym-cell")
+                acronym = acronym.get_text(strip=True) if acronym else "Unknown"
+                name = link.find("span", class_="committee-name")
+                name = name.get_text(strip=True) if name else "Unknown"
+                href = link.get("href")
+                if href and not href.startswith("http"):
+                    href = f"https://www.ourcommons.ca{href}" if href.startswith("/") else f"https://www.ourcommons.ca/{href}"
+
+                detailed_content = fetch_detail_page_contents(href, headers)
+
+                result["committees"].append({
+                    "acronym": acronym,
+                    "name": name,
+                    "url": href,
+                    "detailed_content": detailed_content
+                })
+
+        result["total_count"] = len(result["committees"])
+        return result
+
+    except requests.RequestException as e:
+        return {"error": f"Failed to fetch committee list: {str(e)}"}
+    except Exception as e:
+        return {"error": f"An unexpected error occurred: {str(e)}"}
 
 @app.route('/pm_updates', methods=['GET'])
 def pm_updates_route():
