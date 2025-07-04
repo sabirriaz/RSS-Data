@@ -1,12 +1,13 @@
+# Use Python 3.11 slim image
 FROM python:3.11-slim
 
-# Avoid interactive prompts
+# Prevent interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Chromium and dependencies
+# Install system dependencies and Chromium
 RUN apt-get update && apt-get install -y \
-    chromium \
-    chromium-driver \
+    chromium-browser \
+    chromium-chromedriver \
     fonts-liberation \
     libnss3 \
     libxss1 \
@@ -19,20 +20,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && apt-get clean
 
-# Set Chrome binary path
-ENV CHROME_BIN=/usr/bin/chromium
-
 # Set working directory
 WORKDIR /app
 
-# Copy project
+# Copy project files
 COPY . .
 
-# Install dependencies
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port (for gunicorn)
+# Expose the port for Gunicorn
 EXPOSE 8000
 
-# Start app
+# Start the Flask app using Gunicorn
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
