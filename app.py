@@ -204,208 +204,2901 @@ def get_senators():
 # Hardcoded JSON data
 committees_data = {
   "main_committees": [
-    {
-      "href": "/en/committees/aefa/45-1",
-      "acronym": "AEFA",
-      "name_full": "Foreign Affairs and International Trade",
-      "name_short": "Foreign Affairs",
-      "members": [
-        {
-          "name": "Charles S. Adler",
-          "href": "/en/senators/adler-charles/",
-          "image": "/media/cp1bqfwe/sen_pho_adler_official_2024.jpg",
-          "alt": "Adler, Charles S.",
-          "affiliation": "CSG - (Manitoba)"
-        },
-        {
-          "name": "Mohammad Al Zaibak",
-          "href": "/en/senators/al-zaibak-mohammad-khair/",
-          "image": "/media/nalbnwmb/sen_pho_al-zaibak_official_2024.jpg",
-          "alt": "Al Zaibak, Mohammad",
-          "affiliation": "CSG - (Ontario)"
-        },
-        {
-          "name": "Salma Ataullahjan",
-          "href": "/en/senators/ataullahjan-salma/",
-          "image": "/media/1rwbdsyz/sen_pho_ataullahjan_official_2024.jpg",
-          "alt": "Ataullahjan, Salma",
-          "affiliation": "C - (Ontario - Toronto)"
-        },
-        {
-          "name": "Peter M. Boehm",
-          "href": "/en/senators/boehm-peter/",
-          "image": "/media/ztdetwhw/sen_pho_boehm_official.jpg",
-          "alt": "Boehm, Peter M.",
-          "affiliation": "ISG - (Ontario)"
-        },
-        {
-          "name": "Mary Coyle",
-          "href": "/en/senators/coyle-mary/",
-          "image": "/media/0wqdqvir/sen_pho_coyle_official_2024.jpg",
-          "alt": "Coyle, Mary",
-          "affiliation": "ISG - (Nova Scotia - Antigonish)"
-        },
-        {
-          "name": "Marty Deacon",
-          "href": "/en/senators/deacon-marty/",
-          "image": "/media/03tehv0q/sen_pho_deaconm_official_2024.jpg",
-          "alt": "Deacon, Marty",
-          "affiliation": "ISG - (Ontario - Waterloo Region)"
-        },
-        {
-          "name": "Amina Gerba",
-          "href": "/en/senators/gerba-amina/",
-          "image": "/media/utonnu0t/sen_pho_gerba_official_2024.jpg",
-          "alt": "Gerba, Amina",
-          "affiliation": "PSG - (Quebec - Rigaud)"
-        },
-        {
-          "name": "Peter Harder",
-          "href": "/en/senators/harder-peter-pc/",
-          "image": "/media/pm0pxoe5/sen_pho_harder_official_2024.jpg",
-          "alt": "Harder, Peter, P.C.",
-          "affiliation": "PSG - (Ontario)"
-        },
-        {
-          "name": "Martine Hébert",
-          "href": "/en/senators/hebert-martine/",
-          "image": "/media/l2jdnh33/sen_pho_hebert_official.png",
-          "alt": "Hébert, Martine",
-          "affiliation": "ISG - (Quebec - Victoria)"
-        },
-        {
-          "name": "Michael L. MacDonald",
-          "href": "/en/senators/macdonald-michael-l/",
-          "image": "/media/gocpeh02/sen_pho_macdonald_official_2024.jpg",
-          "alt": "MacDonald, Michael L.",
-          "affiliation": "C - (Nova Scotia - Cape Breton)"
-        },
-        {
-          "name": "Mohamed-Iqbal Ravalia",
-          "href": "/en/senators/ravalia-mohamed-iqbal/",
-          "image": "/media/cwen5ay0/sen_pho_ravalia_official_2024.jpg",
-          "alt": "Ravalia, Mohamed-Iqbal",
-          "affiliation": "ISG - (Newfoundland and Labrador)"
-        },
-        {
-          "name": "Duncan Wilson",
-          "href": "/en/senators/wilson-duncan/",
-          "image": "/media/4eminkuz/sen_pho_wilson_official.jpg",
-          "alt": "Wilson, Duncan",
-          "affiliation": "PSG - (British Columbia)"
-        },
-        {
-          "name": "Yuen Pau Woo",
-          "href": "/en/senators/woo-yuen-pau/",
-          "image": "/media/3b1gnvrh/sen_pho_woo_official_2024.jpg",
-          "alt": "Woo, Yuen Pau",
-          "affiliation": "ISG - (British Columbia)"
-        }
-      ]
-    },
-    {
-      "href": "/en/committees/agfo/45-1",
+  {
+    "href": "/en/committees/agfo/45-1",
       "acronym": "AGFO",
       "name_full": "Agriculture and Forestry",
-      "name_short": "Agriculture"
-    },
-    {
-      "href": "/en/committees/aovs/45-1",
+      "name_short": "Agriculture",
+    "members": [
+      {
+        "name": "Robert Black",
+        "href": "/en/senators/black-robert/",
+        "image": "https://sencanada.ca/media/4xlb0fam/sen_pho_black_official_2024.jpg?center=0.38914995975052752,0.46871057422593848&mode=crop&width=95&height=100&rnd=133953399113030000&quality=90",
+        "alt": "Black, Robert",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "John M. McNair",
+        "href": "/en/senators/mcnair-john-m/",
+        "image": "https://sencanada.ca/media/yr4kwcj1/sen_pho_mcnair_official_2024.jpg?center=0.37930393685352287,0.47083675544428272&mode=crop&width=95&height=100&rnd=133953399108970000&quality=90",
+        "alt": "McNair, John M.",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Robert Black",
+        "href": "/en/senators/black-robert/",
+        "image": "https://sencanada.ca/media/4xlb0fam/sen_pho_black_official_2024.jpg?center=0.38914995975052752,0.46871057422593848&mode=crop&width=95&height=100&rnd=133953399113030000&quality=90",
+        "alt": "Black, Robert",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "John M. McNair",
+        "href": "/en/senators/mcnair-john-m/",
+        "image": "https://sencanada.ca/media/yr4kwcj1/sen_pho_mcnair_official_2024.jpg?center=0.37930393685352287,0.47083675544428272&mode=crop&width=95&height=100&rnd=133953399108970000&quality=90",
+        "alt": "McNair, John M.",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Sharon Burey",
+        "href": "/en/senators/burey-sharon/",
+        "image": "https://sencanada.ca/media/kkmciyn2/sen_pho_burey_official_2024.jpg?center=0.39492871030460147,0.47993154704248786&mode=crop&width=95&height=100&rnd=133953399098070000&quality=95",
+        "alt": "Burey, Sharon",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Margo  Greenwood",
+        "href": "/en/senators/greenwood-margo/",
+        "image": "https://sencanada.ca/media/fj2nn02k/sen_pho_greenwood_official_2024.jpg?center=0.38726637304449174,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399103800000&quality=95",
+        "alt": "Greenwood, Margo",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Yonah Martin",
+        "href": "/en/senators/martin-yonah/",
+        "image": "https://sencanada.ca/media/tn2oodro/sen_pho_martin_official_2024.jpg?center=0.40516608862971354,0.53653188335415136&mode=crop&width=95&height=100&rnd=133953399108030000&quality=95",
+        "alt": "Martin, Yonah",
+        "affiliation": "C - (British Columbia)"
+      },
+      {
+        "name": "Marnie McBean",
+        "href": "/en/senators/mcbean-marnie/",
+        "image": "https://sencanada.ca/media/rrkd133i/sen_pho_mcbean_official_2024.jpg?center=0.40384161235629751,0.49645859136157555&mode=crop&width=95&height=100&rnd=133953399108500000&quality=95",
+        "alt": "McBean, Marnie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Julie Miville-Dech\u00eane",
+        "href": "/en/senators/miville-dechene-julie/",
+        "image": "https://sencanada.ca/media/wlhl22jx/sen_pho_miville-dechene_official_2024.jpg?center=0.36237063010296866,0.51225218914900916&mode=crop&width=95&height=100&rnd=133953399109430000&quality=95",
+        "alt": "Miville-Dech\u00eane, Julie",
+        "affiliation": "ISG - (Quebec - Inkerman)"
+      },
+      {
+        "name": "Tracy Muggli",
+        "href": "/en/senators/muggli-tracy/",
+        "image": "https://sencanada.ca/media/eu0fd4uf/sen_pho_muggli_official_2024.jpg?center=0.40958608232385585,0.55773867716261583&mode=crop&width=95&height=100&rnd=133953399110700000&quality=95",
+        "alt": "Muggli, Tracy",
+        "affiliation": "PSG - (Saskatchewan)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=95",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "David Richards",
+        "href": "/en/senators/richards-david/",
+        "image": "https://sencanada.ca/media/dy4jis1j/sen_pho_richards_official_2024.jpg?center=0.33076430212690744,0.57160772958755057&mode=crop&width=95&height=100&rnd=133953399112730000&quality=95",
+        "alt": "Richards, David",
+        "affiliation": "C - (New Brunswick)"
+      },
+      {
+        "name": "Mary Robinson",
+        "href": "/en/senators/robinson-mary/",
+        "image": "https://sencanada.ca/media/j5pl14zl/sen_pho_robinson_official.jpg?center=0.39190610754728655,0.51744576892653327&mode=crop&width=95&height=100&rnd=133953399113330000&quality=95",
+        "alt": "Robinson, Mary",
+        "affiliation": "CSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Karen Sorensen",
+        "href": "/en/senators/sorensen-karen/",
+        "image": "https://sencanada.ca/media/dfdob5tv/sen_pho_sorensen_official_2024.jpg?center=0.40369275739833277,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399114900000&quality=95",
+        "alt": "Sorensen, Karen",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Sharon Burey",
+        "href": "/en/senators/burey-sharon/",
+        "image": "https://sencanada.ca/media/kkmciyn2/sen_pho_burey_official_2024.jpg?center=0.39492871030460147,0.47993154704248786&mode=crop&width=95&height=100&rnd=133953399098070000&quality=95",
+        "alt": "Burey, Sharon",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Margo  Greenwood",
+        "href": "/en/senators/greenwood-margo/",
+        "image": "https://sencanada.ca/media/fj2nn02k/sen_pho_greenwood_official_2024.jpg?center=0.38726637304449174,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399103800000&quality=95",
+        "alt": "Greenwood, Margo",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Yonah Martin",
+        "href": "/en/senators/martin-yonah/",
+        "image": "https://sencanada.ca/media/tn2oodro/sen_pho_martin_official_2024.jpg?center=0.40516608862971354,0.53653188335415136&mode=crop&width=95&height=100&rnd=133953399108030000&quality=95",
+        "alt": "Martin, Yonah",
+        "affiliation": "C - (British Columbia)"
+      },
+      {
+        "name": "Marnie McBean",
+        "href": "/en/senators/mcbean-marnie/",
+        "image": "https://sencanada.ca/media/rrkd133i/sen_pho_mcbean_official_2024.jpg?center=0.40384161235629751,0.49645859136157555&mode=crop&width=95&height=100&rnd=133953399108500000&quality=95",
+        "alt": "McBean, Marnie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Julie Miville-Dech\u00eane",
+        "href": "/en/senators/miville-dechene-julie/",
+        "image": "https://sencanada.ca/media/wlhl22jx/sen_pho_miville-dechene_official_2024.jpg?center=0.36237063010296866,0.51225218914900916&mode=crop&width=95&height=100&rnd=133953399109430000&quality=95",
+        "alt": "Miville-Dech\u00eane, Julie",
+        "affiliation": "ISG - (Quebec - Inkerman)"
+      },
+      {
+        "name": "Tracy Muggli",
+        "href": "/en/senators/muggli-tracy/",
+        "image": "https://sencanada.ca/media/eu0fd4uf/sen_pho_muggli_official_2024.jpg?center=0.40958608232385585,0.55773867716261583&mode=crop&width=95&height=100&rnd=133953399110700000&quality=95",
+        "alt": "Muggli, Tracy",
+        "affiliation": "PSG - (Saskatchewan)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=95",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "David Richards",
+        "href": "/en/senators/richards-david/",
+        "image": "https://sencanada.ca/media/dy4jis1j/sen_pho_richards_official_2024.jpg?center=0.33076430212690744,0.57160772958755057&mode=crop&width=95&height=100&rnd=133953399112730000&quality=95",
+        "alt": "Richards, David",
+        "affiliation": "C - (New Brunswick)"
+      },
+      {
+        "name": "Mary Robinson",
+        "href": "/en/senators/robinson-mary/",
+        "image": "https://sencanada.ca/media/j5pl14zl/sen_pho_robinson_official.jpg?center=0.39190610754728655,0.51744576892653327&mode=crop&width=95&height=100&rnd=133953399113330000&quality=95",
+        "alt": "Robinson, Mary",
+        "affiliation": "CSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Karen Sorensen",
+        "href": "/en/senators/sorensen-karen/",
+        "image": "https://sencanada.ca/media/dfdob5tv/sen_pho_sorensen_official_2024.jpg?center=0.40369275739833277,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399114900000&quality=95",
+        "alt": "Sorensen, Karen",
+        "affiliation": "ISG - (Alberta)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/aovs/45-1",
       "acronym": "AOVS",
       "name_full": "Audit and Oversight",
-      "name_short": "Audit and Oversight"
-    },
-    {
-      "href": "/en/committees/appa/45-1",
+      "name_short": "Audit and Oversight",
+    "members": [
+      {
+        "name": "Marty Klyne",
+        "href": "/en/senators/klyne-marty/",
+        "image": "https://sencanada.ca/media/1nshiaty/sen_pho_klyne_official_2024.jpg?center=0.37740307830951847,0.4695629636123782&mode=crop&width=95&height=100&rnd=133953399106170000&quality=90",
+        "alt": "Klyne, Marty",
+        "affiliation": "PSG - (Saskatchewan)"
+      },
+      {
+        "name": "Colin Deacon",
+        "href": "/en/senators/deacon-colin/",
+        "image": "https://sencanada.ca/media/xllg2j35/sen_pho_deacon-colin_official_2024.jpg?center=0.40979304311793552,0.48633155505483944&mode=crop&width=95&height=100&rnd=133953399100530000&quality=90",
+        "alt": "Deacon, Colin",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Tony Loffreda",
+        "href": "/en/senators/loffreda-tony/",
+        "image": "https://sencanada.ca/media/pcqnmbxq/sen_pho_loffreda_official_2024.jpg?center=0.43315938202594828,0.46654946378621853&mode=crop&width=95&height=100&rnd=133953399106930000&quality=90",
+        "alt": "Loffreda, Tony",
+        "affiliation": "ISG - (Quebec - Shawinegan)"
+      },
+      {
+        "name": "David M. Wells",
+        "href": "/en/senators/wells-david-m/",
+        "image": "https://sencanada.ca/media/s40fucit/sen_pho_david-wells_official_2024.jpg?center=0.39126152513355744,0.45523365115248321&mode=crop&width=95&height=100&rnd=133953399116170000&quality=90",
+        "alt": "Wells, David M.",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Marty Klyne",
+        "href": "/en/senators/klyne-marty/",
+        "image": "https://sencanada.ca/media/1nshiaty/sen_pho_klyne_official_2024.jpg?center=0.37740307830951847,0.4695629636123782&mode=crop&width=95&height=100&rnd=133953399106170000&quality=90",
+        "alt": "Klyne, Marty",
+        "affiliation": "PSG - (Saskatchewan)"
+      },
+      {
+        "name": "Colin Deacon",
+        "href": "/en/senators/deacon-colin/",
+        "image": "https://sencanada.ca/media/xllg2j35/sen_pho_deacon-colin_official_2024.jpg?center=0.40979304311793552,0.48633155505483944&mode=crop&width=95&height=100&rnd=133953399100530000&quality=90",
+        "alt": "Deacon, Colin",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Tony Loffreda",
+        "href": "/en/senators/loffreda-tony/",
+        "image": "https://sencanada.ca/media/pcqnmbxq/sen_pho_loffreda_official_2024.jpg?center=0.43315938202594828,0.46654946378621853&mode=crop&width=95&height=100&rnd=133953399106930000&quality=90",
+        "alt": "Loffreda, Tony",
+        "affiliation": "ISG - (Quebec - Shawinegan)"
+      },
+      {
+        "name": "David M. Wells",
+        "href": "/en/senators/wells-david-m/",
+        "image": "https://sencanada.ca/media/s40fucit/sen_pho_david-wells_official_2024.jpg?center=0.39126152513355744,0.45523365115248321&mode=crop&width=95&height=100&rnd=133953399116170000&quality=90",
+        "alt": "Wells, David M.",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/appa/45-1",
       "acronym": "APPA",
       "name_full": "Indigenous Peoples",
-      "name_short": "Indigenous Peoples"
-    },
-    {
-      "href": "/en/committees/banc/45-1",
+      "name_short": "Indigenous Peoples",
+    "members": [
+      {
+        "name": "Mich\u00e8le Audette",
+        "href": "/en/senators/audette-michele/",
+        "image": "https://sencanada.ca/media/i0pdebyo/sen_pho_audette_official_2024.jpg?center=0.37717258684592186,0.48139434706252693&mode=crop&width=95&height=100&rnd=133953399096300000&quality=90",
+        "alt": "Audette, Mich\u00e8le",
+        "affiliation": "PSG - (Quebec - De Salaberry)"
+      },
+      {
+        "name": "Margo  Greenwood",
+        "href": "/en/senators/greenwood-margo/",
+        "image": "https://sencanada.ca/media/fj2nn02k/sen_pho_greenwood_official_2024.jpg?center=0.38726637304449174,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399103800000&quality=90",
+        "alt": "Greenwood, Margo",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Mich\u00e8le Audette",
+        "href": "/en/senators/audette-michele/",
+        "image": "https://sencanada.ca/media/i0pdebyo/sen_pho_audette_official_2024.jpg?center=0.37717258684592186,0.48139434706252693&mode=crop&width=95&height=100&rnd=133953399096300000&quality=90",
+        "alt": "Audette, Mich\u00e8le",
+        "affiliation": "PSG - (Quebec - De Salaberry)"
+      },
+      {
+        "name": "Margo  Greenwood",
+        "href": "/en/senators/greenwood-margo/",
+        "image": "https://sencanada.ca/media/fj2nn02k/sen_pho_greenwood_official_2024.jpg?center=0.38726637304449174,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399103800000&quality=90",
+        "alt": "Greenwood, Margo",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Gwen Boniface",
+        "href": "/en/senators/boniface-gwen/",
+        "image": "https://sencanada.ca/media/z0rcvach/com_pho_boniface_official_2024.jpg?center=0.36591503578522,0.52424751380354229&mode=crop&width=95&height=100&rnd=133953399097100000&quality=95",
+        "alt": "Boniface, Gwen",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Nancy Karetak-Lindell",
+        "href": "/en/senators/karetak-lindell-nancy/",
+        "image": "https://sencanada.ca/media/q0uj1sd0/sen_pho_karetak-lindell_official.jpg?center=0.31156351383605357,0.49693482303990905&mode=crop&width=95&height=100&rnd=133953399105700000&quality=95",
+        "alt": "Karetak-Lindell, Nancy",
+        "affiliation": "ISG - (Nunavut)"
+      },
+      {
+        "name": "Patti LaBoucane-Benson",
+        "href": "/en/senators/laboucane-benson-patti/",
+        "image": "https://sencanada.ca/media/lrflewsq/sen_pho_laboucane-benson_official_2024.jpg?center=0.39724693326104188,0.46593645490269259&mode=crop&width=95&height=100&rnd=133953399106470000&quality=95",
+        "alt": "LaBoucane-Benson, Patti",
+        "affiliation": "Non-affiliated - (Alberta)"
+      },
+      {
+        "name": "Mary Jane McCallum",
+        "href": "/en/senators/mccallum-mary-jane/",
+        "image": "https://sencanada.ca/media/jksppaqb/sen_pho_mccallum_official_2024.jpg?center=0.39780758971394831,0.54391393130228693&mode=crop&width=95&height=100&rnd=133953399108670000&quality=95",
+        "alt": "McCallum, Mary Jane",
+        "affiliation": "C - (Manitoba)"
+      },
+      {
+        "name": "Marilou McPhedran",
+        "href": "/en/senators/mcphedran-marilou/",
+        "image": "https://sencanada.ca/media/xuqgx0ay/sen_pho_mcphedran_official_2024.jpg?center=0.36099698599314906,0.51481070170850862&mode=crop&width=95&height=100&rnd=133953399109130000&quality=95",
+        "alt": "McPhedran, Marilou",
+        "affiliation": "Non-affiliated - (Manitoba)"
+      },
+      {
+        "name": "Kim Pate",
+        "href": "/en/senators/pate-kim/",
+        "image": "https://sencanada.ca/media/njtnhamx/sen_pho_pate_official_2024.jpg?center=0.41090368770412528,0.47629208737933193&mode=crop&width=95&height=100&rnd=133953399111000000&quality=95",
+        "alt": "Pate, Kim",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Paul (PJ) Prosper",
+        "href": "/en/senators/prosper-paul/",
+        "image": "https://sencanada.ca/media/tkbo3y4t/sen_pho_prosper_official_2024.jpg?center=0.40074609493557123,0.48351489883299009&mode=crop&width=95&height=100&rnd=133953399111930000&quality=95",
+        "alt": "Prosper, Paul (PJ)",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Karen Sorensen",
+        "href": "/en/senators/sorensen-karen/",
+        "image": "https://sencanada.ca/media/dfdob5tv/sen_pho_sorensen_official_2024.jpg?center=0.40369275739833277,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399114900000&quality=95",
+        "alt": "Sorensen, Karen",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "Judy A. White",
+        "href": "/en/senators/white-judy/",
+        "image": "https://sencanada.ca/media/tqlbjf04/sen_pho_white_official_2024.jpg?center=0.38724453840732909,0.46955336482074367&mode=crop&width=95&height=100&rnd=133953399116300000&quality=95",
+        "alt": "White, Judy A.",
+        "affiliation": "PSG - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Gwen Boniface",
+        "href": "/en/senators/boniface-gwen/",
+        "image": "https://sencanada.ca/media/z0rcvach/com_pho_boniface_official_2024.jpg?center=0.36591503578522,0.52424751380354229&mode=crop&width=95&height=100&rnd=133953399097100000&quality=95",
+        "alt": "Boniface, Gwen",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Nancy Karetak-Lindell",
+        "href": "/en/senators/karetak-lindell-nancy/",
+        "image": "https://sencanada.ca/media/q0uj1sd0/sen_pho_karetak-lindell_official.jpg?center=0.31156351383605357,0.49693482303990905&mode=crop&width=95&height=100&rnd=133953399105700000&quality=95",
+        "alt": "Karetak-Lindell, Nancy",
+        "affiliation": "ISG - (Nunavut)"
+      },
+      {
+        "name": "Patti LaBoucane-Benson",
+        "href": "/en/senators/laboucane-benson-patti/",
+        "image": "https://sencanada.ca/media/lrflewsq/sen_pho_laboucane-benson_official_2024.jpg?center=0.39724693326104188,0.46593645490269259&mode=crop&width=95&height=100&rnd=133953399106470000&quality=95",
+        "alt": "LaBoucane-Benson, Patti",
+        "affiliation": "Non-affiliated - (Alberta)"
+      },
+      {
+        "name": "Mary Jane McCallum",
+        "href": "/en/senators/mccallum-mary-jane/",
+        "image": "https://sencanada.ca/media/jksppaqb/sen_pho_mccallum_official_2024.jpg?center=0.39780758971394831,0.54391393130228693&mode=crop&width=95&height=100&rnd=133953399108670000&quality=95",
+        "alt": "McCallum, Mary Jane",
+        "affiliation": "C - (Manitoba)"
+      },
+      {
+        "name": "Marilou McPhedran",
+        "href": "/en/senators/mcphedran-marilou/",
+        "image": "https://sencanada.ca/media/xuqgx0ay/sen_pho_mcphedran_official_2024.jpg?center=0.36099698599314906,0.51481070170850862&mode=crop&width=95&height=100&rnd=133953399109130000&quality=95",
+        "alt": "McPhedran, Marilou",
+        "affiliation": "Non-affiliated - (Manitoba)"
+      },
+      {
+        "name": "Kim Pate",
+        "href": "/en/senators/pate-kim/",
+        "image": "https://sencanada.ca/media/njtnhamx/sen_pho_pate_official_2024.jpg?center=0.41090368770412528,0.47629208737933193&mode=crop&width=95&height=100&rnd=133953399111000000&quality=95",
+        "alt": "Pate, Kim",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Paul (PJ) Prosper",
+        "href": "/en/senators/prosper-paul/",
+        "image": "https://sencanada.ca/media/tkbo3y4t/sen_pho_prosper_official_2024.jpg?center=0.40074609493557123,0.48351489883299009&mode=crop&width=95&height=100&rnd=133953399111930000&quality=95",
+        "alt": "Prosper, Paul (PJ)",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Karen Sorensen",
+        "href": "/en/senators/sorensen-karen/",
+        "image": "https://sencanada.ca/media/dfdob5tv/sen_pho_sorensen_official_2024.jpg?center=0.40369275739833277,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399114900000&quality=95",
+        "alt": "Sorensen, Karen",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "Judy A. White",
+        "href": "/en/senators/white-judy/",
+        "image": "https://sencanada.ca/media/tqlbjf04/sen_pho_white_official_2024.jpg?center=0.38724453840732909,0.46955336482074367&mode=crop&width=95&height=100&rnd=133953399116300000&quality=95",
+        "alt": "White, Judy A.",
+        "affiliation": "PSG - (Newfoundland and Labrador)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/banc/45-1",
       "acronym": "BANC",
       "name_full": "Banking, Commerce and the Economy",
-      "name_short": "Banking"
-    },
-    {
-      "href": "/en/committees/ciba/45-1",
+      "name_short": "Banking",
+    "members": [
+      {
+        "name": "Cl\u00e9ment Gignac",
+        "href": "/en/senators/gignac-clement/",
+        "image": "https://sencanada.ca/media/z2ec4my2/sen_pho_gignac_official_2024.jpg?center=0.37034505076479468,0.46586777249836225&mode=crop&width=95&height=100&rnd=133953399103330000&quality=90",
+        "alt": "Gignac, Cl\u00e9ment",
+        "affiliation": "CSG - (Quebec - Kennebec)"
+      },
+      {
+        "name": "Toni Varone",
+        "href": "/en/senators/varone-toni/",
+        "image": "https://sencanada.ca/media/cq2ggfgb/sen_pho_varone_official_2024.jpg?center=0.41105941355523662,0.572583432828541&mode=crop&width=95&height=100&rnd=133953399115530000&quality=90",
+        "alt": "Varone, Toni",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Cl\u00e9ment Gignac",
+        "href": "/en/senators/gignac-clement/",
+        "image": "https://sencanada.ca/media/z2ec4my2/sen_pho_gignac_official_2024.jpg?center=0.37034505076479468,0.46586777249836225&mode=crop&width=95&height=100&rnd=133953399103330000&quality=90",
+        "alt": "Gignac, Cl\u00e9ment",
+        "affiliation": "CSG - (Quebec - Kennebec)"
+      },
+      {
+        "name": "Toni Varone",
+        "href": "/en/senators/varone-toni/",
+        "image": "https://sencanada.ca/media/cq2ggfgb/sen_pho_varone_official_2024.jpg?center=0.41105941355523662,0.572583432828541&mode=crop&width=95&height=100&rnd=133953399115530000&quality=90",
+        "alt": "Varone, Toni",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Daryl S. Fridhandler",
+        "href": "/en/senators/fridhandler-daryl/",
+        "image": "https://sencanada.ca/media/1dvpeivc/sen_pho_fridhandler_official_2024.jpg?center=0.3992727637041904,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399102230000&quality=95",
+        "alt": "Fridhandler, Daryl S.",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Dani\u00e8le Henkel",
+        "href": "/en/senators/henkel-daniele/",
+        "image": "https://sencanada.ca/media/zo2a0vea/sen_pho_henkel_official.png?center=0.3742261327707172,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399104900000&quality=95",
+        "alt": "Henkel, Dani\u00e8le",
+        "affiliation": "PSG - (Quebec - Alma)"
+      },
+      {
+        "name": "Tony Loffreda",
+        "href": "/en/senators/loffreda-tony/",
+        "image": "https://sencanada.ca/media/pcqnmbxq/sen_pho_loffreda_official_2024.jpg?center=0.43315938202594828,0.46654946378621853&mode=crop&width=95&height=100&rnd=133953399106930000&quality=95",
+        "alt": "Loffreda, Tony",
+        "affiliation": "ISG - (Quebec - Shawinegan)"
+      },
+      {
+        "name": "Elizabeth Marshall",
+        "href": "/en/senators/marshall-elizabeth/",
+        "image": "https://sencanada.ca/media/p2lbqiqx/sen_pho_marshall_official_2024.jpg?center=0.30801344134169434,0.47226417343585692&mode=crop&width=95&height=100&rnd=133953399107870000&quality=95",
+        "alt": "Marshall, Elizabeth",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Yonah Martin",
+        "href": "/en/senators/martin-yonah/",
+        "image": "https://sencanada.ca/media/tn2oodro/sen_pho_martin_official_2024.jpg?center=0.40516608862971354,0.53653188335415136&mode=crop&width=95&height=100&rnd=133953399108030000&quality=95",
+        "alt": "Martin, Yonah",
+        "affiliation": "C - (British Columbia)"
+      },
+      {
+        "name": "Paul J. Massicotte",
+        "href": "/en/senators/massicotte-paul-j/",
+        "image": "https://sencanada.ca/media/cvoldnej/sen_pho_massicotte_official_2024.jpg?center=0.38891563444744964,0.52710971090324721&mode=crop&width=95&height=100&rnd=133953399108200000&quality=95",
+        "alt": "Massicotte, Paul J.",
+        "affiliation": "ISG - (Quebec - De Lanaudi\u00e8re)"
+      },
+      {
+        "name": "Marnie McBean",
+        "href": "/en/senators/mcbean-marnie/",
+        "image": "https://sencanada.ca/media/rrkd133i/sen_pho_mcbean_official_2024.jpg?center=0.40384161235629751,0.49645859136157555&mode=crop&width=95&height=100&rnd=133953399108500000&quality=95",
+        "alt": "McBean, Marnie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Sandra Pupatello",
+        "href": "/en/senators/pupatello-sandra/",
+        "image": "https://sencanada.ca/media/233fr2g1/sen_pho_pupatello_official_2025.jpg?center=0.44347270064561373,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399112100000&quality=95",
+        "alt": "Pupatello, Sandra",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Pierrette Ringuette",
+        "href": "/en/senators/ringuette-pierrette/",
+        "image": "https://sencanada.ca/media/ikultfz5/sen_pho_ringuette_official.jpg?center=0.43168605079456751,0.47927354007129719&mode=crop&width=95&height=100&rnd=133953399112870000&quality=95",
+        "alt": "Ringuette, Pierrette",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Pamela Wallin",
+        "href": "/en/senators/wallin-pamela/",
+        "image": "https://sencanada.ca/media/h5ebetkz/sen_pho_wallin_official_2024.jpg?center=0.40958608232385585,0.52804916583076555&mode=crop&width=95&height=100&rnd=133953399115830000&quality=95",
+        "alt": "Wallin, Pamela",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Hassan Yussuff",
+        "href": "/en/senators/yussuff-hassan/",
+        "image": "https://sencanada.ca/media/1p4gjprf/sen_pho_yussuff_official_2024.jpg?center=0.37717258684592186,0.46018754763245967&mode=crop&width=95&height=100&rnd=133953399117100000&quality=95",
+        "alt": "Yussuff, Hassan",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Daryl S. Fridhandler",
+        "href": "/en/senators/fridhandler-daryl/",
+        "image": "https://sencanada.ca/media/1dvpeivc/sen_pho_fridhandler_official_2024.jpg?center=0.3992727637041904,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399102230000&quality=95",
+        "alt": "Fridhandler, Daryl S.",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Dani\u00e8le Henkel",
+        "href": "/en/senators/henkel-daniele/",
+        "image": "https://sencanada.ca/media/zo2a0vea/sen_pho_henkel_official.png?center=0.3742261327707172,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399104900000&quality=95",
+        "alt": "Henkel, Dani\u00e8le",
+        "affiliation": "PSG - (Quebec - Alma)"
+      },
+      {
+        "name": "Tony Loffreda",
+        "href": "/en/senators/loffreda-tony/",
+        "image": "https://sencanada.ca/media/pcqnmbxq/sen_pho_loffreda_official_2024.jpg?center=0.43315938202594828,0.46654946378621853&mode=crop&width=95&height=100&rnd=133953399106930000&quality=95",
+        "alt": "Loffreda, Tony",
+        "affiliation": "ISG - (Quebec - Shawinegan)"
+      },
+      {
+        "name": "Elizabeth Marshall",
+        "href": "/en/senators/marshall-elizabeth/",
+        "image": "https://sencanada.ca/media/p2lbqiqx/sen_pho_marshall_official_2024.jpg?center=0.30801344134169434,0.47226417343585692&mode=crop&width=95&height=100&rnd=133953399107870000&quality=95",
+        "alt": "Marshall, Elizabeth",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Yonah Martin",
+        "href": "/en/senators/martin-yonah/",
+        "image": "https://sencanada.ca/media/tn2oodro/sen_pho_martin_official_2024.jpg?center=0.40516608862971354,0.53653188335415136&mode=crop&width=95&height=100&rnd=133953399108030000&quality=95",
+        "alt": "Martin, Yonah",
+        "affiliation": "C - (British Columbia)"
+      },
+      {
+        "name": "Paul J. Massicotte",
+        "href": "/en/senators/massicotte-paul-j/",
+        "image": "https://sencanada.ca/media/cvoldnej/sen_pho_massicotte_official_2024.jpg?center=0.38891563444744964,0.52710971090324721&mode=crop&width=95&height=100&rnd=133953399108200000&quality=95",
+        "alt": "Massicotte, Paul J.",
+        "affiliation": "ISG - (Quebec - De Lanaudi\u00e8re)"
+      },
+      {
+        "name": "Marnie McBean",
+        "href": "/en/senators/mcbean-marnie/",
+        "image": "https://sencanada.ca/media/rrkd133i/sen_pho_mcbean_official_2024.jpg?center=0.40384161235629751,0.49645859136157555&mode=crop&width=95&height=100&rnd=133953399108500000&quality=95",
+        "alt": "McBean, Marnie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Sandra Pupatello",
+        "href": "/en/senators/pupatello-sandra/",
+        "image": "https://sencanada.ca/media/233fr2g1/sen_pho_pupatello_official_2025.jpg?center=0.44347270064561373,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399112100000&quality=95",
+        "alt": "Pupatello, Sandra",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Pierrette Ringuette",
+        "href": "/en/senators/ringuette-pierrette/",
+        "image": "https://sencanada.ca/media/ikultfz5/sen_pho_ringuette_official.jpg?center=0.43168605079456751,0.47927354007129719&mode=crop&width=95&height=100&rnd=133953399112870000&quality=95",
+        "alt": "Ringuette, Pierrette",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Pamela Wallin",
+        "href": "/en/senators/wallin-pamela/",
+        "image": "https://sencanada.ca/media/h5ebetkz/sen_pho_wallin_official_2024.jpg?center=0.40958608232385585,0.52804916583076555&mode=crop&width=95&height=100&rnd=133953399115830000&quality=95",
+        "alt": "Wallin, Pamela",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Hassan Yussuff",
+        "href": "/en/senators/yussuff-hassan/",
+        "image": "https://sencanada.ca/media/1p4gjprf/sen_pho_yussuff_official_2024.jpg?center=0.37717258684592186,0.46018754763245967&mode=crop&width=95&height=100&rnd=133953399117100000&quality=95",
+        "alt": "Yussuff, Hassan",
+        "affiliation": "ISG - (Ontario)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/ciba/45-1",
       "acronym": "CIBA",
       "name_full": "Internal Economy, Budgets and Administration",
-      "name_short": "Internal Economy"
-    },
-    {
-      "href": "/en/committees/conf/45-1",
+      "name_short": "Internal Economy",
+    "members": [
+      {
+        "name": "Lucie Moncion",
+        "href": "/en/senators/moncion-lucie/",
+        "image": "https://sencanada.ca/media/m1hge4bp/sen_pho_mocion_official_2024.jpg?center=0.36662689106284063,0.41218847511068274&mode=crop&width=95&height=100&rnd=133953399109900000&quality=90",
+        "alt": "Moncion, Lucie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=90",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "Dani\u00e8le Henkel",
+        "href": "/en/senators/henkel-daniele/",
+        "image": "https://sencanada.ca/media/zo2a0vea/sen_pho_henkel_official.png?center=0.3742261327707172,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399104900000&quality=90",
+        "alt": "Henkel, Dani\u00e8le",
+        "affiliation": "PSG - (Quebec - Alma)"
+      },
+      {
+        "name": "Jim Quinn",
+        "href": "/en/senators/quinn-jim/",
+        "image": "https://sencanada.ca/media/2fck44iv/sen_pho_quinn_official_2024.jpg?center=0.3761829540974953,0.45737545742969926&mode=crop&width=95&height=100&rnd=133953399112270000&quality=90",
+        "alt": "Quinn, Jim",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Lucie Moncion",
+        "href": "/en/senators/moncion-lucie/",
+        "image": "https://sencanada.ca/media/m1hge4bp/sen_pho_mocion_official_2024.jpg?center=0.36662689106284063,0.41218847511068274&mode=crop&width=95&height=100&rnd=133953399109900000&quality=90",
+        "alt": "Moncion, Lucie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=90",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "Dani\u00e8le Henkel",
+        "href": "/en/senators/henkel-daniele/",
+        "image": "https://sencanada.ca/media/zo2a0vea/sen_pho_henkel_official.png?center=0.3742261327707172,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399104900000&quality=90",
+        "alt": "Henkel, Dani\u00e8le",
+        "affiliation": "PSG - (Quebec - Alma)"
+      },
+      {
+        "name": "Jim Quinn",
+        "href": "/en/senators/quinn-jim/",
+        "image": "https://sencanada.ca/media/2fck44iv/sen_pho_quinn_official_2024.jpg?center=0.3761829540974953,0.45737545742969926&mode=crop&width=95&height=100&rnd=133953399112270000&quality=90",
+        "alt": "Quinn, Jim",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Mich\u00e8le Audette",
+        "href": "/en/senators/audette-michele/",
+        "image": "https://sencanada.ca/media/i0pdebyo/sen_pho_audette_official_2024.jpg?center=0.37717258684592186,0.48139434706252693&mode=crop&width=95&height=100&rnd=133953399096300000&quality=95",
+        "alt": "Audette, Mich\u00e8le",
+        "affiliation": "PSG - (Quebec - De Salaberry)"
+      },
+      {
+        "name": "Peter M. Boehm",
+        "href": "/en/senators/boehm-peter/",
+        "image": "https://sencanada.ca/media/ztdetwhw/sen_pho_boehm_official.jpg?center=0.41105941355523662,0.487756257594683&mode=crop&width=95&height=100&rnd=133953399096770000&quality=95",
+        "alt": "Boehm, Peter M.",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Yvonne Boyer",
+        "href": "/en/senators/boyer-yvonne/",
+        "image": "https://sencanada.ca/media/eafhrjpy/com_pho_boyer_official_2024.jpg?center=0.39715459235398276,0.48499623197857689&mode=crop&width=95&height=100&rnd=133953399097570000&quality=95",
+        "alt": "Boyer, Yvonne",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "\u00c9ric Forest",
+        "href": "/en/senators/forest-eric/",
+        "image": "https://sencanada.ca/media/v5gn1nkr/sen_pho_forest_official_2024.jpg?center=0.41122008882942684,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399101770000&quality=95",
+        "alt": "Forest, \u00c9ric",
+        "affiliation": "ISG - (Quebec - Gulf)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Jane MacAdam",
+        "href": "/en/senators/macadam-beverly-jane/",
+        "image": "https://sencanada.ca/media/35kiitf5/sen_pho_macadam_official_2024.jpg?center=0.402219426166952,0.47503218130960434&mode=crop&width=95&height=100&rnd=133953402323930000&quality=95",
+        "alt": "MacAdam, Jane",
+        "affiliation": "ISG - (Prince Edward Island)"
+      },
+      {
+        "name": "Rosemary Moodie",
+        "href": "/en/senators/moodie-rosemary/",
+        "image": "https://sencanada.ca/media/zjwmzdwg/sen_pho_moodie_official.jpg?center=0.38421052631578945,0.50378729518398735&mode=crop&width=95&height=100&rnd=133953399110070000&quality=95",
+        "alt": "Moodie, Rosemary",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=95",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Manuelle Oudar",
+        "href": "/en/senators/oudar-manuelle/",
+        "image": "https://sencanada.ca/media/cdwddbnc/sen_pho_oudar_official_2024.jpg?center=0.40958608232385585,0.48987693697552948&mode=crop&width=95&height=100&rnd=133953401729870000&quality=95",
+        "alt": "Oudar, Manuelle",
+        "affiliation": "ISG - (Quebec - La Salle)"
+      },
+      {
+        "name": "Larry W. Smith",
+        "href": "/en/senators/smith-larry-w/",
+        "image": "https://sencanada.ca/media/r03d0lss/sen_pho_smith_official_2024.jpg?center=0.39388567876792746,0.46187746446204314&mode=crop&width=95&height=100&rnd=133953399114770000&quality=95",
+        "alt": "Smith, Larry W.",
+        "affiliation": "C - (Quebec - Saurel)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "Mich\u00e8le Audette",
+        "href": "/en/senators/audette-michele/",
+        "image": "https://sencanada.ca/media/i0pdebyo/sen_pho_audette_official_2024.jpg?center=0.37717258684592186,0.48139434706252693&mode=crop&width=95&height=100&rnd=133953399096300000&quality=95",
+        "alt": "Audette, Mich\u00e8le",
+        "affiliation": "PSG - (Quebec - De Salaberry)"
+      },
+      {
+        "name": "Peter M. Boehm",
+        "href": "/en/senators/boehm-peter/",
+        "image": "https://sencanada.ca/media/ztdetwhw/sen_pho_boehm_official.jpg?center=0.41105941355523662,0.487756257594683&mode=crop&width=95&height=100&rnd=133953399096770000&quality=95",
+        "alt": "Boehm, Peter M.",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Yvonne Boyer",
+        "href": "/en/senators/boyer-yvonne/",
+        "image": "https://sencanada.ca/media/eafhrjpy/com_pho_boyer_official_2024.jpg?center=0.39715459235398276,0.48499623197857689&mode=crop&width=95&height=100&rnd=133953399097570000&quality=95",
+        "alt": "Boyer, Yvonne",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "\u00c9ric Forest",
+        "href": "/en/senators/forest-eric/",
+        "image": "https://sencanada.ca/media/v5gn1nkr/sen_pho_forest_official_2024.jpg?center=0.41122008882942684,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399101770000&quality=95",
+        "alt": "Forest, \u00c9ric",
+        "affiliation": "ISG - (Quebec - Gulf)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Jane MacAdam",
+        "href": "/en/senators/macadam-beverly-jane/",
+        "image": "https://sencanada.ca/media/35kiitf5/sen_pho_macadam_official_2024.jpg?center=0.402219426166952,0.47503218130960434&mode=crop&width=95&height=100&rnd=133953402323930000&quality=95",
+        "alt": "MacAdam, Jane",
+        "affiliation": "ISG - (Prince Edward Island)"
+      },
+      {
+        "name": "Rosemary Moodie",
+        "href": "/en/senators/moodie-rosemary/",
+        "image": "https://sencanada.ca/media/zjwmzdwg/sen_pho_moodie_official.jpg?center=0.38421052631578945,0.50378729518398735&mode=crop&width=95&height=100&rnd=133953399110070000&quality=95",
+        "alt": "Moodie, Rosemary",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=95",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Manuelle Oudar",
+        "href": "/en/senators/oudar-manuelle/",
+        "image": "https://sencanada.ca/media/cdwddbnc/sen_pho_oudar_official_2024.jpg?center=0.40958608232385585,0.48987693697552948&mode=crop&width=95&height=100&rnd=133953401729870000&quality=95",
+        "alt": "Oudar, Manuelle",
+        "affiliation": "ISG - (Quebec - La Salle)"
+      },
+      {
+        "name": "Larry W. Smith",
+        "href": "/en/senators/smith-larry-w/",
+        "image": "https://sencanada.ca/media/r03d0lss/sen_pho_smith_official_2024.jpg?center=0.39388567876792746,0.46187746446204314&mode=crop&width=95&height=100&rnd=133953399114770000&quality=95",
+        "alt": "Smith, Larry W.",
+        "affiliation": "C - (Quebec - Saurel)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/conf/45-1",
       "acronym": "CONF",
       "name_full": "Ethics and Conflict of Interest for Senators",
-      "name_short": "Conflict of Interest"
-    },
-    {
-      "href": "/en/committees/enev/45-1",
+      "name_short": "Conflict of Interest",
+    "members": [
+      {
+        "name": "Judith G. Seidman",
+        "href": "/en/senators/seidman-judith/",
+        "image": "https://sencanada.ca/media/01ooqr2f/sen_pho_seidman_official_2024.jpg?center=0.36987499712240152,0.5906093641273733&mode=crop&width=95&height=100&rnd=133953399113800000&quality=90",
+        "alt": "Seidman, Judith G.",
+        "affiliation": "C - (Quebec - De la Durantaye)"
+      },
+      {
+        "name": "Peter Harder",
+        "href": "/en/senators/harder-peter-pc/",
+        "image": "https://sencanada.ca/media/pm0pxoe5/sen_pho_harder_official_2024.jpg?center=0.37782682889564034,0.52098427481702214&mode=crop&width=95&height=100&rnd=133953399103970000&quality=90",
+        "alt": "Harder, Peter, P.C.",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Judith G. Seidman",
+        "href": "/en/senators/seidman-judith/",
+        "image": "https://sencanada.ca/media/01ooqr2f/sen_pho_seidman_official_2024.jpg?center=0.36987499712240152,0.5906093641273733&mode=crop&width=95&height=100&rnd=133953399113800000&quality=90",
+        "alt": "Seidman, Judith G.",
+        "affiliation": "C - (Quebec - De la Durantaye)"
+      },
+      {
+        "name": "Peter Harder",
+        "href": "/en/senators/harder-peter-pc/",
+        "image": "https://sencanada.ca/media/pm0pxoe5/sen_pho_harder_official_2024.jpg?center=0.37782682889564034,0.52098427481702214&mode=crop&width=95&height=100&rnd=133953399103970000&quality=90",
+        "alt": "Harder, Peter, P.C.",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Gwen Boniface",
+        "href": "/en/senators/boniface-gwen/",
+        "image": "https://sencanada.ca/media/z0rcvach/com_pho_boniface_official_2024.jpg?center=0.36591503578522,0.52424751380354229&mode=crop&width=95&height=100&rnd=133953399097100000&quality=95",
+        "alt": "Boniface, Gwen",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Bev Busson",
+        "href": "/en/senators/busson-bev/",
+        "image": "https://sencanada.ca/media/u3yegw0q/sen_pho_busson_official_2024.jpg?center=0.45490039408430843,0.485788366915059&mode=crop&width=95&height=100&rnd=133953399098200000&quality=95",
+        "alt": "Busson, Bev",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=95",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Gwen Boniface",
+        "href": "/en/senators/boniface-gwen/",
+        "image": "https://sencanada.ca/media/z0rcvach/com_pho_boniface_official_2024.jpg?center=0.36591503578522,0.52424751380354229&mode=crop&width=95&height=100&rnd=133953399097100000&quality=95",
+        "alt": "Boniface, Gwen",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Bev Busson",
+        "href": "/en/senators/busson-bev/",
+        "image": "https://sencanada.ca/media/u3yegw0q/sen_pho_busson_official_2024.jpg?center=0.45490039408430843,0.485788366915059&mode=crop&width=95&height=100&rnd=133953399098200000&quality=95",
+        "alt": "Busson, Bev",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=95",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/enev/45-1",
       "acronym": "ENEV",
       "name_full": "Energy, the Environment and Natural Resources",
-      "name_short": "Energy"
-    },
-    {
-      "href": "/en/committees/lcjc/45-1",
+      "name_short": "Energy",
+    "members": [
+      {
+        "name": "Pat Duncan",
+        "href": "/en/senators/duncan-pat/",
+        "image": "https://sencanada.ca/media/tsjitw0d/sen_pho_duncan_official_2024.jpg?center=0.38530447160966591,0.53569246433694684&mode=crop&width=95&height=100&rnd=133953399101470000&quality=90",
+        "alt": "Duncan, Pat",
+        "affiliation": "ISG - (Yukon)"
+      },
+      {
+        "name": "Jos\u00e9e Verner",
+        "href": "/en/senators/verner-josee/",
+        "image": "https://sencanada.ca/media/psahkdbx/sen_pho_verner_official_2024.jpg?center=0.36789520937406478,0.59335962092846017&mode=crop&width=95&height=100&rnd=133953399115700000&quality=90",
+        "alt": "Verner, Jos\u00e9e, P.C.",
+        "affiliation": "CSG - (Quebec - Montarville)"
+      },
+      {
+        "name": "Pat Duncan",
+        "href": "/en/senators/duncan-pat/",
+        "image": "https://sencanada.ca/media/tsjitw0d/sen_pho_duncan_official_2024.jpg?center=0.38530447160966591,0.53569246433694684&mode=crop&width=95&height=100&rnd=133953399101470000&quality=90",
+        "alt": "Duncan, Pat",
+        "affiliation": "ISG - (Yukon)"
+      },
+      {
+        "name": "Jos\u00e9e Verner",
+        "href": "/en/senators/verner-josee/",
+        "image": "https://sencanada.ca/media/psahkdbx/sen_pho_verner_official_2024.jpg?center=0.36789520937406478,0.59335962092846017&mode=crop&width=95&height=100&rnd=133953399115700000&quality=90",
+        "alt": "Verner, Jos\u00e9e, P.C.",
+        "affiliation": "CSG - (Quebec - Montarville)"
+      },
+      {
+        "name": "Dawn Anderson",
+        "href": "/en/senators/anderson-margaret/",
+        "image": "https://sencanada.ca/media/nmemnah0/sen_pho_anderson_official_2024.jpg?center=0.404085788062057,0.46996252564457858&mode=crop&width=95&height=100&rnd=133953399095370000&quality=95",
+        "alt": "Anderson, Dawn",
+        "affiliation": "PSG - (Northwest Territories)"
+      },
+      {
+        "name": "David M. Arnot",
+        "href": "/en/senators/arnot-david/",
+        "image": "https://sencanada.ca/media/gpnlejy1/sen_pho_arnot_official_2024.jpg?center=0.390486311403914,0.48195226955766712&mode=crop&width=95&height=100&rnd=133953399095830000&quality=95",
+        "alt": "Arnot, David M.",
+        "affiliation": "ISG - (Saskatchewan)"
+      },
+      {
+        "name": "R\u00e9jean  Aucoin",
+        "href": "/en/senators/aucoin-albert-rejean/",
+        "image": "https://sencanada.ca/media/uu5fjgw0/sen_pho_aucoin_official.jpg?center=0.46557266911632539,0.50048033387976165&mode=crop&width=95&height=100&rnd=133953399096170000&quality=95",
+        "alt": "Aucoin, R\u00e9jean",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Daryl S. Fridhandler",
+        "href": "/en/senators/fridhandler-daryl/",
+        "image": "https://sencanada.ca/media/1dvpeivc/sen_pho_fridhandler_official_2024.jpg?center=0.3992727637041904,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399102230000&quality=95",
+        "alt": "Fridhandler, Daryl S.",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Rosa Galvez",
+        "href": "/en/senators/galvez-rosa/",
+        "image": "https://sencanada.ca/media/10kfuetn/sen_pho_galvez_official_2024.jpg?center=0.35840119583668006,0.49183309928481023&mode=crop&width=95&height=100&rnd=133953399103030000&quality=95",
+        "alt": "Galvez, Rosa",
+        "affiliation": "ISG - (Quebec - Bedford)"
+      },
+      {
+        "name": "Joan Kingston",
+        "href": "/en/senators/kingston-joan/",
+        "image": "https://sencanada.ca/media/hefjkn1p/sen_pho_kingston_official_2024.jpg?center=0.3864635570240465,0.508763682384399&mode=crop&width=95&height=100&rnd=133953399106000000&quality=95",
+        "alt": "Kingston, Joan",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Stan Kutcher",
+        "href": "/en/senators/kutcher-stan/",
+        "image": "https://sencanada.ca/media/r1vfsa0k/sen_pho_kutcher_official_2024.jpg?center=0.39133008856782647,0.54348626232738417&mode=crop&width=95&height=100&rnd=133953399106300000&quality=95",
+        "alt": "Kutcher, Stan",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Todd Lewis",
+        "href": "/en/senators/lewis-todd/",
+        "image": "https://sencanada.ca/media/maonrkw1/sen_pho_lewis_official.jpg?center=0.40019123507802212,0.48178051078408923&mode=crop&width=95&height=100&rnd=133953399106800000&quality=95",
+        "alt": "Lewis, Todd",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Mary Jane McCallum",
+        "href": "/en/senators/mccallum-mary-jane/",
+        "image": "https://sencanada.ca/media/jksppaqb/sen_pho_mccallum_official_2024.jpg?center=0.39780758971394831,0.54391393130228693&mode=crop&width=95&height=100&rnd=133953399108670000&quality=95",
+        "alt": "McCallum, Mary Jane",
+        "affiliation": "C - (Manitoba)"
+      },
+      {
+        "name": "David M. Wells",
+        "href": "/en/senators/wells-david-m/",
+        "image": "https://sencanada.ca/media/s40fucit/sen_pho_david-wells_official_2024.jpg?center=0.39126152513355744,0.45523365115248321&mode=crop&width=95&height=100&rnd=133953399116170000&quality=95",
+        "alt": "Wells, David M.",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Suze Youance",
+        "href": "/en/senators/youance-suze/",
+        "image": "https://sencanada.ca/media/f2sf5v4b/sen_pho_youance_official_2024.jpg?center=0.40786198654862738,0.524802288565667&mode=crop&width=95&height=100&rnd=133953399116930000&quality=95",
+        "alt": "Youance, Suze",
+        "affiliation": "ISG - (Quebec - Lauzon)"
+      },
+      {
+        "name": "Dawn Anderson",
+        "href": "/en/senators/anderson-margaret/",
+        "image": "https://sencanada.ca/media/nmemnah0/sen_pho_anderson_official_2024.jpg?center=0.404085788062057,0.46996252564457858&mode=crop&width=95&height=100&rnd=133953399095370000&quality=95",
+        "alt": "Anderson, Dawn",
+        "affiliation": "PSG - (Northwest Territories)"
+      },
+      {
+        "name": "David M. Arnot",
+        "href": "/en/senators/arnot-david/",
+        "image": "https://sencanada.ca/media/gpnlejy1/sen_pho_arnot_official_2024.jpg?center=0.390486311403914,0.48195226955766712&mode=crop&width=95&height=100&rnd=133953399095830000&quality=95",
+        "alt": "Arnot, David M.",
+        "affiliation": "ISG - (Saskatchewan)"
+      },
+      {
+        "name": "R\u00e9jean  Aucoin",
+        "href": "/en/senators/aucoin-albert-rejean/",
+        "image": "https://sencanada.ca/media/uu5fjgw0/sen_pho_aucoin_official.jpg?center=0.46557266911632539,0.50048033387976165&mode=crop&width=95&height=100&rnd=133953399096170000&quality=95",
+        "alt": "Aucoin, R\u00e9jean",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Daryl S. Fridhandler",
+        "href": "/en/senators/fridhandler-daryl/",
+        "image": "https://sencanada.ca/media/1dvpeivc/sen_pho_fridhandler_official_2024.jpg?center=0.3992727637041904,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399102230000&quality=95",
+        "alt": "Fridhandler, Daryl S.",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Rosa Galvez",
+        "href": "/en/senators/galvez-rosa/",
+        "image": "https://sencanada.ca/media/10kfuetn/sen_pho_galvez_official_2024.jpg?center=0.35840119583668006,0.49183309928481023&mode=crop&width=95&height=100&rnd=133953399103030000&quality=95",
+        "alt": "Galvez, Rosa",
+        "affiliation": "ISG - (Quebec - Bedford)"
+      },
+      {
+        "name": "Joan Kingston",
+        "href": "/en/senators/kingston-joan/",
+        "image": "https://sencanada.ca/media/hefjkn1p/sen_pho_kingston_official_2024.jpg?center=0.3864635570240465,0.508763682384399&mode=crop&width=95&height=100&rnd=133953399106000000&quality=95",
+        "alt": "Kingston, Joan",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Stan Kutcher",
+        "href": "/en/senators/kutcher-stan/",
+        "image": "https://sencanada.ca/media/r1vfsa0k/sen_pho_kutcher_official_2024.jpg?center=0.39133008856782647,0.54348626232738417&mode=crop&width=95&height=100&rnd=133953399106300000&quality=95",
+        "alt": "Kutcher, Stan",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Todd Lewis",
+        "href": "/en/senators/lewis-todd/",
+        "image": "https://sencanada.ca/media/maonrkw1/sen_pho_lewis_official.jpg?center=0.40019123507802212,0.48178051078408923&mode=crop&width=95&height=100&rnd=133953399106800000&quality=95",
+        "alt": "Lewis, Todd",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Mary Jane McCallum",
+        "href": "/en/senators/mccallum-mary-jane/",
+        "image": "https://sencanada.ca/media/jksppaqb/sen_pho_mccallum_official_2024.jpg?center=0.39780758971394831,0.54391393130228693&mode=crop&width=95&height=100&rnd=133953399108670000&quality=95",
+        "alt": "McCallum, Mary Jane",
+        "affiliation": "C - (Manitoba)"
+      },
+      {
+        "name": "David M. Wells",
+        "href": "/en/senators/wells-david-m/",
+        "image": "https://sencanada.ca/media/s40fucit/sen_pho_david-wells_official_2024.jpg?center=0.39126152513355744,0.45523365115248321&mode=crop&width=95&height=100&rnd=133953399116170000&quality=95",
+        "alt": "Wells, David M.",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Suze Youance",
+        "href": "/en/senators/youance-suze/",
+        "image": "https://sencanada.ca/media/f2sf5v4b/sen_pho_youance_official_2024.jpg?center=0.40786198654862738,0.524802288565667&mode=crop&width=95&height=100&rnd=133953399116930000&quality=95",
+        "alt": "Youance, Suze",
+        "affiliation": "ISG - (Quebec - Lauzon)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/lcjc/45-1",
       "acronym": "LCJC",
       "name_full": "Legal and Constitutional Affairs",
-      "name_short": "Legal"
-    },
-    {
-      "href": "/en/committees/nffn/45-1",
+      "name_short": "Legal",
+    "members": [
+      {
+        "name": "David M. Arnot",
+        "href": "/en/senators/arnot-david/",
+        "image": "https://sencanada.ca/media/gpnlejy1/sen_pho_arnot_official_2024.jpg?center=0.390486311403914,0.48195226955766712&mode=crop&width=95&height=100&rnd=133953399095830000&quality=90",
+        "alt": "Arnot, David M.",
+        "affiliation": "ISG - (Saskatchewan)"
+      },
+      {
+        "name": "Denise Batters",
+        "href": "/en/senators/batters-denise/",
+        "image": "https://sencanada.ca/media/jqzobltq/sen_pho_batters_official_2024.jpg?center=0.39172172471741984,0.50641174326518446&mode=crop&width=95&height=100&rnd=133953399096470000&quality=90",
+        "alt": "Batters, Denise",
+        "affiliation": "C - (Saskatchewan)"
+      },
+      {
+        "name": "David M. Arnot",
+        "href": "/en/senators/arnot-david/",
+        "image": "https://sencanada.ca/media/gpnlejy1/sen_pho_arnot_official_2024.jpg?center=0.390486311403914,0.48195226955766712&mode=crop&width=95&height=100&rnd=133953399095830000&quality=90",
+        "alt": "Arnot, David M.",
+        "affiliation": "ISG - (Saskatchewan)"
+      },
+      {
+        "name": "Denise Batters",
+        "href": "/en/senators/batters-denise/",
+        "image": "https://sencanada.ca/media/jqzobltq/sen_pho_batters_official_2024.jpg?center=0.39172172471741984,0.50641174326518446&mode=crop&width=95&height=100&rnd=133953399096470000&quality=90",
+        "alt": "Batters, Denise",
+        "affiliation": "C - (Saskatchewan)"
+      },
+      {
+        "name": "Bernadette Clement",
+        "href": "/en/senators/clement-bernadette/",
+        "image": "https://sencanada.ca/media/ipcdgb5s/sen_pho_clement_official_2024.jpg?center=0.3900844572544841,0.46550661278670796&mode=crop&width=95&height=100&rnd=133953399098800000&quality=95",
+        "alt": "Clement, Bernadette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Baltej S. Dhillon",
+        "href": "/en/senators/dhillon-baltej-s/",
+        "image": "https://sencanada.ca/media/tbxdmqni/sen_pho_dhillon_official.jpg?center=0.38841822242592289,0.51988463292931186&mode=crop&width=95&height=100&rnd=133953399101170000&quality=95",
+        "alt": "Dhillon, Baltej S.",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Leo Housakos",
+        "href": "/en/senators/housakos-leo/",
+        "image": "https://sencanada.ca/media/xbyp00a4/sen_pho_housakos_official_2024.jpg?center=0.402046481854913,0.56198899496986543&mode=crop&width=95&height=100&rnd=133953399105070000&quality=95",
+        "alt": "Housakos, Leo",
+        "affiliation": "C - (Quebec - Wellington)"
+      },
+      {
+        "name": "Pierre Moreau",
+        "href": "/en/senators/moreau-pierre/",
+        "image": "https://sencanada.ca/media/2gzb1mkb/sen_pho_moreau_official.jpg?center=0.38228341294233087,0.51181271432115993&mode=crop&width=95&height=100&rnd=133953399110370000&quality=95",
+        "alt": "Moreau, Pierre",
+        "affiliation": "PSG - (Quebec - The Laurentides)"
+      },
+      {
+        "name": "Manuelle Oudar",
+        "href": "/en/senators/oudar-manuelle/",
+        "image": "https://sencanada.ca/media/cdwddbnc/sen_pho_oudar_official_2024.jpg?center=0.40958608232385585,0.48987693697552948&mode=crop&width=95&height=100&rnd=133953401729870000&quality=95",
+        "alt": "Oudar, Manuelle",
+        "affiliation": "ISG - (Quebec - La Salle)"
+      },
+      {
+        "name": "Kim Pate",
+        "href": "/en/senators/pate-kim/",
+        "image": "https://sencanada.ca/media/njtnhamx/sen_pho_pate_official_2024.jpg?center=0.41090368770412528,0.47629208737933193&mode=crop&width=95&height=100&rnd=133953399111000000&quality=95",
+        "alt": "Pate, Kim",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Paul (PJ) Prosper",
+        "href": "/en/senators/prosper-paul/",
+        "image": "https://sencanada.ca/media/tkbo3y4t/sen_pho_prosper_official_2024.jpg?center=0.40074609493557123,0.48351489883299009&mode=crop&width=95&height=100&rnd=133953399111930000&quality=95",
+        "alt": "Prosper, Paul (PJ)",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Raymonde Saint-Germain",
+        "href": "/en/senators/saint-germain-raymonde/",
+        "image": "https://sencanada.ca/media/01nnhkfd/sen_pho_saint-germain_official_2024.jpg?center=0.36328400281888656,0.54867340793102359&mode=crop&width=95&height=100&rnd=133953399113670000&quality=95",
+        "alt": "Saint-Germain, Raymonde",
+        "affiliation": "ISG - (Quebec - De la Valli\u00e8re)"
+      },
+      {
+        "name": "Paula Simons",
+        "href": "/en/senators/simons-paula/",
+        "image": "https://sencanada.ca/media/tffoquhj/sen_pho_simons_official_2024.jpg?center=0.41637698842054377,0.55565128069187186&mode=crop&width=95&height=100&rnd=133953399114600000&quality=95",
+        "alt": "Simons, Paula",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "Kristopher Wells",
+        "href": "/en/senators/wells-kristopher/",
+        "image": "https://sencanada.ca/media/saxnvpin/sen_pho_k-wells_official_2024.jpg?center=0.39485277001004809,0.51532508954568679&mode=crop&width=95&height=100&rnd=133953399105370000&quality=95",
+        "alt": "Wells, Kristopher",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Bernadette Clement",
+        "href": "/en/senators/clement-bernadette/",
+        "image": "https://sencanada.ca/media/ipcdgb5s/sen_pho_clement_official_2024.jpg?center=0.3900844572544841,0.46550661278670796&mode=crop&width=95&height=100&rnd=133953399098800000&quality=95",
+        "alt": "Clement, Bernadette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Baltej S. Dhillon",
+        "href": "/en/senators/dhillon-baltej-s/",
+        "image": "https://sencanada.ca/media/tbxdmqni/sen_pho_dhillon_official.jpg?center=0.38841822242592289,0.51988463292931186&mode=crop&width=95&height=100&rnd=133953399101170000&quality=95",
+        "alt": "Dhillon, Baltej S.",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Leo Housakos",
+        "href": "/en/senators/housakos-leo/",
+        "image": "https://sencanada.ca/media/xbyp00a4/sen_pho_housakos_official_2024.jpg?center=0.402046481854913,0.56198899496986543&mode=crop&width=95&height=100&rnd=133953399105070000&quality=95",
+        "alt": "Housakos, Leo",
+        "affiliation": "C - (Quebec - Wellington)"
+      },
+      {
+        "name": "Pierre Moreau",
+        "href": "/en/senators/moreau-pierre/",
+        "image": "https://sencanada.ca/media/2gzb1mkb/sen_pho_moreau_official.jpg?center=0.38228341294233087,0.51181271432115993&mode=crop&width=95&height=100&rnd=133953399110370000&quality=95",
+        "alt": "Moreau, Pierre",
+        "affiliation": "PSG - (Quebec - The Laurentides)"
+      },
+      {
+        "name": "Manuelle Oudar",
+        "href": "/en/senators/oudar-manuelle/",
+        "image": "https://sencanada.ca/media/cdwddbnc/sen_pho_oudar_official_2024.jpg?center=0.40958608232385585,0.48987693697552948&mode=crop&width=95&height=100&rnd=133953401729870000&quality=95",
+        "alt": "Oudar, Manuelle",
+        "affiliation": "ISG - (Quebec - La Salle)"
+      },
+      {
+        "name": "Kim Pate",
+        "href": "/en/senators/pate-kim/",
+        "image": "https://sencanada.ca/media/njtnhamx/sen_pho_pate_official_2024.jpg?center=0.41090368770412528,0.47629208737933193&mode=crop&width=95&height=100&rnd=133953399111000000&quality=95",
+        "alt": "Pate, Kim",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Paul (PJ) Prosper",
+        "href": "/en/senators/prosper-paul/",
+        "image": "https://sencanada.ca/media/tkbo3y4t/sen_pho_prosper_official_2024.jpg?center=0.40074609493557123,0.48351489883299009&mode=crop&width=95&height=100&rnd=133953399111930000&quality=95",
+        "alt": "Prosper, Paul (PJ)",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Raymonde Saint-Germain",
+        "href": "/en/senators/saint-germain-raymonde/",
+        "image": "https://sencanada.ca/media/01nnhkfd/sen_pho_saint-germain_official_2024.jpg?center=0.36328400281888656,0.54867340793102359&mode=crop&width=95&height=100&rnd=133953399113670000&quality=95",
+        "alt": "Saint-Germain, Raymonde",
+        "affiliation": "ISG - (Quebec - De la Valli\u00e8re)"
+      },
+      {
+        "name": "Paula Simons",
+        "href": "/en/senators/simons-paula/",
+        "image": "https://sencanada.ca/media/tffoquhj/sen_pho_simons_official_2024.jpg?center=0.41637698842054377,0.55565128069187186&mode=crop&width=95&height=100&rnd=133953399114600000&quality=95",
+        "alt": "Simons, Paula",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "Kristopher Wells",
+        "href": "/en/senators/wells-kristopher/",
+        "image": "https://sencanada.ca/media/saxnvpin/sen_pho_k-wells_official_2024.jpg?center=0.39485277001004809,0.51532508954568679&mode=crop&width=95&height=100&rnd=133953399105370000&quality=95",
+        "alt": "Wells, Kristopher",
+        "affiliation": "PSG - (Alberta)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/nffn/45-1",
       "acronym": "NFFN",
       "name_full": "National Finance",
-      "name_short": "National Finance"
-    },
-    {
-      "href": "/en/committees/ollo/45-1",
+      "name_short": "National Finance",
+    "members": [
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=90",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "\u00c9ric Forest",
+        "href": "/en/senators/forest-eric/",
+        "image": "https://sencanada.ca/media/v5gn1nkr/sen_pho_forest_official_2024.jpg?center=0.41122008882942684,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399101770000&quality=90",
+        "alt": "Forest, \u00c9ric",
+        "affiliation": "ISG - (Quebec - Gulf)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=90",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "\u00c9ric Forest",
+        "href": "/en/senators/forest-eric/",
+        "image": "https://sencanada.ca/media/v5gn1nkr/sen_pho_forest_official_2024.jpg?center=0.41122008882942684,0.47767566526371863&mode=crop&width=95&height=100&rnd=133953399101770000&quality=90",
+        "alt": "Forest, \u00c9ric",
+        "affiliation": "ISG - (Quebec - Gulf)"
+      },
+      {
+        "name": "Andrew Cardozo",
+        "href": "/en/senators/cardozo-andrew/",
+        "image": "https://sencanada.ca/media/fr4m4b54/sen_pho_cardozo_official_2024.jpg?center=0.41707283352201385,0.51905090048902747&mode=crop&width=95&height=100&rnd=133953399098330000&quality=95",
+        "alt": "Cardozo, Andrew",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Rosa Galvez",
+        "href": "/en/senators/galvez-rosa/",
+        "image": "https://sencanada.ca/media/10kfuetn/sen_pho_galvez_official_2024.jpg?center=0.35840119583668006,0.49183309928481023&mode=crop&width=95&height=100&rnd=133953399103030000&quality=95",
+        "alt": "Galvez, Rosa",
+        "affiliation": "ISG - (Quebec - Bedford)"
+      },
+      {
+        "name": "Cl\u00e9ment Gignac",
+        "href": "/en/senators/gignac-clement/",
+        "image": "https://sencanada.ca/media/z2ec4my2/sen_pho_gignac_official_2024.jpg?center=0.37034505076479468,0.46586777249836225&mode=crop&width=95&height=100&rnd=133953399103330000&quality=95",
+        "alt": "Gignac, Cl\u00e9ment",
+        "affiliation": "CSG - (Quebec - Kennebec)"
+      },
+      {
+        "name": "Martine H\u00e9bert",
+        "href": "/en/senators/hebert-martine/",
+        "image": "https://sencanada.ca/media/l2jdnh33/sen_pho_hebert_official.png?center=0.44199936941423296,0.4601874256436792&mode=crop&width=95&height=100&rnd=133953402111470000&quality=95",
+        "alt": "H\u00e9bert, Martine",
+        "affiliation": "ISG - (Quebec - Victoria)"
+      },
+      {
+        "name": "Joan Kingston",
+        "href": "/en/senators/kingston-joan/",
+        "image": "https://sencanada.ca/media/hefjkn1p/sen_pho_kingston_official_2024.jpg?center=0.3864635570240465,0.508763682384399&mode=crop&width=95&height=100&rnd=133953399106000000&quality=95",
+        "alt": "Kingston, Joan",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Jane MacAdam",
+        "href": "/en/senators/macadam-beverly-jane/",
+        "image": "https://sencanada.ca/media/35kiitf5/sen_pho_macadam_official_2024.jpg?center=0.402219426166952,0.47503218130960434&mode=crop&width=95&height=100&rnd=133953402323930000&quality=95",
+        "alt": "MacAdam, Jane",
+        "affiliation": "ISG - (Prince Edward Island)"
+      },
+      {
+        "name": "Elizabeth Marshall",
+        "href": "/en/senators/marshall-elizabeth/",
+        "image": "https://sencanada.ca/media/p2lbqiqx/sen_pho_marshall_official_2024.jpg?center=0.30801344134169434,0.47226417343585692&mode=crop&width=95&height=100&rnd=133953399107870000&quality=95",
+        "alt": "Marshall, Elizabeth",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Pierre Moreau",
+        "href": "/en/senators/moreau-pierre/",
+        "image": "https://sencanada.ca/media/2gzb1mkb/sen_pho_moreau_official.jpg?center=0.38228341294233087,0.51181271432115993&mode=crop&width=95&height=100&rnd=133953399110370000&quality=95",
+        "alt": "Moreau, Pierre",
+        "affiliation": "PSG - (Quebec - The Laurentides)"
+      },
+      {
+        "name": "Sandra Pupatello",
+        "href": "/en/senators/pupatello-sandra/",
+        "image": "https://sencanada.ca/media/233fr2g1/sen_pho_pupatello_official_2025.jpg?center=0.44347270064561373,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399112100000&quality=95",
+        "alt": "Pupatello, Sandra",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Toni Varone",
+        "href": "/en/senators/varone-toni/",
+        "image": "https://sencanada.ca/media/cq2ggfgb/sen_pho_varone_official_2024.jpg?center=0.41105941355523662,0.572583432828541&mode=crop&width=95&height=100&rnd=133953399115530000&quality=95",
+        "alt": "Varone, Toni",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Andrew Cardozo",
+        "href": "/en/senators/cardozo-andrew/",
+        "image": "https://sencanada.ca/media/fr4m4b54/sen_pho_cardozo_official_2024.jpg?center=0.41707283352201385,0.51905090048902747&mode=crop&width=95&height=100&rnd=133953399098330000&quality=95",
+        "alt": "Cardozo, Andrew",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Rosa Galvez",
+        "href": "/en/senators/galvez-rosa/",
+        "image": "https://sencanada.ca/media/10kfuetn/sen_pho_galvez_official_2024.jpg?center=0.35840119583668006,0.49183309928481023&mode=crop&width=95&height=100&rnd=133953399103030000&quality=95",
+        "alt": "Galvez, Rosa",
+        "affiliation": "ISG - (Quebec - Bedford)"
+      },
+      {
+        "name": "Cl\u00e9ment Gignac",
+        "href": "/en/senators/gignac-clement/",
+        "image": "https://sencanada.ca/media/z2ec4my2/sen_pho_gignac_official_2024.jpg?center=0.37034505076479468,0.46586777249836225&mode=crop&width=95&height=100&rnd=133953399103330000&quality=95",
+        "alt": "Gignac, Cl\u00e9ment",
+        "affiliation": "CSG - (Quebec - Kennebec)"
+      },
+      {
+        "name": "Martine H\u00e9bert",
+        "href": "/en/senators/hebert-martine/",
+        "image": "https://sencanada.ca/media/l2jdnh33/sen_pho_hebert_official.png?center=0.44199936941423296,0.4601874256436792&mode=crop&width=95&height=100&rnd=133953402111470000&quality=95",
+        "alt": "H\u00e9bert, Martine",
+        "affiliation": "ISG - (Quebec - Victoria)"
+      },
+      {
+        "name": "Joan Kingston",
+        "href": "/en/senators/kingston-joan/",
+        "image": "https://sencanada.ca/media/hefjkn1p/sen_pho_kingston_official_2024.jpg?center=0.3864635570240465,0.508763682384399&mode=crop&width=95&height=100&rnd=133953399106000000&quality=95",
+        "alt": "Kingston, Joan",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Jane MacAdam",
+        "href": "/en/senators/macadam-beverly-jane/",
+        "image": "https://sencanada.ca/media/35kiitf5/sen_pho_macadam_official_2024.jpg?center=0.402219426166952,0.47503218130960434&mode=crop&width=95&height=100&rnd=133953402323930000&quality=95",
+        "alt": "MacAdam, Jane",
+        "affiliation": "ISG - (Prince Edward Island)"
+      },
+      {
+        "name": "Elizabeth Marshall",
+        "href": "/en/senators/marshall-elizabeth/",
+        "image": "https://sencanada.ca/media/p2lbqiqx/sen_pho_marshall_official_2024.jpg?center=0.30801344134169434,0.47226417343585692&mode=crop&width=95&height=100&rnd=133953399107870000&quality=95",
+        "alt": "Marshall, Elizabeth",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Pierre Moreau",
+        "href": "/en/senators/moreau-pierre/",
+        "image": "https://sencanada.ca/media/2gzb1mkb/sen_pho_moreau_official.jpg?center=0.38228341294233087,0.51181271432115993&mode=crop&width=95&height=100&rnd=133953399110370000&quality=95",
+        "alt": "Moreau, Pierre",
+        "affiliation": "PSG - (Quebec - The Laurentides)"
+      },
+      {
+        "name": "Sandra Pupatello",
+        "href": "/en/senators/pupatello-sandra/",
+        "image": "https://sencanada.ca/media/233fr2g1/sen_pho_pupatello_official_2025.jpg?center=0.44347270064561373,0.50896305140314746&mode=crop&width=95&height=100&rnd=133953399112100000&quality=95",
+        "alt": "Pupatello, Sandra",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Toni Varone",
+        "href": "/en/senators/varone-toni/",
+        "image": "https://sencanada.ca/media/cq2ggfgb/sen_pho_varone_official_2024.jpg?center=0.41105941355523662,0.572583432828541&mode=crop&width=95&height=100&rnd=133953399115530000&quality=95",
+        "alt": "Varone, Toni",
+        "affiliation": "ISG - (Ontario)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/ollo/45-1",
       "acronym": "OLLO",
       "name_full": "Official Languages",
-      "name_short": "Official Languages"
-    },
-    {
-      "href": "/en/committees/pofo/45-1",
+      "name_short": "Official Languages",
+    "members": [
+      {
+        "name": "Allister W. Surette",
+        "href": "/en/senators/surette-allister/",
+        "image": "https://sencanada.ca/media/tqtknxzc/sen_pho_surette_official.jpg?center=0.44789269433975604,0.51108373078399394&mode=crop&width=95&height=100&rnd=133953399115230000&quality=90",
+        "alt": "Surette, Allister W.",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Rose-May Poirier",
+        "href": "/en/senators/poirier-rose-may/",
+        "image": "https://sencanada.ca/media/4uwlew2f/sen_pho_poirier_official_2024.jpg?center=0.39193901420517407,0.45739014647137149&mode=crop&width=95&height=100&rnd=133953399111800000&quality=90",
+        "alt": "Poirier, Rose-May",
+        "affiliation": "C - (New Brunswick - Saint-Louis-de-Kent)"
+      },
+      {
+        "name": "Allister W. Surette",
+        "href": "/en/senators/surette-allister/",
+        "image": "https://sencanada.ca/media/tqtknxzc/sen_pho_surette_official.jpg?center=0.44789269433975604,0.51108373078399394&mode=crop&width=95&height=100&rnd=133953399115230000&quality=90",
+        "alt": "Surette, Allister W.",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Rose-May Poirier",
+        "href": "/en/senators/poirier-rose-may/",
+        "image": "https://sencanada.ca/media/4uwlew2f/sen_pho_poirier_official_2024.jpg?center=0.39193901420517407,0.45739014647137149&mode=crop&width=95&height=100&rnd=133953399111800000&quality=90",
+        "alt": "Poirier, Rose-May",
+        "affiliation": "C - (New Brunswick - Saint-Louis-de-Kent)"
+      },
+      {
+        "name": "Mich\u00e8le Audette",
+        "href": "/en/senators/audette-michele/",
+        "image": "https://sencanada.ca/media/i0pdebyo/sen_pho_audette_official_2024.jpg?center=0.37717258684592186,0.48139434706252693&mode=crop&width=95&height=100&rnd=133953399096300000&quality=95",
+        "alt": "Audette, Mich\u00e8le",
+        "affiliation": "PSG - (Quebec - De Salaberry)"
+      },
+      {
+        "name": "Ren\u00e9 Cormier",
+        "href": "/en/senators/cormier-rene/",
+        "image": "https://sencanada.ca/media/bsgbexch/sen_pho_cormier_official_2024.jpg?center=0.375393019937317,0.50202389129278346&mode=crop&width=95&height=100&rnd=133953399099130000&quality=95",
+        "alt": "Cormier, Ren\u00e9",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Amina Gerba",
+        "href": "/en/senators/gerba-amina/",
+        "image": "https://sencanada.ca/media/utonnu0t/sen_pho_gerba_official_2024.jpg?center=0.40647362536155773,0.49673563804093013&mode=crop&width=95&height=100&rnd=133953399103200000&quality=95",
+        "alt": "Gerba, Amina",
+        "affiliation": "PSG - (Quebec - Rigaud)"
+      },
+      {
+        "name": "Tony Ince",
+        "href": "/en/senators/ince-tony/",
+        "image": "https://sencanada.ca/media/4dghfsft/sen_pho_ince_official.jpg?center=0.384572304572723,0.50717761441942166&mode=crop&width=95&height=100&rnd=133953399105230000&quality=95",
+        "alt": "Ince, Tony",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Marie-Fran\u00e7oise M\u00e9gie",
+        "href": "/en/senators/megie-marie-francoise/",
+        "image": "https://sencanada.ca/media/unjhgh4v/sen_pho_megie_official_2024.jpg?center=0.35170317484786057,0.51845494039254592&mode=crop&width=95&height=100&rnd=133953399109300000&quality=95",
+        "alt": "M\u00e9gie, Marie-Fran\u00e7oise",
+        "affiliation": "ISG - (Quebec - Rougemont)"
+      },
+      {
+        "name": "Lucie Moncion",
+        "href": "/en/senators/moncion-lucie/",
+        "image": "https://sencanada.ca/media/m1hge4bp/sen_pho_mocion_official_2024.jpg?center=0.36662689106284063,0.41218847511068274&mode=crop&width=95&height=100&rnd=133953399109900000&quality=95",
+        "alt": "Moncion, Lucie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Rebecca Patterson",
+        "href": "/en/senators/patterson-rebecca/",
+        "image": "https://sencanada.ca/media/izdcqinz/sen_pho_patterson_official_2024.jpg?center=0.36391281415105181,0.47503218130960434&mode=crop&width=95&height=100&rnd=133953399113970000&quality=95",
+        "alt": "Patterson, Rebecca",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Mich\u00e8le Audette",
+        "href": "/en/senators/audette-michele/",
+        "image": "https://sencanada.ca/media/i0pdebyo/sen_pho_audette_official_2024.jpg?center=0.37717258684592186,0.48139434706252693&mode=crop&width=95&height=100&rnd=133953399096300000&quality=95",
+        "alt": "Audette, Mich\u00e8le",
+        "affiliation": "PSG - (Quebec - De Salaberry)"
+      },
+      {
+        "name": "Ren\u00e9 Cormier",
+        "href": "/en/senators/cormier-rene/",
+        "image": "https://sencanada.ca/media/bsgbexch/sen_pho_cormier_official_2024.jpg?center=0.375393019937317,0.50202389129278346&mode=crop&width=95&height=100&rnd=133953399099130000&quality=95",
+        "alt": "Cormier, Ren\u00e9",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Amina Gerba",
+        "href": "/en/senators/gerba-amina/",
+        "image": "https://sencanada.ca/media/utonnu0t/sen_pho_gerba_official_2024.jpg?center=0.40647362536155773,0.49673563804093013&mode=crop&width=95&height=100&rnd=133953399103200000&quality=95",
+        "alt": "Gerba, Amina",
+        "affiliation": "PSG - (Quebec - Rigaud)"
+      },
+      {
+        "name": "Tony Ince",
+        "href": "/en/senators/ince-tony/",
+        "image": "https://sencanada.ca/media/4dghfsft/sen_pho_ince_official.jpg?center=0.384572304572723,0.50717761441942166&mode=crop&width=95&height=100&rnd=133953399105230000&quality=95",
+        "alt": "Ince, Tony",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Marie-Fran\u00e7oise M\u00e9gie",
+        "href": "/en/senators/megie-marie-francoise/",
+        "image": "https://sencanada.ca/media/unjhgh4v/sen_pho_megie_official_2024.jpg?center=0.35170317484786057,0.51845494039254592&mode=crop&width=95&height=100&rnd=133953399109300000&quality=95",
+        "alt": "M\u00e9gie, Marie-Fran\u00e7oise",
+        "affiliation": "ISG - (Quebec - Rougemont)"
+      },
+      {
+        "name": "Lucie Moncion",
+        "href": "/en/senators/moncion-lucie/",
+        "image": "https://sencanada.ca/media/m1hge4bp/sen_pho_mocion_official_2024.jpg?center=0.36662689106284063,0.41218847511068274&mode=crop&width=95&height=100&rnd=133953399109900000&quality=95",
+        "alt": "Moncion, Lucie",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Rebecca Patterson",
+        "href": "/en/senators/patterson-rebecca/",
+        "image": "https://sencanada.ca/media/izdcqinz/sen_pho_patterson_official_2024.jpg?center=0.36391281415105181,0.47503218130960434&mode=crop&width=95&height=100&rnd=133953399113970000&quality=95",
+        "alt": "Patterson, Rebecca",
+        "affiliation": "CSG - (Ontario)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/pofo/45-1",
       "acronym": "POFO",
       "name_full": "Fisheries and Oceans",
-      "name_short": "Fisheries"
-    },
-    {
-      "href": "/en/committees/ridr/45-1",
+      "name_short": "Fisheries",
+    "members": [
+      {
+        "name": "Fabian Manning",
+        "href": "/en/senators/manning-fabian/",
+        "image": "https://sencanada.ca/media/psrfhiws/sen_pho_manning_official_2024.jpg?center=0.38453945139038265,0.4601874256436792&mode=crop&width=95&height=100&rnd=133953399107400000&quality=90",
+        "alt": "Manning, Fabian",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Bev Busson",
+        "href": "/en/senators/busson-bev/",
+        "image": "https://sencanada.ca/media/u3yegw0q/sen_pho_busson_official_2024.jpg?center=0.45490039408430843,0.485788366915059&mode=crop&width=95&height=100&rnd=133953399098200000&quality=90",
+        "alt": "Busson, Bev",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Fabian Manning",
+        "href": "/en/senators/manning-fabian/",
+        "image": "https://sencanada.ca/media/psrfhiws/sen_pho_manning_official_2024.jpg?center=0.38453945139038265,0.4601874256436792&mode=crop&width=95&height=100&rnd=133953399107400000&quality=90",
+        "alt": "Manning, Fabian",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Bev Busson",
+        "href": "/en/senators/busson-bev/",
+        "image": "https://sencanada.ca/media/u3yegw0q/sen_pho_busson_official_2024.jpg?center=0.45490039408430843,0.485788366915059&mode=crop&width=95&height=100&rnd=133953399098200000&quality=90",
+        "alt": "Busson, Bev",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Victor Boudreau",
+        "href": "/en/senators/boudreau-victor/",
+        "image": "https://sencanada.ca/media/gvtoevkk/sen_pho_boudreau_official.jpg?center=0.3771727952334788,0.51744576892653327&mode=crop&width=95&height=100&rnd=133953399097230000&quality=95",
+        "alt": "Boudreau, Victor",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Rodger Cuzner",
+        "href": "/en/senators/cuzner-rodger/",
+        "image": "https://sencanada.ca/media/byiflqn4/sen_pho_cuzner_official_2024.jpg?center=0.40029738034074341,0.47377000818954645&mode=crop&width=95&height=100&rnd=133953399099730000&quality=95",
+        "alt": "Cuzner, Rodger",
+        "affiliation": "PSG - (Nova Scotia)"
+      },
+      {
+        "name": "Colin Deacon",
+        "href": "/en/senators/deacon-colin/",
+        "image": "https://sencanada.ca/media/xllg2j35/sen_pho_deacon-colin_official_2024.jpg?center=0.40979304311793552,0.48633155505483944&mode=crop&width=95&height=100&rnd=133953399100530000&quality=95",
+        "alt": "Deacon, Colin",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Baltej S. Dhillon",
+        "href": "/en/senators/dhillon-baltej-s/",
+        "image": "https://sencanada.ca/media/tbxdmqni/sen_pho_dhillon_official.jpg?center=0.38841822242592289,0.51988463292931186&mode=crop&width=95&height=100&rnd=133953399101170000&quality=95",
+        "alt": "Dhillon, Baltej S.",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Amina Gerba",
+        "href": "/en/senators/gerba-amina/",
+        "image": "https://sencanada.ca/media/utonnu0t/sen_pho_gerba_official_2024.jpg?center=0.40647362536155773,0.49673563804093013&mode=crop&width=95&height=100&rnd=133953399103200000&quality=95",
+        "alt": "Gerba, Amina",
+        "affiliation": "PSG - (Quebec - Rigaud)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=95",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Iris G. Petten",
+        "href": "/en/senators/petten-iris/",
+        "image": "https://sencanada.ca/media/flhokfcl/sen_pho_petten_official_2024.jpg?center=0.39732673485424785,0.50614186821947338&mode=crop&width=95&height=100&rnd=133953399111470000&quality=95",
+        "alt": "Petten, Iris G.",
+        "affiliation": "Non-affiliated - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Rose-May Poirier",
+        "href": "/en/senators/poirier-rose-may/",
+        "image": "https://sencanada.ca/media/4uwlew2f/sen_pho_poirier_official_2024.jpg?center=0.39193901420517407,0.45739014647137149&mode=crop&width=95&height=100&rnd=133953399111800000&quality=95",
+        "alt": "Poirier, Rose-May",
+        "affiliation": "C - (New Brunswick - Saint-Louis-de-Kent)"
+      },
+      {
+        "name": "Mohamed-Iqbal Ravalia",
+        "href": "/en/senators/ravalia-mohamed-iqbal/",
+        "image": "https://sencanada.ca/media/cwen5ay0/sen_pho_ravalia_official_2024.jpg?center=0.380479788686098,0.58082894556956211&mode=crop&width=95&height=100&rnd=133953399112400000&quality=95",
+        "alt": "Ravalia, Mohamed-Iqbal",
+        "affiliation": "ISG - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Allister W. Surette",
+        "href": "/en/senators/surette-allister/",
+        "image": "https://sencanada.ca/media/tqtknxzc/sen_pho_surette_official.jpg?center=0.44789269433975604,0.51108373078399394&mode=crop&width=95&height=100&rnd=133953399115230000&quality=95",
+        "alt": "Surette, Allister W.",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Victor Boudreau",
+        "href": "/en/senators/boudreau-victor/",
+        "image": "https://sencanada.ca/media/gvtoevkk/sen_pho_boudreau_official.jpg?center=0.3771727952334788,0.51744576892653327&mode=crop&width=95&height=100&rnd=133953399097230000&quality=95",
+        "alt": "Boudreau, Victor",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Rodger Cuzner",
+        "href": "/en/senators/cuzner-rodger/",
+        "image": "https://sencanada.ca/media/byiflqn4/sen_pho_cuzner_official_2024.jpg?center=0.40029738034074341,0.47377000818954645&mode=crop&width=95&height=100&rnd=133953399099730000&quality=95",
+        "alt": "Cuzner, Rodger",
+        "affiliation": "PSG - (Nova Scotia)"
+      },
+      {
+        "name": "Colin Deacon",
+        "href": "/en/senators/deacon-colin/",
+        "image": "https://sencanada.ca/media/xllg2j35/sen_pho_deacon-colin_official_2024.jpg?center=0.40979304311793552,0.48633155505483944&mode=crop&width=95&height=100&rnd=133953399100530000&quality=95",
+        "alt": "Deacon, Colin",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Baltej S. Dhillon",
+        "href": "/en/senators/dhillon-baltej-s/",
+        "image": "https://sencanada.ca/media/tbxdmqni/sen_pho_dhillon_official.jpg?center=0.38841822242592289,0.51988463292931186&mode=crop&width=95&height=100&rnd=133953399101170000&quality=95",
+        "alt": "Dhillon, Baltej S.",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Amina Gerba",
+        "href": "/en/senators/gerba-amina/",
+        "image": "https://sencanada.ca/media/utonnu0t/sen_pho_gerba_official_2024.jpg?center=0.40647362536155773,0.49673563804093013&mode=crop&width=95&height=100&rnd=133953399103200000&quality=95",
+        "alt": "Gerba, Amina",
+        "affiliation": "PSG - (Quebec - Rigaud)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=95",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Iris G. Petten",
+        "href": "/en/senators/petten-iris/",
+        "image": "https://sencanada.ca/media/flhokfcl/sen_pho_petten_official_2024.jpg?center=0.39732673485424785,0.50614186821947338&mode=crop&width=95&height=100&rnd=133953399111470000&quality=95",
+        "alt": "Petten, Iris G.",
+        "affiliation": "Non-affiliated - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Rose-May Poirier",
+        "href": "/en/senators/poirier-rose-may/",
+        "image": "https://sencanada.ca/media/4uwlew2f/sen_pho_poirier_official_2024.jpg?center=0.39193901420517407,0.45739014647137149&mode=crop&width=95&height=100&rnd=133953399111800000&quality=95",
+        "alt": "Poirier, Rose-May",
+        "affiliation": "C - (New Brunswick - Saint-Louis-de-Kent)"
+      },
+      {
+        "name": "Mohamed-Iqbal Ravalia",
+        "href": "/en/senators/ravalia-mohamed-iqbal/",
+        "image": "https://sencanada.ca/media/cwen5ay0/sen_pho_ravalia_official_2024.jpg?center=0.380479788686098,0.58082894556956211&mode=crop&width=95&height=100&rnd=133953399112400000&quality=95",
+        "alt": "Ravalia, Mohamed-Iqbal",
+        "affiliation": "ISG - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Allister W. Surette",
+        "href": "/en/senators/surette-allister/",
+        "image": "https://sencanada.ca/media/tqtknxzc/sen_pho_surette_official.jpg?center=0.44789269433975604,0.51108373078399394&mode=crop&width=95&height=100&rnd=133953399115230000&quality=95",
+        "alt": "Surette, Allister W.",
+        "affiliation": "ISG - (Nova Scotia)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/ridr/45-1",
       "acronym": "RIDR",
       "name_full": "Human Rights",
-      "name_short": "Human Rights"
-    },
-    {
-      "href": "/en/committees/rprd/45-1",
+      "name_short": "Human Rights",
+    "members": [
+      {
+        "name": "Paulette Senior",
+        "href": "/en/senators/senior-paulette/",
+        "image": "https://sencanada.ca/media/qhkhihsm/sen_pho_senior_official_2024.jpg?center=0.32804792107117686,0.48984055536184107&mode=crop&width=95&height=100&rnd=133953399114300000&quality=90",
+        "alt": "Senior, Paulette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Wanda Thomas Bernard",
+        "href": "/en/senators/bernard-wanda-thomas/",
+        "image": "https://sencanada.ca/media/mejfthej/sen_pho_bernard_official_2024.jpg?center=0.41561730242408895,0.50697504887504552&mode=crop&width=95&height=100&rnd=133953399096630000&quality=90",
+        "alt": "Bernard, Wanda Thomas",
+        "affiliation": "PSG - (Nova Scotia - East Preston)"
+      },
+      {
+        "name": "Paulette Senior",
+        "href": "/en/senators/senior-paulette/",
+        "image": "https://sencanada.ca/media/qhkhihsm/sen_pho_senior_official_2024.jpg?center=0.32804792107117686,0.48984055536184107&mode=crop&width=95&height=100&rnd=133953399114300000&quality=90",
+        "alt": "Senior, Paulette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Wanda Thomas Bernard",
+        "href": "/en/senators/bernard-wanda-thomas/",
+        "image": "https://sencanada.ca/media/mejfthej/sen_pho_bernard_official_2024.jpg?center=0.41561730242408895,0.50697504887504552&mode=crop&width=95&height=100&rnd=133953399096630000&quality=90",
+        "alt": "Bernard, Wanda Thomas",
+        "affiliation": "PSG - (Nova Scotia - East Preston)"
+      },
+      {
+        "name": "Denise Batters",
+        "href": "/en/senators/batters-denise/",
+        "image": "https://sencanada.ca/media/jqzobltq/sen_pho_batters_official_2024.jpg?center=0.39172172471741984,0.50641174326518446&mode=crop&width=95&height=100&rnd=133953399096470000&quality=95",
+        "alt": "Batters, Denise",
+        "affiliation": "C - (Saskatchewan)"
+      },
+      {
+        "name": "Bernadette Clement",
+        "href": "/en/senators/clement-bernadette/",
+        "image": "https://sencanada.ca/media/ipcdgb5s/sen_pho_clement_official_2024.jpg?center=0.3900844572544841,0.46550661278670796&mode=crop&width=95&height=100&rnd=133953399098800000&quality=95",
+        "alt": "Clement, Bernadette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Mary Coyle",
+        "href": "/en/senators/coyle-mary/",
+        "image": "https://sencanada.ca/media/0wqdqvir/sen_pho_coyle_official_2024.jpg?center=0.40516608862971354,0.51956644830737975&mode=crop&width=95&height=100&rnd=133953403354530000&quality=95",
+        "alt": "Coyle, Mary",
+        "affiliation": "ISG - (Nova Scotia - Antigonish)"
+      },
+      {
+        "name": "Nancy Karetak-Lindell",
+        "href": "/en/senators/karetak-lindell-nancy/",
+        "image": "https://sencanada.ca/media/q0uj1sd0/sen_pho_karetak-lindell_official.jpg?center=0.31156351383605357,0.49693482303990905&mode=crop&width=95&height=100&rnd=133953399105700000&quality=95",
+        "alt": "Karetak-Lindell, Nancy",
+        "affiliation": "ISG - (Nunavut)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=95",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Kristopher Wells",
+        "href": "/en/senators/wells-kristopher/",
+        "image": "https://sencanada.ca/media/saxnvpin/sen_pho_k-wells_official_2024.jpg?center=0.39485277001004809,0.51532508954568679&mode=crop&width=95&height=100&rnd=133953399105370000&quality=95",
+        "alt": "Wells, Kristopher",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Denise Batters",
+        "href": "/en/senators/batters-denise/",
+        "image": "https://sencanada.ca/media/jqzobltq/sen_pho_batters_official_2024.jpg?center=0.39172172471741984,0.50641174326518446&mode=crop&width=95&height=100&rnd=133953399096470000&quality=95",
+        "alt": "Batters, Denise",
+        "affiliation": "C - (Saskatchewan)"
+      },
+      {
+        "name": "Bernadette Clement",
+        "href": "/en/senators/clement-bernadette/",
+        "image": "https://sencanada.ca/media/ipcdgb5s/sen_pho_clement_official_2024.jpg?center=0.3900844572544841,0.46550661278670796&mode=crop&width=95&height=100&rnd=133953399098800000&quality=95",
+        "alt": "Clement, Bernadette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Mary Coyle",
+        "href": "/en/senators/coyle-mary/",
+        "image": "https://sencanada.ca/media/0wqdqvir/sen_pho_coyle_official_2024.jpg?center=0.40516608862971354,0.51956644830737975&mode=crop&width=95&height=100&rnd=133953403354530000&quality=95",
+        "alt": "Coyle, Mary",
+        "affiliation": "ISG - (Nova Scotia - Antigonish)"
+      },
+      {
+        "name": "Nancy Karetak-Lindell",
+        "href": "/en/senators/karetak-lindell-nancy/",
+        "image": "https://sencanada.ca/media/q0uj1sd0/sen_pho_karetak-lindell_official.jpg?center=0.31156351383605357,0.49693482303990905&mode=crop&width=95&height=100&rnd=133953399105700000&quality=95",
+        "alt": "Karetak-Lindell, Nancy",
+        "affiliation": "ISG - (Nunavut)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=95",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Kristopher Wells",
+        "href": "/en/senators/wells-kristopher/",
+        "image": "https://sencanada.ca/media/saxnvpin/sen_pho_k-wells_official_2024.jpg?center=0.39485277001004809,0.51532508954568679&mode=crop&width=95&height=100&rnd=133953399105370000&quality=95",
+        "alt": "Wells, Kristopher",
+        "affiliation": "PSG - (Alberta)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/rprd/45-1",
       "acronym": "RPRD",
       "name_full": "Rules, Procedures and the Rights of Parliament",
-      "name_short": "Rules, Procedures"
-    },
-    {
-      "href": "/en/committees/secd/45-1",
+      "name_short": "Rules, Procedures",
+    "members": [
+      {
+        "name": "Pierre J. Dalphond",
+        "href": "/en/senators/dalphond-pierre/",
+        "image": "https://sencanada.ca/media/jzcgtom3/sen_pho_dalphond_official_2024.jpg?center=0.35728117912974378,0.45756206574401709&mode=crop&width=95&height=100&rnd=133953399100070000&quality=90",
+        "alt": "Dalphond, Pierre J.",
+        "affiliation": "PSG - (Quebec - De Lorimier)"
+      },
+      {
+        "name": "Denise Batters",
+        "href": "/en/senators/batters-denise/",
+        "image": "https://sencanada.ca/media/jqzobltq/sen_pho_batters_official_2024.jpg?center=0.39172172471741984,0.50641174326518446&mode=crop&width=95&height=100&rnd=133953399096470000&quality=90",
+        "alt": "Batters, Denise",
+        "affiliation": "C - (Saskatchewan)"
+      },
+      {
+        "name": "Percy E. Downe",
+        "href": "/en/senators/downe-percy-e/",
+        "image": "https://sencanada.ca/media/riuielkr/sen_pho_downe_official_2024.jpg?center=0.39799175061299108,0.53021765445520341&mode=crop&width=95&height=100&rnd=133953399101300000&quality=90",
+        "alt": "Downe, Percy E.",
+        "affiliation": "CSG - (Prince Edward Island - Charlottetown)"
+      },
+      {
+        "name": "Pierrette Ringuette",
+        "href": "/en/senators/ringuette-pierrette/",
+        "image": "https://sencanada.ca/media/ikultfz5/sen_pho_ringuette_official.jpg?center=0.43168605079456751,0.47927354007129719&mode=crop&width=95&height=100&rnd=133953399112870000&quality=90",
+        "alt": "Ringuette, Pierrette",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Pierre J. Dalphond",
+        "href": "/en/senators/dalphond-pierre/",
+        "image": "https://sencanada.ca/media/jzcgtom3/sen_pho_dalphond_official_2024.jpg?center=0.35728117912974378,0.45756206574401709&mode=crop&width=95&height=100&rnd=133953399100070000&quality=90",
+        "alt": "Dalphond, Pierre J.",
+        "affiliation": "PSG - (Quebec - De Lorimier)"
+      },
+      {
+        "name": "Denise Batters",
+        "href": "/en/senators/batters-denise/",
+        "image": "https://sencanada.ca/media/jqzobltq/sen_pho_batters_official_2024.jpg?center=0.39172172471741984,0.50641174326518446&mode=crop&width=95&height=100&rnd=133953399096470000&quality=90",
+        "alt": "Batters, Denise",
+        "affiliation": "C - (Saskatchewan)"
+      },
+      {
+        "name": "Percy E. Downe",
+        "href": "/en/senators/downe-percy-e/",
+        "image": "https://sencanada.ca/media/riuielkr/sen_pho_downe_official_2024.jpg?center=0.39799175061299108,0.53021765445520341&mode=crop&width=95&height=100&rnd=133953399101300000&quality=90",
+        "alt": "Downe, Percy E.",
+        "affiliation": "CSG - (Prince Edward Island - Charlottetown)"
+      },
+      {
+        "name": "Pierrette Ringuette",
+        "href": "/en/senators/ringuette-pierrette/",
+        "image": "https://sencanada.ca/media/ikultfz5/sen_pho_ringuette_official.jpg?center=0.43168605079456751,0.47927354007129719&mode=crop&width=95&height=100&rnd=133953399112870000&quality=90",
+        "alt": "Ringuette, Pierrette",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Sharon Burey",
+        "href": "/en/senators/burey-sharon/",
+        "image": "https://sencanada.ca/media/kkmciyn2/sen_pho_burey_official_2024.jpg?center=0.39492871030460147,0.47993154704248786&mode=crop&width=95&height=100&rnd=133953399098070000&quality=95",
+        "alt": "Burey, Sharon",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Bev Busson",
+        "href": "/en/senators/busson-bev/",
+        "image": "https://sencanada.ca/media/u3yegw0q/sen_pho_busson_official_2024.jpg?center=0.45490039408430843,0.485788366915059&mode=crop&width=95&height=100&rnd=133953399098200000&quality=95",
+        "alt": "Busson, Bev",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Marie-Fran\u00e7oise M\u00e9gie",
+        "href": "/en/senators/megie-marie-francoise/",
+        "image": "https://sencanada.ca/media/unjhgh4v/sen_pho_megie_official_2024.jpg?center=0.35170317484786057,0.51845494039254592&mode=crop&width=95&height=100&rnd=133953399109300000&quality=95",
+        "alt": "M\u00e9gie, Marie-Fran\u00e7oise",
+        "affiliation": "ISG - (Quebec - Rougemont)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=95",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "Raymonde Saint-Germain",
+        "href": "/en/senators/saint-germain-raymonde/",
+        "image": "https://sencanada.ca/media/01nnhkfd/sen_pho_saint-germain_official_2024.jpg?center=0.36328400281888656,0.54867340793102359&mode=crop&width=95&height=100&rnd=133953399113670000&quality=95",
+        "alt": "Saint-Germain, Raymonde",
+        "affiliation": "ISG - (Quebec - De la Valli\u00e8re)"
+      },
+      {
+        "name": "Allister W. Surette",
+        "href": "/en/senators/surette-allister/",
+        "image": "https://sencanada.ca/media/tqtknxzc/sen_pho_surette_official.jpg?center=0.44789269433975604,0.51108373078399394&mode=crop&width=95&height=100&rnd=133953399115230000&quality=95",
+        "alt": "Surette, Allister W.",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "David M. Wells",
+        "href": "/en/senators/wells-david-m/",
+        "image": "https://sencanada.ca/media/s40fucit/sen_pho_david-wells_official_2024.jpg?center=0.39126152513355744,0.45523365115248321&mode=crop&width=95&height=100&rnd=133953399116170000&quality=95",
+        "alt": "Wells, David M.",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Kristopher Wells",
+        "href": "/en/senators/wells-kristopher/",
+        "image": "https://sencanada.ca/media/saxnvpin/sen_pho_k-wells_official_2024.jpg?center=0.39485277001004809,0.51532508954568679&mode=crop&width=95&height=100&rnd=133953399105370000&quality=95",
+        "alt": "Wells, Kristopher",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Judy A. White",
+        "href": "/en/senators/white-judy/",
+        "image": "https://sencanada.ca/media/tqlbjf04/sen_pho_white_official_2024.jpg?center=0.38724453840732909,0.46955336482074367&mode=crop&width=95&height=100&rnd=133953399116300000&quality=95",
+        "alt": "White, Judy A.",
+        "affiliation": "PSG - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Hassan Yussuff",
+        "href": "/en/senators/yussuff-hassan/",
+        "image": "https://sencanada.ca/media/1p4gjprf/sen_pho_yussuff_official_2024.jpg?center=0.37717258684592186,0.46018754763245967&mode=crop&width=95&height=100&rnd=133953399117100000&quality=95",
+        "alt": "Yussuff, Hassan",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Sharon Burey",
+        "href": "/en/senators/burey-sharon/",
+        "image": "https://sencanada.ca/media/kkmciyn2/sen_pho_burey_official_2024.jpg?center=0.39492871030460147,0.47993154704248786&mode=crop&width=95&height=100&rnd=133953399098070000&quality=95",
+        "alt": "Burey, Sharon",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Bev Busson",
+        "href": "/en/senators/busson-bev/",
+        "image": "https://sencanada.ca/media/u3yegw0q/sen_pho_busson_official_2024.jpg?center=0.45490039408430843,0.485788366915059&mode=crop&width=95&height=100&rnd=133953399098200000&quality=95",
+        "alt": "Busson, Bev",
+        "affiliation": "ISG - (British Columbia)"
+      },
+      {
+        "name": "Marie-Fran\u00e7oise M\u00e9gie",
+        "href": "/en/senators/megie-marie-francoise/",
+        "image": "https://sencanada.ca/media/unjhgh4v/sen_pho_megie_official_2024.jpg?center=0.35170317484786057,0.51845494039254592&mode=crop&width=95&height=100&rnd=133953399109300000&quality=95",
+        "alt": "M\u00e9gie, Marie-Fran\u00e7oise",
+        "affiliation": "ISG - (Quebec - Rougemont)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=95",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "Raymonde Saint-Germain",
+        "href": "/en/senators/saint-germain-raymonde/",
+        "image": "https://sencanada.ca/media/01nnhkfd/sen_pho_saint-germain_official_2024.jpg?center=0.36328400281888656,0.54867340793102359&mode=crop&width=95&height=100&rnd=133953399113670000&quality=95",
+        "alt": "Saint-Germain, Raymonde",
+        "affiliation": "ISG - (Quebec - De la Valli\u00e8re)"
+      },
+      {
+        "name": "Allister W. Surette",
+        "href": "/en/senators/surette-allister/",
+        "image": "https://sencanada.ca/media/tqtknxzc/sen_pho_surette_official.jpg?center=0.44789269433975604,0.51108373078399394&mode=crop&width=95&height=100&rnd=133953399115230000&quality=95",
+        "alt": "Surette, Allister W.",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "Scott Tannas",
+        "href": "/en/senators/tannas-scott/",
+        "image": "https://sencanada.ca/media/csjlraxb/sen_pho_tannas_official_2024.jpg?center=0.39114620502313591,0.55518738195433914&mode=crop&width=95&height=100&rnd=133953399115370000&quality=95",
+        "alt": "Tannas, Scott",
+        "affiliation": "CSG - (Alberta)"
+      },
+      {
+        "name": "David M. Wells",
+        "href": "/en/senators/wells-david-m/",
+        "image": "https://sencanada.ca/media/s40fucit/sen_pho_david-wells_official_2024.jpg?center=0.39126152513355744,0.45523365115248321&mode=crop&width=95&height=100&rnd=133953399116170000&quality=95",
+        "alt": "Wells, David M.",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Kristopher Wells",
+        "href": "/en/senators/wells-kristopher/",
+        "image": "https://sencanada.ca/media/saxnvpin/sen_pho_k-wells_official_2024.jpg?center=0.39485277001004809,0.51532508954568679&mode=crop&width=95&height=100&rnd=133953399105370000&quality=95",
+        "alt": "Wells, Kristopher",
+        "affiliation": "PSG - (Alberta)"
+      },
+      {
+        "name": "Judy A. White",
+        "href": "/en/senators/white-judy/",
+        "image": "https://sencanada.ca/media/tqlbjf04/sen_pho_white_official_2024.jpg?center=0.38724453840732909,0.46955336482074367&mode=crop&width=95&height=100&rnd=133953399116300000&quality=95",
+        "alt": "White, Judy A.",
+        "affiliation": "PSG - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Hassan Yussuff",
+        "href": "/en/senators/yussuff-hassan/",
+        "image": "https://sencanada.ca/media/1p4gjprf/sen_pho_yussuff_official_2024.jpg?center=0.37717258684592186,0.46018754763245967&mode=crop&width=95&height=100&rnd=133953399117100000&quality=95",
+        "alt": "Yussuff, Hassan",
+        "affiliation": "ISG - (Ontario)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/secd/45-1",
       "acronym": "SECD",
       "name_full": "National Security, Defence and Veterans Affairs",
-      "name_short": "Defence"
-    },
-    {
-      "href": "/en/committees/sele/45-1",
+      "name_short": "Defence",
+    "members": [
+      {
+        "name": "Hassan Yussuff",
+        "href": "/en/senators/yussuff-hassan/",
+        "image": "https://sencanada.ca/media/1p4gjprf/sen_pho_yussuff_official_2024.jpg?center=0.37717258684592186,0.46018754763245967&mode=crop&width=95&height=100&rnd=133953399117100000&quality=90",
+        "alt": "Yussuff, Hassan",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Mohammad Al Zaibak",
+        "href": "/en/senators/al-zaibak-mohammad-khair/",
+        "image": "https://sencanada.ca/media/nalbnwmb/sen_pho_al-zaibak_official_2024.jpg?center=0.40089431517076507,0.506629828852538&mode=crop&width=95&height=100&rnd=133953399095200000&quality=90",
+        "alt": "Al Zaibak, Mohammad",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Hassan Yussuff",
+        "href": "/en/senators/yussuff-hassan/",
+        "image": "https://sencanada.ca/media/1p4gjprf/sen_pho_yussuff_official_2024.jpg?center=0.37717258684592186,0.46018754763245967&mode=crop&width=95&height=100&rnd=133953399117100000&quality=90",
+        "alt": "Yussuff, Hassan",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Mohammad Al Zaibak",
+        "href": "/en/senators/al-zaibak-mohammad-khair/",
+        "image": "https://sencanada.ca/media/nalbnwmb/sen_pho_al-zaibak_official_2024.jpg?center=0.40089431517076507,0.506629828852538&mode=crop&width=95&height=100&rnd=133953399095200000&quality=90",
+        "alt": "Al Zaibak, Mohammad",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Dawn Anderson",
+        "href": "/en/senators/anderson-margaret/",
+        "image": "https://sencanada.ca/media/nmemnah0/sen_pho_anderson_official_2024.jpg?center=0.404085788062057,0.46996252564457858&mode=crop&width=95&height=100&rnd=133953399095370000&quality=95",
+        "alt": "Anderson, Dawn",
+        "affiliation": "PSG - (Northwest Territories)"
+      },
+      {
+        "name": "Andrew Cardozo",
+        "href": "/en/senators/cardozo-andrew/",
+        "image": "https://sencanada.ca/media/fr4m4b54/sen_pho_cardozo_official_2024.jpg?center=0.41707283352201385,0.51905090048902747&mode=crop&width=95&height=100&rnd=133953399098330000&quality=95",
+        "alt": "Cardozo, Andrew",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=95",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "Donna Dasko",
+        "href": "/en/senators/dasko-donna/",
+        "image": "https://sencanada.ca/media/wcrjo2ow/sen_pho_dasko_official_2024.jpg?center=0.36472169936455284,0.43914033241985162&mode=crop&width=95&height=100&rnd=133953399100200000&quality=95",
+        "alt": "Dasko, Donna",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Marty Deacon",
+        "href": "/en/senators/deacon-marty/",
+        "image": "https://sencanada.ca/media/03tehv0q/sen_pho_deaconm_official_2024.jpg?center=0.39640163789548111,0.51473849617507572&mode=crop&width=95&height=100&rnd=133953399100700000&quality=95",
+        "alt": "Deacon, Marty",
+        "affiliation": "ISG - (Ontario - Waterloo Region)"
+      },
+      {
+        "name": "Pat Duncan",
+        "href": "/en/senators/duncan-pat/",
+        "image": "https://sencanada.ca/media/tsjitw0d/sen_pho_duncan_official_2024.jpg?center=0.38530447160966591,0.53569246433694684&mode=crop&width=95&height=100&rnd=133953399101470000&quality=95",
+        "alt": "Duncan, Pat",
+        "affiliation": "ISG - (Yukon)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Tony Ince",
+        "href": "/en/senators/ince-tony/",
+        "image": "https://sencanada.ca/media/4dghfsft/sen_pho_ince_official.jpg?center=0.384572304572723,0.50717761441942166&mode=crop&width=95&height=100&rnd=133953399105230000&quality=95",
+        "alt": "Ince, Tony",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Stan Kutcher",
+        "href": "/en/senators/kutcher-stan/",
+        "image": "https://sencanada.ca/media/r1vfsa0k/sen_pho_kutcher_official_2024.jpg?center=0.39133008856782647,0.54348626232738417&mode=crop&width=95&height=100&rnd=133953399106300000&quality=95",
+        "alt": "Kutcher, Stan",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "John M. McNair",
+        "href": "/en/senators/mcnair-john-m/",
+        "image": "https://sencanada.ca/media/yr4kwcj1/sen_pho_mcnair_official_2024.jpg?center=0.37930393685352287,0.47083675544428272&mode=crop&width=95&height=100&rnd=133953399108970000&quality=95",
+        "alt": "McNair, John M.",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "David Richards",
+        "href": "/en/senators/richards-david/",
+        "image": "https://sencanada.ca/media/dy4jis1j/sen_pho_richards_official_2024.jpg?center=0.33076430212690744,0.57160772958755057&mode=crop&width=95&height=100&rnd=133953399112730000&quality=95",
+        "alt": "Richards, David",
+        "affiliation": "C - (New Brunswick)"
+      },
+      {
+        "name": "Dawn Anderson",
+        "href": "/en/senators/anderson-margaret/",
+        "image": "https://sencanada.ca/media/nmemnah0/sen_pho_anderson_official_2024.jpg?center=0.404085788062057,0.46996252564457858&mode=crop&width=95&height=100&rnd=133953399095370000&quality=95",
+        "alt": "Anderson, Dawn",
+        "affiliation": "PSG - (Northwest Territories)"
+      },
+      {
+        "name": "Andrew Cardozo",
+        "href": "/en/senators/cardozo-andrew/",
+        "image": "https://sencanada.ca/media/fr4m4b54/sen_pho_cardozo_official_2024.jpg?center=0.41707283352201385,0.51905090048902747&mode=crop&width=95&height=100&rnd=133953399098330000&quality=95",
+        "alt": "Cardozo, Andrew",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Claude Carignan",
+        "href": "/en/senators/carignan-claude/",
+        "image": "https://sencanada.ca/media/phznjx2v/com_sen_carignan_official_2024.jpg?center=0.40460315835375488,0.46311529238787591&mode=crop&width=95&height=100&rnd=133953399098500000&quality=95",
+        "alt": "Carignan, Claude, P.C.",
+        "affiliation": "C - (Quebec - Mille Isles)"
+      },
+      {
+        "name": "Donna Dasko",
+        "href": "/en/senators/dasko-donna/",
+        "image": "https://sencanada.ca/media/wcrjo2ow/sen_pho_dasko_official_2024.jpg?center=0.36472169936455284,0.43914033241985162&mode=crop&width=95&height=100&rnd=133953399100200000&quality=95",
+        "alt": "Dasko, Donna",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Marty Deacon",
+        "href": "/en/senators/deacon-marty/",
+        "image": "https://sencanada.ca/media/03tehv0q/sen_pho_deaconm_official_2024.jpg?center=0.39640163789548111,0.51473849617507572&mode=crop&width=95&height=100&rnd=133953399100700000&quality=95",
+        "alt": "Deacon, Marty",
+        "affiliation": "ISG - (Ontario - Waterloo Region)"
+      },
+      {
+        "name": "Pat Duncan",
+        "href": "/en/senators/duncan-pat/",
+        "image": "https://sencanada.ca/media/tsjitw0d/sen_pho_duncan_official_2024.jpg?center=0.38530447160966591,0.53569246433694684&mode=crop&width=95&height=100&rnd=133953399101470000&quality=95",
+        "alt": "Duncan, Pat",
+        "affiliation": "ISG - (Yukon)"
+      },
+      {
+        "name": "Brian Francis",
+        "href": "/en/senators/francis-brian/",
+        "image": "https://sencanada.ca/media/mc3n2kqs/sen_pho_francis_official_2024.jpg?center=0.27208988452880589,0.55986889557960606&mode=crop&width=95&height=100&rnd=133953399102100000&quality=95",
+        "alt": "Francis, Brian",
+        "affiliation": "PSG - (Prince Edward Island)"
+      },
+      {
+        "name": "Tony Ince",
+        "href": "/en/senators/ince-tony/",
+        "image": "https://sencanada.ca/media/4dghfsft/sen_pho_ince_official.jpg?center=0.384572304572723,0.50717761441942166&mode=crop&width=95&height=100&rnd=133953399105230000&quality=95",
+        "alt": "Ince, Tony",
+        "affiliation": "CSG - (Nova Scotia)"
+      },
+      {
+        "name": "Stan Kutcher",
+        "href": "/en/senators/kutcher-stan/",
+        "image": "https://sencanada.ca/media/r1vfsa0k/sen_pho_kutcher_official_2024.jpg?center=0.39133008856782647,0.54348626232738417&mode=crop&width=95&height=100&rnd=133953399106300000&quality=95",
+        "alt": "Kutcher, Stan",
+        "affiliation": "ISG - (Nova Scotia)"
+      },
+      {
+        "name": "John M. McNair",
+        "href": "/en/senators/mcnair-john-m/",
+        "image": "https://sencanada.ca/media/yr4kwcj1/sen_pho_mcnair_official_2024.jpg?center=0.37930393685352287,0.47083675544428272&mode=crop&width=95&height=100&rnd=133953399108970000&quality=95",
+        "alt": "McNair, John M.",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "David Richards",
+        "href": "/en/senators/richards-david/",
+        "image": "https://sencanada.ca/media/dy4jis1j/sen_pho_richards_official_2024.jpg?center=0.33076430212690744,0.57160772958755057&mode=crop&width=95&height=100&rnd=133953399112730000&quality=95",
+        "alt": "Richards, David",
+        "affiliation": "C - (New Brunswick)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/sele/45-1",
       "acronym": "SELE",
       "name_full": "Selection Committee",
-      "name_short": "Selection"
-    },
-    {
-      "href": "/en/committees/soci/45-1",
+      "name_short": "Selection",
+    "members": [
+      {
+        "name": "Michael L. MacDonald",
+        "href": "/en/senators/macdonald-michael-l/",
+        "image": "https://sencanada.ca/media/gocpeh02/sen_pho_macdonald_official_2024.jpg?center=0.38132921229098238,0.56382001342519816&mode=crop&width=95&height=100&rnd=133953399107270000&quality=90",
+        "alt": "MacDonald, Michael L.",
+        "affiliation": "C - (Nova Scotia - Cape Breton)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=90",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "Michael L. MacDonald",
+        "href": "/en/senators/macdonald-michael-l/",
+        "image": "https://sencanada.ca/media/gocpeh02/sen_pho_macdonald_official_2024.jpg?center=0.38132921229098238,0.56382001342519816&mode=crop&width=95&height=100&rnd=133953399107270000&quality=90",
+        "alt": "MacDonald, Michael L.",
+        "affiliation": "C - (Nova Scotia - Cape Breton)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=90",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "David M. Arnot",
+        "href": "/en/senators/arnot-david/",
+        "image": "https://sencanada.ca/media/gpnlejy1/sen_pho_arnot_official_2024.jpg?center=0.390486311403914,0.48195226955766712&mode=crop&width=95&height=100&rnd=133953399095830000&quality=95",
+        "alt": "Arnot, David M.",
+        "affiliation": "ISG - (Saskatchewan)"
+      },
+      {
+        "name": "Bernadette Clement",
+        "href": "/en/senators/clement-bernadette/",
+        "image": "https://sencanada.ca/media/ipcdgb5s/sen_pho_clement_official_2024.jpg?center=0.3900844572544841,0.46550661278670796&mode=crop&width=95&height=100&rnd=133953399098800000&quality=95",
+        "alt": "Clement, Bernadette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Percy E. Downe",
+        "href": "/en/senators/downe-percy-e/",
+        "image": "https://sencanada.ca/media/riuielkr/sen_pho_downe_official_2024.jpg?center=0.39799175061299108,0.53021765445520341&mode=crop&width=95&height=100&rnd=133953399101300000&quality=95",
+        "alt": "Downe, Percy E.",
+        "affiliation": "CSG - (Prince Edward Island - Charlottetown)"
+      },
+      {
+        "name": "Dani\u00e8le Henkel",
+        "href": "/en/senators/henkel-daniele/",
+        "image": "https://sencanada.ca/media/zo2a0vea/sen_pho_henkel_official.png?center=0.3742261327707172,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399104900000&quality=95",
+        "alt": "Henkel, Dani\u00e8le",
+        "affiliation": "PSG - (Quebec - Alma)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Raymonde Saint-Germain",
+        "href": "/en/senators/saint-germain-raymonde/",
+        "image": "https://sencanada.ca/media/01nnhkfd/sen_pho_saint-germain_official_2024.jpg?center=0.36328400281888656,0.54867340793102359&mode=crop&width=95&height=100&rnd=133953399113670000&quality=95",
+        "alt": "Saint-Germain, Raymonde",
+        "affiliation": "ISG - (Quebec - De la Valli\u00e8re)"
+      },
+      {
+        "name": "Duncan Wilson",
+        "href": "/en/senators/wilson-duncan/",
+        "image": "https://sencanada.ca/media/4eminkuz/sen_pho_wilson_official.jpg?center=0.38114382711465239,0.51143022064049992&mode=crop&width=95&height=100&rnd=133953399116470000&quality=95",
+        "alt": "Wilson, Duncan",
+        "affiliation": "PSG - (British Columbia)"
+      },
+      {
+        "name": "David M. Arnot",
+        "href": "/en/senators/arnot-david/",
+        "image": "https://sencanada.ca/media/gpnlejy1/sen_pho_arnot_official_2024.jpg?center=0.390486311403914,0.48195226955766712&mode=crop&width=95&height=100&rnd=133953399095830000&quality=95",
+        "alt": "Arnot, David M.",
+        "affiliation": "ISG - (Saskatchewan)"
+      },
+      {
+        "name": "Bernadette Clement",
+        "href": "/en/senators/clement-bernadette/",
+        "image": "https://sencanada.ca/media/ipcdgb5s/sen_pho_clement_official_2024.jpg?center=0.3900844572544841,0.46550661278670796&mode=crop&width=95&height=100&rnd=133953399098800000&quality=95",
+        "alt": "Clement, Bernadette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Percy E. Downe",
+        "href": "/en/senators/downe-percy-e/",
+        "image": "https://sencanada.ca/media/riuielkr/sen_pho_downe_official_2024.jpg?center=0.39799175061299108,0.53021765445520341&mode=crop&width=95&height=100&rnd=133953399101300000&quality=95",
+        "alt": "Downe, Percy E.",
+        "affiliation": "CSG - (Prince Edward Island - Charlottetown)"
+      },
+      {
+        "name": "Dani\u00e8le Henkel",
+        "href": "/en/senators/henkel-daniele/",
+        "image": "https://sencanada.ca/media/zo2a0vea/sen_pho_henkel_official.png?center=0.3742261327707172,0.48139421945214367&mode=crop&width=95&height=100&rnd=133953399104900000&quality=95",
+        "alt": "Henkel, Dani\u00e8le",
+        "affiliation": "PSG - (Quebec - Alma)"
+      },
+      {
+        "name": "Krista Ross",
+        "href": "/en/senators/ross-krista-ann/",
+        "image": "https://sencanada.ca/media/4rfmp5t2/sen_pho_ross_official_2024.jpg?center=0.39410459399411257,0.4564431011118722&mode=crop&width=95&height=100&rnd=133953399113500000&quality=95",
+        "alt": "Ross, Krista",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Raymonde Saint-Germain",
+        "href": "/en/senators/saint-germain-raymonde/",
+        "image": "https://sencanada.ca/media/01nnhkfd/sen_pho_saint-germain_official_2024.jpg?center=0.36328400281888656,0.54867340793102359&mode=crop&width=95&height=100&rnd=133953399113670000&quality=95",
+        "alt": "Saint-Germain, Raymonde",
+        "affiliation": "ISG - (Quebec - De la Valli\u00e8re)"
+      },
+      {
+        "name": "Duncan Wilson",
+        "href": "/en/senators/wilson-duncan/",
+        "image": "https://sencanada.ca/media/4eminkuz/sen_pho_wilson_official.jpg?center=0.38114382711465239,0.51143022064049992&mode=crop&width=95&height=100&rnd=133953399116470000&quality=95",
+        "alt": "Wilson, Duncan",
+        "affiliation": "PSG - (British Columbia)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/soci/45-1",
       "acronym": "SOCI",
       "name_full": "Social Affairs, Science and Technology",
-      "name_short": "Social Affairs"
-    },
-    {
-      "href": "/en/committees/trcm/45-1",
+      "name_short": "Social Affairs",
+    "members": [
+      {
+        "name": "Rosemary Moodie",
+        "href": "/en/senators/moodie-rosemary/",
+        "image": "https://sencanada.ca/media/zjwmzdwg/sen_pho_moodie_official.jpg?center=0.38421052631578945,0.50378729518398735&mode=crop&width=95&height=100&rnd=133953399110070000&quality=90",
+        "alt": "Moodie, Rosemary",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=90",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Rosemary Moodie",
+        "href": "/en/senators/moodie-rosemary/",
+        "image": "https://sencanada.ca/media/zjwmzdwg/sen_pho_moodie_official.jpg?center=0.38421052631578945,0.50378729518398735&mode=crop&width=95&height=100&rnd=133953399110070000&quality=90",
+        "alt": "Moodie, Rosemary",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Flordeliz (Gigi) Osler",
+        "href": "/en/senators/osler-flordeliz/",
+        "image": "https://sencanada.ca/media/jhyfi0mi/sen_pho_osler_official_2024.jpg?center=0.375699464002098,0.45806674626283272&mode=crop&width=95&height=100&rnd=133953399110830000&quality=90",
+        "alt": "Osler, Flordeliz (Gigi)",
+        "affiliation": "CSG - (Manitoba)"
+      },
+      {
+        "name": "Dawn Arnold",
+        "href": "/en/senators/arnold-dawn/",
+        "image": "https://sencanada.ca/media/4n5pq0zd/sen_pho_arnold_official.jpg?center=0.41105941355523662,0.52168712768822623&mode=crop&width=95&height=100&rnd=133953399095530000&quality=95",
+        "alt": "Arnold, Dawn",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Wanda Thomas Bernard",
+        "href": "/en/senators/bernard-wanda-thomas/",
+        "image": "https://sencanada.ca/media/mejfthej/sen_pho_bernard_official_2024.jpg?center=0.41561730242408895,0.50697504887504552&mode=crop&width=95&height=100&rnd=133953399096630000&quality=95",
+        "alt": "Bernard, Wanda Thomas",
+        "affiliation": "PSG - (Nova Scotia - East Preston)"
+      },
+      {
+        "name": "Victor Boudreau",
+        "href": "/en/senators/boudreau-victor/",
+        "image": "https://sencanada.ca/media/gvtoevkk/sen_pho_boudreau_official.jpg?center=0.3771727952334788,0.51744576892653327&mode=crop&width=95&height=100&rnd=133953399097230000&quality=95",
+        "alt": "Boudreau, Victor",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Patrick Brazeau",
+        "href": "/en/senators/brazeau-patrick/",
+        "image": "https://sencanada.ca/media/cpgo0kxe/sen_pho_brazeau_official_2024.jpg?center=0.43479399359978443,0.51109457534806735&mode=crop&width=95&height=100&rnd=133953399097700000&quality=95",
+        "alt": "Brazeau, Patrick",
+        "affiliation": "Non-affiliated - (Quebec - Repentigny)"
+      },
+      {
+        "name": "Sharon Burey",
+        "href": "/en/senators/burey-sharon/",
+        "image": "https://sencanada.ca/media/kkmciyn2/sen_pho_burey_official_2024.jpg?center=0.39492871030460147,0.47993154704248786&mode=crop&width=95&height=100&rnd=133953399098070000&quality=95",
+        "alt": "Burey, Sharon",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Katherine Hay",
+        "href": "/en/senators/hay-katherine/",
+        "image": "https://sencanada.ca/media/e3epefrj/sen_pho_hay_official.jpg?center=0.39190610754728655,0.4517047081202934&mode=crop&width=95&height=100&rnd=133953399104430000&quality=95",
+        "alt": "Hay, Katherine",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Marilou McPhedran",
+        "href": "/en/senators/mcphedran-marilou/",
+        "image": "https://sencanada.ca/media/xuqgx0ay/sen_pho_mcphedran_official_2024.jpg?center=0.36099698599314906,0.51481070170850862&mode=crop&width=95&height=100&rnd=133953399109130000&quality=95",
+        "alt": "McPhedran, Marilou",
+        "affiliation": "Non-affiliated - (Manitoba)"
+      },
+      {
+        "name": "Marie-Fran\u00e7oise M\u00e9gie",
+        "href": "/en/senators/megie-marie-francoise/",
+        "image": "https://sencanada.ca/media/unjhgh4v/sen_pho_megie_official_2024.jpg?center=0.35170317484786057,0.51845494039254592&mode=crop&width=95&height=100&rnd=133953399109300000&quality=95",
+        "alt": "M\u00e9gie, Marie-Fran\u00e7oise",
+        "affiliation": "ISG - (Quebec - Rougemont)"
+      },
+      {
+        "name": "Tracy Muggli",
+        "href": "/en/senators/muggli-tracy/",
+        "image": "https://sencanada.ca/media/eu0fd4uf/sen_pho_muggli_official_2024.jpg?center=0.40958608232385585,0.55773867716261583&mode=crop&width=95&height=100&rnd=133953399110700000&quality=95",
+        "alt": "Muggli, Tracy",
+        "affiliation": "PSG - (Saskatchewan)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=95",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "Paulette Senior",
+        "href": "/en/senators/senior-paulette/",
+        "image": "https://sencanada.ca/media/qhkhihsm/sen_pho_senior_official_2024.jpg?center=0.32804792107117686,0.48984055536184107&mode=crop&width=95&height=100&rnd=133953399114300000&quality=95",
+        "alt": "Senior, Paulette",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Dawn Arnold",
+        "href": "/en/senators/arnold-dawn/",
+        "image": "https://sencanada.ca/media/4n5pq0zd/sen_pho_arnold_official.jpg?center=0.41105941355523662,0.52168712768822623&mode=crop&width=95&height=100&rnd=133953399095530000&quality=95",
+        "alt": "Arnold, Dawn",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Wanda Thomas Bernard",
+        "href": "/en/senators/bernard-wanda-thomas/",
+        "image": "https://sencanada.ca/media/mejfthej/sen_pho_bernard_official_2024.jpg?center=0.41561730242408895,0.50697504887504552&mode=crop&width=95&height=100&rnd=133953399096630000&quality=95",
+        "alt": "Bernard, Wanda Thomas",
+        "affiliation": "PSG - (Nova Scotia - East Preston)"
+      },
+      {
+        "name": "Victor Boudreau",
+        "href": "/en/senators/boudreau-victor/",
+        "image": "https://sencanada.ca/media/gvtoevkk/sen_pho_boudreau_official.jpg?center=0.3771727952334788,0.51744576892653327&mode=crop&width=95&height=100&rnd=133953399097230000&quality=95",
+        "alt": "Boudreau, Victor",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Patrick Brazeau",
+        "href": "/en/senators/brazeau-patrick/",
+        "image": "https://sencanada.ca/media/cpgo0kxe/sen_pho_brazeau_official_2024.jpg?center=0.43479399359978443,0.51109457534806735&mode=crop&width=95&height=100&rnd=133953399097700000&quality=95",
+        "alt": "Brazeau, Patrick",
+        "affiliation": "Non-affiliated - (Quebec - Repentigny)"
+      },
+      {
+        "name": "Sharon Burey",
+        "href": "/en/senators/burey-sharon/",
+        "image": "https://sencanada.ca/media/kkmciyn2/sen_pho_burey_official_2024.jpg?center=0.39492871030460147,0.47993154704248786&mode=crop&width=95&height=100&rnd=133953399098070000&quality=95",
+        "alt": "Burey, Sharon",
+        "affiliation": "CSG - (Ontario)"
+      },
+      {
+        "name": "Katherine Hay",
+        "href": "/en/senators/hay-katherine/",
+        "image": "https://sencanada.ca/media/e3epefrj/sen_pho_hay_official.jpg?center=0.39190610754728655,0.4517047081202934&mode=crop&width=95&height=100&rnd=133953399104430000&quality=95",
+        "alt": "Hay, Katherine",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Marilou McPhedran",
+        "href": "/en/senators/mcphedran-marilou/",
+        "image": "https://sencanada.ca/media/xuqgx0ay/sen_pho_mcphedran_official_2024.jpg?center=0.36099698599314906,0.51481070170850862&mode=crop&width=95&height=100&rnd=133953399109130000&quality=95",
+        "alt": "McPhedran, Marilou",
+        "affiliation": "Non-affiliated - (Manitoba)"
+      },
+      {
+        "name": "Marie-Fran\u00e7oise M\u00e9gie",
+        "href": "/en/senators/megie-marie-francoise/",
+        "image": "https://sencanada.ca/media/unjhgh4v/sen_pho_megie_official_2024.jpg?center=0.35170317484786057,0.51845494039254592&mode=crop&width=95&height=100&rnd=133953399109300000&quality=95",
+        "alt": "M\u00e9gie, Marie-Fran\u00e7oise",
+        "affiliation": "ISG - (Quebec - Rougemont)"
+      },
+      {
+        "name": "Tracy Muggli",
+        "href": "/en/senators/muggli-tracy/",
+        "image": "https://sencanada.ca/media/eu0fd4uf/sen_pho_muggli_official_2024.jpg?center=0.40958608232385585,0.55773867716261583&mode=crop&width=95&height=100&rnd=133953399110700000&quality=95",
+        "alt": "Muggli, Tracy",
+        "affiliation": "PSG - (Saskatchewan)"
+      },
+      {
+        "name": "Chantal Petitclerc",
+        "href": "/en/senators/petitclerc-chantal/",
+        "image": "https://sencanada.ca/media/g34f1f54/sen_pho_petitclerc_official_2024.jpg?center=0.40388346097650957,0.51961715750390625&mode=crop&width=95&height=100&rnd=133953399111300000&quality=95",
+        "alt": "Petitclerc, Chantal",
+        "affiliation": "ISG - (Quebec - Grandville)"
+      },
+      {
+        "name": "Paulette Senior",
+        "href": "/en/senators/senior-paulette/",
+        "image": "https://sencanada.ca/media/qhkhihsm/sen_pho_senior_official_2024.jpg?center=0.32804792107117686,0.48984055536184107&mode=crop&width=95&height=100&rnd=133953399114300000&quality=95",
+        "alt": "Senior, Paulette",
+        "affiliation": "ISG - (Ontario)"
+      }
+    ]
+  },
+  {
+    "href": "/en/committees/trcm/45-1",
       "acronym": "TRCM",
       "name_full": "Transport and Communications",
-      "name_short": "Transport"
-    }
-  ],
+      "name_short": "Transport",
+    "members": [
+      {
+        "name": "Larry W. Smith",
+        "href": "/en/senators/smith-larry-w/",
+        "image": "https://sencanada.ca/media/r03d0lss/sen_pho_smith_official_2024.jpg?center=0.39388567876792746,0.46187746446204314&mode=crop&width=95&height=100&rnd=133953399114770000&quality=90",
+        "alt": "Smith, Larry W.",
+        "affiliation": "C - (Quebec - Saurel)"
+      },
+      {
+        "name": "Donna Dasko",
+        "href": "/en/senators/dasko-donna/",
+        "image": "https://sencanada.ca/media/wcrjo2ow/sen_pho_dasko_official_2024.jpg?center=0.36472169936455284,0.43914033241985162&mode=crop&width=95&height=100&rnd=133953399100200000&quality=90",
+        "alt": "Dasko, Donna",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Larry W. Smith",
+        "href": "/en/senators/smith-larry-w/",
+        "image": "https://sencanada.ca/media/r03d0lss/sen_pho_smith_official_2024.jpg?center=0.39388567876792746,0.46187746446204314&mode=crop&width=95&height=100&rnd=133953399114770000&quality=90",
+        "alt": "Smith, Larry W.",
+        "affiliation": "C - (Quebec - Saurel)"
+      },
+      {
+        "name": "Donna Dasko",
+        "href": "/en/senators/dasko-donna/",
+        "image": "https://sencanada.ca/media/wcrjo2ow/sen_pho_dasko_official_2024.jpg?center=0.36472169936455284,0.43914033241985162&mode=crop&width=95&height=100&rnd=133953399100200000&quality=90",
+        "alt": "Dasko, Donna",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Dawn Arnold",
+        "href": "/en/senators/arnold-dawn/",
+        "image": "https://sencanada.ca/media/4n5pq0zd/sen_pho_arnold_official.jpg?center=0.41105941355523662,0.52168712768822623&mode=crop&width=95&height=100&rnd=133953399095530000&quality=95",
+        "alt": "Arnold, Dawn",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Ren\u00e9 Cormier",
+        "href": "/en/senators/cormier-rene/",
+        "image": "https://sencanada.ca/media/bsgbexch/sen_pho_cormier_official_2024.jpg?center=0.375393019937317,0.50202389129278346&mode=crop&width=95&height=100&rnd=133953399099130000&quality=95",
+        "alt": "Cormier, Ren\u00e9",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Tony Dean",
+        "href": "/en/senators/dean-tony/",
+        "image": "https://sencanada.ca/media/udqfumdz/sen_pho_dean_official_2024.jpg?center=0.33999338639432342,0.47960414887524228&mode=crop&width=95&height=100&rnd=133953399100830000&quality=95",
+        "alt": "Dean, Tony",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Katherine Hay",
+        "href": "/en/senators/hay-katherine/",
+        "image": "https://sencanada.ca/media/e3epefrj/sen_pho_hay_official.jpg?center=0.39190610754728655,0.4517047081202934&mode=crop&width=95&height=100&rnd=133953399104430000&quality=95",
+        "alt": "Hay, Katherine",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Todd Lewis",
+        "href": "/en/senators/lewis-todd/",
+        "image": "https://sencanada.ca/media/maonrkw1/sen_pho_lewis_official.jpg?center=0.40019123507802212,0.48178051078408923&mode=crop&width=95&height=100&rnd=133953399106800000&quality=95",
+        "alt": "Lewis, Todd",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Fabian Manning",
+        "href": "/en/senators/manning-fabian/",
+        "image": "https://sencanada.ca/media/psrfhiws/sen_pho_manning_official_2024.jpg?center=0.38453945139038265,0.4601874256436792&mode=crop&width=95&height=100&rnd=133953399107400000&quality=95",
+        "alt": "Manning, Fabian",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Julie Miville-Dech\u00eane",
+        "href": "/en/senators/miville-dechene-julie/",
+        "image": "https://sencanada.ca/media/wlhl22jx/sen_pho_miville-dechene_official_2024.jpg?center=0.36237063010296866,0.51225218914900916&mode=crop&width=95&height=100&rnd=133953399109430000&quality=95",
+        "alt": "Miville-Dech\u00eane, Julie",
+        "affiliation": "ISG - (Quebec - Inkerman)"
+      },
+      {
+        "name": "Jim Quinn",
+        "href": "/en/senators/quinn-jim/",
+        "image": "https://sencanada.ca/media/2fck44iv/sen_pho_quinn_official_2024.jpg?center=0.3761829540974953,0.45737545742969926&mode=crop&width=95&height=100&rnd=133953399112270000&quality=95",
+        "alt": "Quinn, Jim",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Paula Simons",
+        "href": "/en/senators/simons-paula/",
+        "image": "https://sencanada.ca/media/tffoquhj/sen_pho_simons_official_2024.jpg?center=0.41637698842054377,0.55565128069187186&mode=crop&width=95&height=100&rnd=133953399114600000&quality=95",
+        "alt": "Simons, Paula",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Pamela Wallin",
+        "href": "/en/senators/wallin-pamela/",
+        "image": "https://sencanada.ca/media/h5ebetkz/sen_pho_wallin_official_2024.jpg?center=0.40958608232385585,0.52804916583076555&mode=crop&width=95&height=100&rnd=133953399115830000&quality=95",
+        "alt": "Wallin, Pamela",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Duncan Wilson",
+        "href": "/en/senators/wilson-duncan/",
+        "image": "https://sencanada.ca/media/4eminkuz/sen_pho_wilson_official.jpg?center=0.38114382711465239,0.51143022064049992&mode=crop&width=95&height=100&rnd=133953399116470000&quality=95",
+        "alt": "Wilson, Duncan",
+        "affiliation": "PSG - (British Columbia)"
+      },
+      {
+        "name": "Dawn Arnold",
+        "href": "/en/senators/arnold-dawn/",
+        "image": "https://sencanada.ca/media/4n5pq0zd/sen_pho_arnold_official.jpg?center=0.41105941355523662,0.52168712768822623&mode=crop&width=95&height=100&rnd=133953399095530000&quality=95",
+        "alt": "Arnold, Dawn",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Ren\u00e9 Cormier",
+        "href": "/en/senators/cormier-rene/",
+        "image": "https://sencanada.ca/media/bsgbexch/sen_pho_cormier_official_2024.jpg?center=0.375393019937317,0.50202389129278346&mode=crop&width=95&height=100&rnd=133953399099130000&quality=95",
+        "alt": "Cormier, Ren\u00e9",
+        "affiliation": "ISG - (New Brunswick)"
+      },
+      {
+        "name": "Tony Dean",
+        "href": "/en/senators/dean-tony/",
+        "image": "https://sencanada.ca/media/udqfumdz/sen_pho_dean_official_2024.jpg?center=0.33999338639432342,0.47960414887524228&mode=crop&width=95&height=100&rnd=133953399100830000&quality=95",
+        "alt": "Dean, Tony",
+        "affiliation": "ISG - (Ontario)"
+      },
+      {
+        "name": "Katherine Hay",
+        "href": "/en/senators/hay-katherine/",
+        "image": "https://sencanada.ca/media/e3epefrj/sen_pho_hay_official.jpg?center=0.39190610754728655,0.4517047081202934&mode=crop&width=95&height=100&rnd=133953399104430000&quality=95",
+        "alt": "Hay, Katherine",
+        "affiliation": "PSG - (Ontario)"
+      },
+      {
+        "name": "Todd Lewis",
+        "href": "/en/senators/lewis-todd/",
+        "image": "https://sencanada.ca/media/maonrkw1/sen_pho_lewis_official.jpg?center=0.40019123507802212,0.48178051078408923&mode=crop&width=95&height=100&rnd=133953399106800000&quality=95",
+        "alt": "Lewis, Todd",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Fabian Manning",
+        "href": "/en/senators/manning-fabian/",
+        "image": "https://sencanada.ca/media/psrfhiws/sen_pho_manning_official_2024.jpg?center=0.38453945139038265,0.4601874256436792&mode=crop&width=95&height=100&rnd=133953399107400000&quality=95",
+        "alt": "Manning, Fabian",
+        "affiliation": "C - (Newfoundland and Labrador)"
+      },
+      {
+        "name": "Julie Miville-Dech\u00eane",
+        "href": "/en/senators/miville-dechene-julie/",
+        "image": "https://sencanada.ca/media/wlhl22jx/sen_pho_miville-dechene_official_2024.jpg?center=0.36237063010296866,0.51225218914900916&mode=crop&width=95&height=100&rnd=133953399109430000&quality=95",
+        "alt": "Miville-Dech\u00eane, Julie",
+        "affiliation": "ISG - (Quebec - Inkerman)"
+      },
+      {
+        "name": "Jim Quinn",
+        "href": "/en/senators/quinn-jim/",
+        "image": "https://sencanada.ca/media/2fck44iv/sen_pho_quinn_official_2024.jpg?center=0.3761829540974953,0.45737545742969926&mode=crop&width=95&height=100&rnd=133953399112270000&quality=95",
+        "alt": "Quinn, Jim",
+        "affiliation": "CSG - (New Brunswick)"
+      },
+      {
+        "name": "Paula Simons",
+        "href": "/en/senators/simons-paula/",
+        "image": "https://sencanada.ca/media/tffoquhj/sen_pho_simons_official_2024.jpg?center=0.41637698842054377,0.55565128069187186&mode=crop&width=95&height=100&rnd=133953399114600000&quality=95",
+        "alt": "Simons, Paula",
+        "affiliation": "ISG - (Alberta)"
+      },
+      {
+        "name": "Pamela Wallin",
+        "href": "/en/senators/wallin-pamela/",
+        "image": "https://sencanada.ca/media/h5ebetkz/sen_pho_wallin_official_2024.jpg?center=0.40958608232385585,0.52804916583076555&mode=crop&width=95&height=100&rnd=133953399115830000&quality=95",
+        "alt": "Wallin, Pamela",
+        "affiliation": "CSG - (Saskatchewan)"
+      },
+      {
+        "name": "Duncan Wilson",
+        "href": "/en/senators/wilson-duncan/",
+        "image": "https://sencanada.ca/media/4eminkuz/sen_pho_wilson_official.jpg?center=0.38114382711465239,0.51143022064049992&mode=crop&width=95&height=100&rnd=133953399116470000&quality=95",
+        "alt": "Wilson, Duncan",
+        "affiliation": "PSG - (British Columbia)"
+      }
+    ]
+  }
+],
   "sub_committees": [
     {
       "href": "/en/committees/hrrh/45-1",
