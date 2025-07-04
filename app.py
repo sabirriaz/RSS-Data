@@ -3713,9 +3713,13 @@ def fetch_senate_calendar(limit=100):
     """Fetch Senate Meetings and Events from the website using Selenium."""
     try:
         chrome_options = Options()
+        # ✅ Explicitly set binary location (for Render/Headless Chromium)
+        chrome_options.binary_location = "/usr/bin/chromium"
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
+
+        # ✅ Use ChromeDriverManager to auto-install compatible driver
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -3748,12 +3752,21 @@ def fetch_senate_calendar(limit=100):
                 link = link_elems[0].get_attribute("href") if link_elems else ""
 
                 savetocal_elems = item.find_elements(By.CLASS_NAME, "event-item-savetocalendar")
-                savetocal = savetocal_elems[0].find_element(By.TAG_NAME, "a").get_attribute("href") if savetocal_elems else ""
+                savetocal = (
+                    savetocal_elems[0].find_element(By.TAG_NAME, "a").get_attribute("href")
+                    if savetocal_elems else ""
+                )
 
                 twitter_elems = item.find_elements(By.CLASS_NAME, "event-item-social-twitter")
-                twitter = twitter_elems[0].find_element(By.TAG_NAME, "a").get_attribute("href") if twitter_elems else ""
+                twitter = (
+                    twitter_elems[0].find_element(By.TAG_NAME, "a").get_attribute("href")
+                    if twitter_elems else ""
+                )
                 facebook_elems = item.find_elements(By.CLASS_NAME, "event-item-social-facebook")
-                facebook = facebook_elems[0].find_element(By.TAG_NAME, "a").get_attribute("href") if facebook_elems else ""
+                facebook = (
+                    facebook_elems[0].find_element(By.TAG_NAME, "a").get_attribute("href")
+                    if facebook_elems else ""
+                )
 
                 if category.lower() in ["sitting day", "possible sitting day", "planned sitting day"]:
                     continue
@@ -3785,6 +3798,7 @@ def fetch_senate_calendar(limit=100):
         return {
             "error": f"Failed to fetch Senate calendar events: {str(e)}"
         }
+
         
 def fetch_bills_legislation():
     """Alias of the /bills feed."""
