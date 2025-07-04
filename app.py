@@ -3714,7 +3714,7 @@ def fetch_senate_calendar(limit=100):
     try:
         chrome_options = Options()
         # ✅ Explicitly set binary location (for Render/Headless Chromium)
-        chrome_options.binary_location = "/usr/bin/chromium"
+        chrome_options.binary_location = "/usr/bin/chromium-browser"
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
