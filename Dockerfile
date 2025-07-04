@@ -1,43 +1,38 @@
-# Use Python 3.11 base image
 FROM python:3.11-slim
 
-# Avoid prompts from apt
+# Avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Chromium, chromedriver, and dependencies
+# Install Chromium and dependencies
 RUN apt-get update && apt-get install -y \
-    chromium-driver \
     chromium \
+    chromium-driver \
     fonts-liberation \
-    libappindicator3-1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libnspr4 \
     libnss3 \
     libxss1 \
-    lsb-release \
-    xdg-utils \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    libgbm-dev \
     wget \
     curl \
     unzip \
     && apt-get clean
 
-# Set environment variables for Selenium
+# Set Chrome binary path
 ENV CHROME_BIN=/usr/bin/chromium
-ENV PATH="${CHROME_BIN}:${PATH}"
 
 # Set working directory
 WORKDIR /app
 
-# Copy all code
-COPY . /app
+# Copy project
+COPY . .
 
-# Install Python packages
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose the port used by Flask/Gunicorn
+# Expose port (for gunicorn)
 EXPOSE 8000
 
-# Start the app using Gunicorn
+# Start app
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8000"]
